@@ -43,17 +43,15 @@ if __name__=="__main__":
             genera[genus][species] = folder
     final_families = {family:family_genera for family,family_genera in families.iteritems() if len(family_genera) > args.genera}
     final_genera = {genus:genus_species for genus,genus_species in genera.iteritems() if len(genus_species) > args.species}
-    for family,genera in final_families.iteritems():
+    for family,genera2 in final_families.iteritems():
         print "###############"
         print family
         print "###############"
-        for genus in genera:
-            print genus
+        for genus in genera2:
+            print genus + '\t\t' + families[family][genus]
     for genus,species in final_genera.iteritems():
         print "####################################"
         print genus
         print "####################################"
         for specie in species:
-            print specie
-    print len(final_families)
-    print len(final_genera)
+            print specie + '\t\t' + genera[genus][specie]

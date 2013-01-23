@@ -1,0 +1,692 @@
+###############
+Sphingomonadaceae
+###############
+Sphingomonas		Sphingomonas_wittichii_RW1_uid58691
+Zymomonas		Zymomonas_mobilis_ZM4_uid58095
+Sphingobium		Sphingobium_SYK_6_uid73353
+Novosphingobium		Novosphingobium_PP1Y_uid67383
+Sphingopyxis		Sphingopyxis_alaskensis_RB2256_uid58351
+###############
+Bacillaceae
+###############
+Geobacillus		Geobacillus_Y4_1MC1_uid55779
+Bacillus		Bacillus_weihenstephanensis_KBAB4_uid58315
+Oceanobacillus		Oceanobacillus_iheyensis_HTE831_uid57867
+Halobacillus		Halobacillus_halophilus_DSM_2266_uid162033
+Anoxybacillus		Anoxybacillus_flavithermus_WK1_uid59135
+Lysinibacillus		Lysinibacillus_sphaericus_C3_41_uid58945
+###############
+Rhodobacteraceae
+###############
+Dinoroseobacter		Dinoroseobacter_shibae_DFL_12_uid58707
+Ruegeria		Ruegeria_TM1040_uid58193
+Rhodobacter		Rhodobacter_sphaeroides_KD131_uid59277
+Jannaschia		Jannaschia_CCS1_uid58147
+Paracoccus		Paracoccus_denitrificans_PD1222_uid58187
+Roseobacter		Roseobacter_litoralis_Och_149_uid54719
+Ketogulonicigenium		Ketogulonigenium_vulgarum_WSH_001_uid161161
+Pseudovibrio		Pseudovibrio_FO_BEG1_uid82373
+###############
+Thermotogaceae
+###############
+Fervidobacterium		Fervidobacterium_pennivorans_DSM_9078_uid78143
+Petrotoga		Petrotoga_mobilis_SJ95_uid58747
+Marinitoga		Marinitoga_piezophila_KA3_uid81629
+Thermotoga		Thermotoga_thermarum_DSM_5069_uid68449
+Kosmotoga		Kosmotoga_olearia_TBF_19_5_1_uid59205
+Thermosipho		Thermosipho_melanesiensis_BI429_uid58683
+###############
+Pseudonocardiaceae
+###############
+Amycolatopsis		Amycolatopsis_mediterranei_U32_uid50565
+Pseudonocardia		Pseudonocardia_dioxanivorans_CB1190_uid65087
+Thermobispora		Thermobispora_bispora_DSM_43833_uid48999
+Saccharopolyspora		Saccharopolyspora_erythraea_NRRL_2338_uid62947
+Actinosynnema		Actinosynnema_mirum_DSM_43827_uid58951
+Saccharomonospora		Saccharomonospora_viridis_DSM_43017_uid59055
+###############
+Desulfurococcaceae
+###############
+Desulfurococcus		Desulfurococcus_mucosus_DSM_2162_uid62227
+Ignisphaera		Ignisphaera_aggregans_DSM_17230_uid51875
+Ignicoccus		Ignicoccus_hospitalis_KIN4_I_uid58365
+Aeropyrum		Aeropyrum_pernix_K1_uid57757
+Thermosphaera		Thermosphaera_aggregans_DSM_11486_uid48993
+Staphylothermus		Staphylothermus_marinus_F1_uid58719
+###############
+Methanosarcinaceae
+###############
+Methanococcoides		Methanococcoides_burtonii_DSM_6242_uid58023
+Methanohalophilus		Methanohalophilus_mahii_DSM_5219_uid47313
+Methanohalobium		Methanohalobium_evestigatum_Z_7303_uid49857
+Methanosalsum		Methanosalsum_zhilinae_DSM_4017_uid68249
+Methanosarcina		Methanosarcina_mazei_Go1_uid57893
+###############
+Micrococcaceae
+###############
+Rothia		Rothia_mucilaginosa_uid43093
+Micrococcus		Micrococcus_luteus_NCTC_2665_uid59033
+Arthrobacter		Arthrobacter_phenanthrenivorans_Sphe3_uid63629
+Kocuria		Kocuria_rhizophila_DC2201_uid59099
+Renibacterium		Renibacterium_salmoninarum_ATCC_33209_uid58899
+###############
+Oxalobacteraceae
+###############
+Herminiimonas		Herminiimonas_arsenicoxydans_uid58291
+Janthinobacterium		Janthinobacterium_Marseille_uid58603
+Herbaspirillum		Herbaspirillum_seropedicae_SmR1_uid50427
+Collimonas		Collimonas_fungivorans_Ter331_uid70793
+Candidatus Zinderia		Candidatus_Zinderia_insecticola_CARI_uid52459
+###############
+Acetobacteraceae
+###############
+Acetobacter		Acetobacter_pasteurianus_IFO_3283_32_uid158375
+Gluconobacter		Gluconobacter_oxydans_621H_uid58239
+Granulibacter		Granulibacter_bethesdensis_CGDNIH1_uid58661
+Gluconacetobacter		Gluconacetobacter_xylinus_NBRC_3288_uid46523
+Acidiphilium		Acidiphilium_multivorum_AIU301_uid63345
+###############
+Rhodocyclaceae
+###############
+Azoarcus		Azoarcus_BH72_uid61603
+Aromatoleum		Aromatoleum_aromaticum_EbN1_uid58231
+Thauera		Thauera_MZ1T_uid58987
+Dechloromonas		Dechloromonas_aromatica_RCB_uid58025
+Azospira		Dechlorosoma_suillum_PS_uid81439
+###############
+Halobacteriaceae
+###############
+Halogeometricum		Halogeometricum_borinquense_DSM_11551_uid54919
+Halomicrobium		Halomicrobium_mukohataei_DSM_12286_uid59107
+Halopiger		Halopiger_xanaduensis_SH_6_uid68105
+Natrialba		Natrialba_magadii_ATCC_43099_uid46245
+Haloarcula		Haloarcula_marismortui_ATCC_43049_uid57719
+Halalkalicoccus		Halalkalicoccus_jeotgali_B3_uid50305
+Natronomonas		Natronomonas_pharaonis_DSM_2160_uid58435
+Halorubrum		Halorubrum_lacusprofundi_ATCC_49239_uid58807
+Haloferax		Haloferax_volcanii_DS2_uid46845
+Halorhabdus		Halorhabdus_utahensis_DSM_12940_uid59189
+Halobacterium		Halobacterium_salinarum_R1_uid61571
+Haloterrigena		Haloterrigena_turkmenica_DSM_5511_uid43501
+Haloquadratum		Haloquadratum_walsbyi_DSM_16790_uid58673
+###############
+Porphyromonadaceae
+###############
+Tannerella		Tannerella_forsythia_ATCC_43037_uid83157
+Porphyromonas		Porphyromonas_gingivalis_W83_uid57641
+Parabacteroides		Parabacteroides_distasonis_ATCC_8503_uid58301
+Paludibacter		Paludibacter_propionicigenes_WB4_uid60725
+Odoribacter		Odoribacter_splanchnicus_DSM_20712_uid63397
+###############
+Pasteurellaceae
+###############
+Gallibacterium		Gallibacterium_anatis_UMN179_uid66567
+Haemophilus		Haemophilus_parasuis_SH0165_uid59273
+Actinobacillus		Actinobacillus_succinogenes_130Z_uid58247
+Aggregatibacter		Aggregatibacter_aphrophilus_NJ8700_uid59407
+Basfia		Mannheimia_succiniciproducens_MBEL55E_uid58197
+Histophilus		Haemophilus_somnus_2336_uid57979
+Pasteurella		Pasteurella_multocida_Pm70_uid57627
+###############
+Chlorobiaceae
+###############
+Chlorobium		Chlorobium_phaeovibrioides_DSM_265_uid58129
+Chloroherpeton		Chloroherpeton_thalassium_ATCC_35110_uid59187
+Pelodictyon		Pelodictyon_phaeoclathratiforme_BU_1_uid58173
+Prosthecochloris		Prosthecochloris_aestuarii_DSM_271_uid58151
+Chlorobaculum		Chlorobium_tepidum_TLS_uid57897
+###############
+Xanthomonadaceae
+###############
+Pseudoxanthomonas		Pseudoxanthomonas_suwonensis_11_1_uid62105
+Frateuria		Frateuria_aurantia_DSM_6220_uid81775
+Xanthomonas		Xanthomonas_oryzae_PXO99A_uid59131
+Xylella		Xylella_fastidiosa_Temecula1_uid57869
+Stenotrophomonas		Stenotrophomonas_maltophilia_R551_3_uid58657
+###############
+Comamonadaceae
+###############
+Polaromonas		Polaromonas_naphthalenivorans_CJ2_uid58273
+Acidovorax		Acidovorax_JS42_uid58427
+Albidiferax		Rhodoferax_ferrireducens_T118_uid58353
+Comamonas		Comamonas_testosteroni_CNB_2_uid62961
+Variovorax		Variovorax_paradoxus_S110_uid59437
+Ramlibacter		Ramlibacter_tataouinensis_TTB310_uid68279
+Alicycliphilus		Alicycliphilus_denitrificans_K601_uid66307
+Delftia		Delftia_Cs1_4_uid67319
+Verminephrobacter		Verminephrobacter_eiseniae_EF01_2_uid58675
+###############
+Coriobacteriaceae
+###############
+Eggerthella		Eggerthella_YY7918_uid68707
+Coriobacterium		Coriobacterium_glomerans_PW2_uid65787
+Atopobium		Atopobium_parvulum_DSM_20469_uid59195
+Olsenella		Olsenella_uli_DSM_7084_uid51367
+Slackia		Slackia_heliotrinireducens_DSM_20476_uid59051
+Cryptobacterium		Cryptobacterium_curtum_DSM_15641_uid59041
+###############
+Enterobacteriaceae
+###############
+Klebsiella		Klebsiella_variicola_At_22_uid42113
+Rahnella		Rahnella_Y9602_uid62715
+Dickeya		Dickeya_zeae_Ech1591_uid59297
+Shigella		Shigella_sonnei_Ss046_uid58217
+Citrobacter		Citrobacter_rodentium_ICC168_uid43089
+Candidatus Riesia		Candidatus_Riesia_pediculicola_USDA_uid46841
+Proteus		Proteus_mirabilis_HI4320_uid61599
+Wigglesworthia		Wigglesworthia_glossinidia_endosymbiont_of_Glossina_morsitans__Yale_colony__uid88075
+Candidatus Moranella		Candidatus_Moranella_endobia_PCIT_uid68739
+Salmonella		Salmonella_enterica_serovar_Typhimurium_UK_1_uid87049
+Escherichia		Escherichia_fergusonii_ATCC_35469_uid59375
+Cronobacter		Cronobacter_turicensis_z3032_uid40821
+Candidatus Blochmannia		Candidatus_Blochmannia_vafer_BVAF_uid62083
+Pantoea		Pantoea_vagans_C9_1_uid49871
+Enterobacter		Enterobacter_cloacae_SCF1_uid59969
+Yersinia		Yersinia_pseudotuberculosis_YPIII_uid59151
+Edwardsiella		Edwardsiella_tarda_FL6_60_uid159657
+Xenorhabdus		Xenorhabdus_nematophila_ATCC_19061_uid49133
+Erwinia		Erwinia_tasmaniensis_Et1_99_uid59029
+Photorhabdus		Photorhabdus_luminescens_laumondii_TTO1_uid61593
+Buchnera		Buchnera_aphidicola_Ua__Uroleucon_ambrosiae__uid158535
+Serratia		Serratia_symbiotica__Cinara_cedri__uid82363
+Providencia		Providencia_stuartii_MRSN_2154_uid162193
+Candidatus Hamiltonella		Candidatus_Hamiltonella_defensa_5AT__Acyrthosiphon_pisum__uid59289
+Sodalis		Sodalis_glossinidius__morsitans__uid58553
+Pectobacterium		Pectobacterium_wasabiae_WPP163_uid41297
+###############
+Cytophagaceae
+###############
+Leadbetterella		Leadbetterella_byssophila_DSM_17132_uid60161
+Dyadobacter		Dyadobacter_fermentans_DSM_18053_uid59049
+Spirosoma		Spirosoma_linguale_DSM_74_uid43413
+Cytophaga		Cytophaga_hutchinsonii_ATCC_33406_uid57651
+Runella		Runella_slithyformis_DSM_19594_uid68317
+###############
+Flavobacteriaceae
+###############
+Lacinutrix		Lacinutrix_5H_3_7_4_uid68067
+Cellulophaga		Cellulophaga_lytica_DSM_7489_uid63401
+Zobellia		Zobellia_galactanivorans_uid70621
+Croceibacter		Croceibacter_atlanticus_HTCC2559_uid49661
+Robiginitalea		Robiginitalea_biformata_HTCC2501_uid58285
+Weeksella		Weeksella_virosa_DSM_16922_uid63627
+Riemerella		Riemerella_anatipestifer_RA_GD_uid162013
+Capnocytophaga		Capnocytophaga_ochracea_DSM_7271_uid59197
+Muricauda		Muricauda_ruestringensis_DSM_13258_uid72479
+Zunongwangia		Zunongwangia_profunda_SM_A87_uid48073
+Gramella		Gramella_forsetii_KT0803_uid58881
+Maribacter		Flavobacteriales_bacterium_HTCC2170_uid51877
+Flavobacterium		Flavobacterium_psychrophilum_JIP02_86_uid61627
+Krokinobacter		Krokinobacter_4H_3_7_5_uid66593
+###############
+Peptococcaceae
+###############
+Pelotomaculum		Pelotomaculum_thermopropionicum_SI_uid58877
+Desulfotomaculum		Desulfotomaculum_ruminis_DSM_2154_uid67507
+Candidatus Desulforudis		Candidatus_Desulforudis_audaxviator_MP104C_uid59067
+Thermincola		Thermincola_potens_JR_uid48823
+Desulfitobacterium		Desulfitobacterium_hafniense_Y51_uid58605
+Desulfosporosinus		Desulfosporosinus_orientis_DSM_765_uid82939
+Syntrophobotulus		Syntrophobotulus_glycolicus_DSM_8271_uid63343
+###############
+Thermoanaerobacteraceae
+###############
+Caldanaerobacter		Thermoanaerobacter_tengcongensis_MB4_uid57813
+Ammonifex		Ammonifex_degensii_KC4_uid41053
+Carboxydothermus		Carboxydothermus_hydrogenoformans_Z_2901_uid57821
+Tepidanaerobacter		Tepidanaerobacter_Re1_uid66873
+Moorella		Moorella_thermoacetica_ATCC_39073_uid58051
+Thermoanaerobacter		Thermoanaerobacter_X514_uid58589
+####################################
+Vibrio
+####################################
+Vibrio harveyi		Vibrio_harveyi_ATCC_BAA_1116_uid58957
+Vibrio furnissii		Vibrio_furnissii_NCTC_11218_uid82347
+Vibrio cholerae		Vibrio_cholerae_O395_uid58425
+Vibrio parahaemolyticus		Vibrio_parahaemolyticus_RIMD_2210633_uid57969
+Vibrio vulnificus		Vibrio_vulnificus_YJ016_uid58007
+Vibrio splendidus		Vibrio_splendidus_LGP32_uid59353
+####################################
+Rickettsia
+####################################
+Rickettsia parkeri		Rickettsia_parkeri_Portsmouth_uid158045
+Rickettsia rhipicephali		Rickettsia_rhipicephali_3_7_female6_CWPP_uid156977
+Candidatus Rickettsia amblyommii		Candidatus_Rickettsia_amblyommii_GAT_30V_uid156845
+Rickettsia philipii		Rickettsia_philipii_364D_uid89383
+Rickettsia massiliae		Rickettsia_massiliae_MTU5_uid58801
+Rickettsia montanensis		Rickettsia_montanensis_OSU_85_930_uid158043
+Rickettsia africae		Rickettsia_africae_ESF_5_uid58799
+Rickettsia australis		Rickettsia_australis_Cutlack_uid158039
+Rickettsia conorii		Rickettsia_conorii_Malish_7_uid57633
+Rickettsia bellii		Rickettsia_bellii_RML369_C_uid58405
+Rickettsia canadensis		Rickettsia_canadensis_McKiel_uid58159
+Rickettsia typhi		Rickettsia_typhi_Wilmington_uid58063
+Rickettsia japonica		Rickettsia_japonica_YH_uid73963
+Rickettsia peacockii		Rickettsia_peacockii_Rustic_uid59301
+Rickettsia rickettsii		Rickettsia_rickettsii_Iowa_uid58961
+Rickettsia prowazekii		Rickettsia_prowazekii_RpGvF24_uid158065
+Rickettsia slovaca		Rickettsia_slovaca_D_CWPP_uid158159
+Rickettsia heilongjiangensis		Rickettsia_heilongjiangensis_054_uid70839
+Rickettsia felis		Rickettsia_felis_URRWXCal2_uid58331
+Rickettsia akari		Rickettsia_akari_Hartford_uid58161
+####################################
+Geobacter
+####################################
+Geobacter sulfurreducens		Geobacter_sulfurreducens_PCA_uid57743
+Geobacter lovleyi		Geobacter_lovleyi_SZ_uid58713
+Geobacter metallireducens		Geobacter_metallireducens_GS_15_uid57731
+Geobacter bemidjiensis		Geobacter_bemidjiensis_Bem_uid58749
+Geobacter uraniireducens		Geobacter_uraniireducens_Rf4_uid58475
+####################################
+Listeria
+####################################
+Listeria seeligeri		Listeria_seeligeri_serovar_1_2b_SLCC3954_uid46215
+Listeria ivanovii		Listeria_ivanovii_PAM_55_uid73473
+Listeria innocua		Listeria_innocua_Clip11262_uid61567
+Listeria monocytogenes		Listeria_monocytogenes_uid43671
+Listeria welshimeri		Listeria_welshimeri_serovar_6b_SLCC5334_uid61605
+####################################
+Spirochaeta
+####################################
+Spirochaeta coccoides		Spirochaeta_coccoides_DSM_17374_uid66331
+Spirochaeta thermophila		Spirochaeta_thermophila_DSM_6578_uid162041
+Spirochaeta africana		Spirochaeta_africana_DSM_8902_uid81779
+Spirochaeta caldaria		Spirochaeta_caldaria_DSM_7334_uid68753
+Spirochaeta smaragdinae		Spirochaeta_smaragdinae_DSM_11293_uid51369
+####################################
+Shewanella
+####################################
+Shewanella piezotolerans		Shewanella_piezotolerans_WP3_uid58745
+Shewanella frigidimarina		Shewanella_frigidimarina_NCIMB_400_uid58265
+Shewanella denitrificans		Shewanella_denitrificans_OS217_uid58263
+Shewanella halifaxensis		Shewanella_halifaxensis_HAW_EB4_uid59007
+Shewanella sediminis		Shewanella_sediminis_HAW_EB3_uid58835
+Shewanella amazonensis		Shewanella_amazonensis_SB2B_uid58257
+Shewanella putrefaciens		Shewanella_putrefaciens_CN_32_uid58267
+Shewanella baltica		Shewanella_baltica_OS678_uid50553
+Shewanella woodyi		Shewanella_woodyi_ATCC_51908_uid58721
+Shewanella violacea		Shewanella_violacea_DSS12_uid47085
+Shewanella oneidensis		Shewanella_oneidensis_MR_1_uid57949
+Shewanella loihica		Shewanella_loihica_PV_4_uid58349
+Shewanella pealeana		Shewanella_pealeana_ATCC_700345_uid58705
+####################################
+Treponema
+####################################
+Treponema azotonutricium		Treponema_azotonutricium_ZAS_9_uid67365
+Treponema brennaborense		Treponema_brennaborense_DSM_12168_uid66607
+Treponema succinifaciens		Treponema_succinifaciens_DSM_2489_uid65781
+Treponema paraluiscuniculi		Treponema_paraluiscuniculi_Cuniculi_A_uid68447
+Treponema denticola		Treponema_denticola_ATCC_35405_uid57583
+Treponema primitia		Treponema_primitia_ZAS_2_uid67367
+Treponema pallidum		Treponema_pallidum_SS14_uid58977
+####################################
+Staphylococcus
+####################################
+Staphylococcus lugdunensis		Staphylococcus_lugdunensis_N920143_uid162143
+Staphylococcus epidermidis		Staphylococcus_epidermidis_RP62A_uid57663
+Staphylococcus haemolyticus		Staphylococcus_haemolyticus_JCSC1435_uid62919
+Staphylococcus aureus		Staphylococcus_aureus_VC40_uid88071
+Staphylococcus carnosus		Staphylococcus_carnosus_TM300_uid59401
+Staphylococcus pseudintermedius		Staphylococcus_pseudintermedius_HKU10_03_uid62125
+Staphylococcus saprophyticus		Staphylococcus_saprophyticus_ATCC_15305_uid58411
+####################################
+Desulfotomaculum
+####################################
+Desulfotomaculum kuznetsovii		Desulfotomaculum_kuznetsovii_DSM_6115_uid67357
+Desulfotomaculum reducens		Desulfotomaculum_reducens_MI_1_uid58277
+Desulfotomaculum acetoxidans		Desulfotomaculum_acetoxidans_DSM_771_uid59109
+Desulfotomaculum ruminis		Desulfotomaculum_ruminis_DSM_2154_uid67507
+Desulfotomaculum carboxydivorans		Desulfotomaculum_carboxydivorans_CO_1_SRB_uid67317
+####################################
+Bifidobacterium
+####################################
+Bifidobacterium longum		Bifidobacterium_longum_NCC2705_uid57939
+Bifidobacterium adolescentis		Bifidobacterium_adolescentis_ATCC_15703_uid58559
+Bifidobacterium breve		Bifidobacterium_breve_ACS_071_V_Sch8b_uid158863
+Bifidobacterium dentium		Bifidobacterium_dentium_Bd1_uid43091
+Bifidobacterium animalis		Bifidobacterium_animalis_lactis_V9_uid158865
+Bifidobacterium bifidum		Bifidobacterium_bifidum_S17_uid59545
+####################################
+Chlamydia
+####################################
+Chlamydia pecorum		Chlamydophila_pecorum_E58_uid66295
+Chlamydia muridarum		Chlamydia_muridarum_Nigg_uid57785
+Chlamydia trachomatis		Chlamydia_trachomatis_Sweden2_uid161995
+Chlamydia pneumoniae		Chlamydophila_pneumoniae_TW_183_uid57997
+Chlamydia psittaci		Chlamydophila_psittaci_C19_98_uid159523
+####################################
+Bacillus
+####################################
+Bacillus selenitireducens		Bacillus_selenitireducens_MLS10_uid49513
+Bacillus weihenstephanensis		Bacillus_weihenstephanensis_KBAB4_uid58315
+Bacillus thuringiensis		Bacillus_thuringiensis_serovar_konkukian_97_27_uid58089
+Bacillus pumilus		Bacillus_pumilus_SAFR_032_uid59017
+Bacillus licheniformis		Bacillus_licheniformis_ATCC_14580_uid58199
+Bacillus amyloliquefaciens		Bacillus_amyloliquefaciens_XH7_uid158881
+Bacillus subtilis		Bacillus_subtilis_spizizenii_W23_uid51879
+Bacillus coagulans		Bacillus_coagulans_36D1_uid54335
+Bacillus cytotoxicus		Bacillus_cytotoxicus_NVH_391_98_uid58317
+Bacillus halodurans		Bacillus_halodurans_C_125_uid57791
+Bacillus megaterium		Bacillus_megaterium_WSH_002_uid159841
+Bacillus cereus		Bacillus_cereus_Q1_uid58529
+Bacillus atrophaeus		Bacillus_atrophaeus_1942_uid59887
+Bacillus pseudofirmus		Bacillus_pseudofirmus_OF4_uid45847
+Bacillus clausii		Bacillus_clausii_KSM_K16_uid58237
+Bacillus anthracis		Bacillus_anthracis_Sterne_uid58091
+Bacillus cellulosilyticus		Bacillus_cellulosilyticus_DSM_2522_uid43329
+####################################
+Pyrobaculum
+####################################
+Pyrobaculum arsenaticum		Pyrobaculum_arsenaticum_DSM_13514_uid58409
+Pyrobaculum calidifontis		Pyrobaculum_calidifontis_JCM_11548_uid58787
+Pyrobaculum oguniense		Pyrobaculum_oguniense_TE7_uid84411
+Pyrobaculum islandicum		Pyrobaculum_islandicum_DSM_4184_uid58635
+Pyrobaculum aerophilum		Pyrobaculum_aerophilum_IM2_uid57727
+####################################
+Clostridium
+####################################
+Clostridium thermocellum		Clostridium_thermocellum_DSM_1313_uid161989
+Clostridium phytofermentans		Clostridium_phytofermentans_ISDg_uid58519
+Clostridium acetobutylicum		Clostridium_acetobutylicum_EA_2018_uid159515
+Clostridium cellulovorans		Clostridium_cellulovorans_743B_uid51503
+Clostridium clariflavum		Clostridium_clariflavum_DSM_19732_uid82345
+Clostridium perfringens		Clostridium_perfringens_ATCC_13124_uid57901
+Clostridium tetani		Clostridium_tetani_E88_uid57683
+Clostridium novyi		Clostridium_novyi_NT_uid58643
+Clostridium kluyveri		Clostridium_kluyveri_NBRC_12016_uid59369
+Clostridium beijerinckii		Clostridium_beijerinckii_NCIMB_8052_uid58137
+Clostridium cellulolyticum		Clostridium_cellulolyticum_H10_uid58709
+Clostridium botulinum		Clostridium_botulinum_H04402_065_uid162091
+Clostridium saccharolyticum		Clostridium_saccharolyticum_WM1_uid51419
+Clostridium ljungdahlii		Clostridium_ljungdahlii_DSM_13528_uid50583
+####################################
+Brucella
+####################################
+Brucella canis		Brucella_canis_HSK_A52141_uid83613
+Brucella ovis		Brucella_ovis_ATCC_25840_uid58113
+Brucella suis		Brucella_suis_VBI22_uid83617
+Brucella pinnipedialis		Brucella_pinnipedialis_B2_94_uid71131
+Brucella microti		Brucella_microti_CCM_4915_uid59319
+Brucella abortus		Brucella_melitensis_biovar_Abortus_2308_uid62937
+Brucella melitensis		Brucella_melitensis_NI_uid158853
+####################################
+Caldicellulosiruptor
+####################################
+Caldicellulosiruptor saccharolyticus		Caldicellulosiruptor_saccharolyticus_DSM_8903_uid58289
+Caldicellulosiruptor bescii		Caldicellulosiruptor_bescii_DSM_6725_uid59201
+Caldicellulosiruptor obsidiansis		Caldicellulosiruptor_obsidiansis_OB47_uid51501
+Caldicellulosiruptor owensensis		Caldicellulosiruptor_owensensis_OL_uid60165
+Caldicellulosiruptor lactoaceticus		Caldicellulosiruptor_lactoaceticus_6A_uid60575
+Caldicellulosiruptor kronotskyensis		Caldicellulosiruptor_kronotskyensis_2002_uid60491
+Caldicellulosiruptor kristjanssonii		Caldicellulosiruptor_kristjanssonii_177R1B_uid60393
+Caldicellulosiruptor hydrothermalis		Caldicellulosiruptor_hydrothermalis_108_uid60157
+####################################
+Xanthomonas
+####################################
+Xanthomonas citri		Xanthomonas_axonopodis_citri_306_uid57889
+Xanthomonas oryzae		Xanthomonas_oryzae_PXO99A_uid59131
+Xanthomonas campestris		Xanthomonas_campestris_raphani_756C_uid159539
+Xanthomonas alfalfae		Xanthomonas_axonopodis_citrumelo_F1_uid73179
+Xanthomonas euvesicatoria		Xanthomonas_campestris_vesicatoria_85_10_uid58321
+####################################
+Pseudomonas
+####################################
+Pseudomonas mendocina		Pseudomonas_mendocina_ymp_uid58723
+Pseudomonas putida		Pseudomonas_putida_W619_uid58651
+Pseudomonas syringae group genomosp. 3		Pseudomonas_syringae_tomato_DC3000_uid57967
+Pseudomonas savastanoi		Pseudomonas_syringae_phaseolicola_1448A_uid58099
+Pseudomonas brassicacearum		Pseudomonas_brassicacearum_NFM421_uid66303
+Pseudomonas fulva		Pseudomonas_fulva_12_X_uid67351
+Pseudomonas syringae		Pseudomonas_syringae_B728a_uid57931
+Pseudomonas entomophila		Pseudomonas_entomophila_L48_uid58639
+Pseudomonas aeruginosa		Pseudomonas_aeruginosa_UCBPP_PA14_uid57977
+Pseudomonas stutzeri		Pseudomonas_stutzeri_DSM_4166_uid162113
+Pseudomonas fluorescens		Pseudomonas_fluorescens_SBW25_uid158693
+####################################
+Bacteroides
+####################################
+Bacteroides fragilis		Bacteroides_fragilis_YCH46_uid58195
+Bacteroides salanitronis		Bacteroides_salanitronis_DSM_18170_uid63269
+Bacteroides vulgatus		Bacteroides_vulgatus_ATCC_8482_uid58253
+Bacteroides helcogenes		Bacteroides_helcogenes_P_36_108_uid62135
+Bacteroides thetaiotaomicron		Bacteroides_thetaiotaomicron_VPI_5482_uid62913
+####################################
+Campylobacter
+####################################
+Campylobacter fetus		Campylobacter_fetus_82_40_uid58545
+Campylobacter concisus		Campylobacter_concisus_13826_uid58667
+Campylobacter lari		Campylobacter_lari_RM2100_uid58115
+Campylobacter jejuni		Campylobacter_jejuni_S3_uid159533
+Campylobacter hominis		Campylobacter_hominis_ATCC_BAA_381_uid58981
+Campylobacter curvus		Campylobacter_curvus_525_92_uid58669
+####################################
+Borrelia
+####################################
+Borrelia bavariensis		Borrelia_garinii_PBi_uid58125
+Borrelia bissettii		Borrelia_bissettii_DN127_uid71231
+Borrelia duttonii		Borrelia_duttonii_Ly_uid58791
+Borrelia recurrentis		Borrelia_recurrentis_A1_uid58793
+Borrelia garinii		Borrelia_garinii_BgVir_uid162165
+Borrelia turicatae		Borrelia_turicatae_91E135_uid58311
+Borrelia afzelii		Borrelia_afzelii_PKo_uid58653
+Borrelia burgdorferi		Borrelia_burgdorferi_ZS7_uid59429
+Borrelia crocidurae		Borrelia_crocidurae_Achema_uid162335
+Borrelia hermsii		Borrelia_hermsii_DAH_uid59225
+####################################
+Streptomyces
+####################################
+Streptomyces flavogriseus		Streptomyces_flavogriseus_ATCC_33331_uid40839
+Streptomyces coelicolor		Streptomyces_coelicolor_A3_2__uid57801
+Streptomyces violaceusniger		Streptomyces_violaceusniger_Tu_4113_uid52609
+Streptomyces bingchenggensis		Streptomyces_bingchenggensis_BCW_1_uid82931
+Streptomyces cattleya		Streptomyces_cattleya_NRRL_8057_uid77117
+Streptomyces hygroscopicus		Streptomyces_hygroscopicus_jinggangensis_5008_uid89409
+Streptomyces griseus		Streptomyces_griseus_NBRC_13350_uid58983
+Streptomyces scabiei		Streptomyces_scabiei_87_22_uid46531
+Streptomyces avermitilis		Streptomyces_avermitilis_MA_4680_uid57739
+####################################
+Corynebacterium
+####################################
+Corynebacterium variabile		Corynebacterium_variabile_DSM_44702_uid62003
+Corynebacterium jeikeium		Corynebacterium_jeikeium_K411_uid58399
+Corynebacterium pseudotuberculosis		Corynebacterium_pseudotuberculosis_PAT10_uid159671
+Corynebacterium kroppenstedtii		Corynebacterium_kroppenstedtii_DSM_44385_uid59411
+Corynebacterium diphtheriae		Corynebacterium_diphtheriae_VA01_uid84305
+Corynebacterium urealyticum		Corynebacterium_urealyticum_DSM_7109_uid61639
+Corynebacterium aurimucosum		Corynebacterium_aurimucosum_ATCC_700975_uid59409
+Corynebacterium ulcerans		Corynebacterium_ulcerans_BR_AD22_uid68291
+Corynebacterium resistens		Corynebacterium_resistens_DSM_45100_uid50555
+Corynebacterium glutamicum		Corynebacterium_glutamicum_R_uid58897
+Corynebacterium efficiens		Corynebacterium_efficiens_YS_314_uid62905
+####################################
+Streptococcus
+####################################
+Streptococcus agalactiae		Streptococcus_agalactiae_NEM316_uid61585
+Streptococcus suis		Streptococcus_suis_ST3_uid66327
+Streptococcus oralis		Streptococcus_oralis_Uo5_uid65449
+Streptococcus equi		Streptococcus_equi_zooepidemicus_uid59261
+Streptococcus parasanguinis		Streptococcus_parasanguinis_ATCC_15912_uid49313
+Streptococcus parauberis		Streptococcus_parauberis_KCTC_11537_uid67355
+Streptococcus infantarius		Streptococcus_infantarius_CJ18_uid87033
+Streptococcus salivarius		Streptococcus_salivarius_JIM8777_uid162145
+Streptococcus sanguinis		Streptococcus_sanguinis_SK36_uid58381
+Streptococcus pasteurianus		Streptococcus_pasteurianus_ATCC_43144_uid68019
+Streptococcus dysgalactiae		Streptococcus_dysgalactiae_equisimilis_GGS_124_uid59103
+Streptococcus pyogenes		Streptococcus_pyogenes_SSI_1_uid57895
+Streptococcus mitis		Streptococcus_mitis_B6_uid46097
+Streptococcus mutans		Streptococcus_mutans_uid162197
+Streptococcus pneumoniae		Streptococcus_pneumoniae_TIGR4_uid57857
+Streptococcus gallolyticus		Streptococcus_gallolyticus_UCN34_uid46061
+Streptococcus thermophilus		Streptococcus_thermophilus_ND03_uid162015
+Streptococcus gordonii		Streptococcus_gordonii_Challis_substr__CH1_uid57667
+Streptococcus pseudopneumoniae		Streptococcus_pseudopneumoniae_IS7493_uid71153
+Streptococcus uberis		Streptococcus_uberis_0140J_uid57959
+####################################
+Thermotoga
+####################################
+Thermotoga lettingae		Thermotoga_lettingae_TMO_uid58419
+Thermotoga thermarum		Thermotoga_thermarum_DSM_5069_uid68449
+Thermotoga neapolitana		Thermotoga_neapolitana_DSM_4359_uid59065
+Thermotoga naphthophila		Thermotoga_naphthophila_RKU_10_uid42777
+Thermotoga petrophila		Thermotoga_petrophila_RKU_1_uid58655
+Thermotoga maritima		Thermotoga_maritima_MSB8_uid57723
+####################################
+Bartonella
+####################################
+Bartonella quintana		Bartonella_quintana_Toulouse_uid57635
+Bartonella henselae		Bartonella_henselae_Houston_1_uid57745
+Bartonella tribocorum		Bartonella_tribocorum_CIP_105476_uid59129
+Bartonella clarridgeiae		Bartonella_clarridgeiae_73_uid62131
+Bartonella bacilliformis		Bartonella_bacilliformis_KC583_uid58533
+Bartonella grahamii		Bartonella_grahamii_as4aup_uid59405
+####################################
+Helicobacter
+####################################
+Helicobacter cetorum		Helicobacter_cetorum_MIT_99_5656_uid162215
+Helicobacter cinaedi		Helicobacter_cinaedi_PAGU611_uid162219
+Helicobacter felis		Helicobacter_felis_ATCC_49179_uid61409
+Helicobacter hepaticus		Helicobacter_hepaticus_ATCC_51449_uid57737
+Helicobacter mustelae		Helicobacter_mustelae_12198_uid46647
+Helicobacter bizzozeronii		Helicobacter_bizzozeronii_CIII_1_uid68141
+Helicobacter pylori		Helicobacter_pylori_v225d_uid159639
+Helicobacter acinonychis		Helicobacter_acinonychis_Sheeba_uid58685
+####################################
+Thermoanaerobacter
+####################################
+Thermoanaerobacter pseudethanolicus		Thermoanaerobacter_pseudethanolicus_ATCC_33223_uid58339
+Thermoanaerobacter wiegelii		Thermoanaerobacter_wiegelii_Rt8_B1_uid52581
+Thermoanaerobacter italicus		Thermoanaerobacter_italicus_Ab9_uid46241
+Thermoanaerobacter brockii		Thermoanaerobacter_brockii_finnii_Ako_1_uid55639
+Thermoanaerobacter mathranii		Thermoanaerobacter_mathranii_A3_uid49481
+####################################
+Lactobacillus
+####################################
+Lactobacillus ruminis		Lactobacillus_ruminis_ATCC_27782_uid73417
+Lactobacillus buchneri		Lactobacillus_buchneri_NRRL_B_30929_uid66205
+Lactobacillus crispatus		Lactobacillus_crispatus_ST1_uid48359
+Lactobacillus sakei		Lactobacillus_sakei_23K_uid58281
+Lactobacillus johnsonii		Lactobacillus_johnsonii_NCC_533_uid58029
+Lactobacillus gasseri		Lactobacillus_gasseri_ATCC_33323_uid57687
+Lactobacillus kefiranofaciens		Lactobacillus_kefiranofaciens_ZW3_uid67985
+Lactobacillus rhamnosus		Lactobacillus_rhamnosus_Lc_705_uid59315
+Lactobacillus sanfranciscensis		Lactobacillus_sanfranciscensis_TMW_1_1304_uid72937
+Lactobacillus casei		Lactobacillus_casei_Zhang_uid50673
+Lactobacillus helveticus		Lactobacillus_helveticus_H10_uid162017
+Lactobacillus reuteri		Lactobacillus_reuteri_SD2112_uid55357
+Lactobacillus delbrueckii		Lactobacillus_delbrueckii_bulgaricus_ND02_uid60621
+Lactobacillus salivarius		Lactobacillus_salivarius_UCC118_uid58233
+Lactobacillus acidophilus		Lactobacillus_acidophilus_NCFM_uid57685
+Lactobacillus fermentum		Lactobacillus_fermentum_IFO_3956_uid58865
+Lactobacillus plantarum		Lactobacillus_plantarum_WCFS1_uid62911
+Lactobacillus amylovorus		Lactobacillus_amylovorus_GRL_1112_uid61179
+Lactobacillus brevis		Lactobacillus_brevis_ATCC_367_uid57989
+####################################
+Mycobacterium
+####################################
+Mycobacterium bovis		Mycobacterium_bovis_BCG_Tokyo_172_uid59281
+Mycobacterium ulcerans		Mycobacterium_ulcerans_Agy99_uid62939
+Mycobacterium gilvum		Mycobacterium_Spyr1_uid61403
+Mycobacterium smegmatis		Mycobacterium_smegmatis_MC2_155_uid57701
+Mycobacterium leprae		Mycobacterium_leprae_TN_uid57697
+Mycobacterium abscessus		Mycobacterium_abscessus_ATCC_19977_uid61613
+Mycobacterium marinum		Mycobacterium_marinum_M_uid59423
+Mycobacterium intracellulare		Mycobacterium_intracellulare_MOTT_64_uid89385
+Mycobacterium rhodesiae		Mycobacterium_rhodesiae_NBB3_uid75107
+Mycobacterium tuberculosis		Mycobacterium_tuberculosis_RGTB423_uid162179
+Mycobacterium canettii		Mycobacterium_canettii_CIPT_140010059_uid70731
+Mycobacterium africanum		Mycobacterium_africanum_GM041182_uid68839
+Mycobacterium avium		Mycobacterium_avium_paratuberculosis_K_10_uid57699
+Mycobacterium vanbaalenii		Mycobacterium_vanbaalenii_PYR_1_uid58463
+####################################
+Thermococcus
+####################################
+Thermococcus onnurineus		Thermococcus_onnurineus_NA1_uid59043
+Thermococcus barophilus		Thermococcus_barophilus_MP_uid54733
+Thermococcus sibiricus		Thermococcus_sibiricus_MM_739_uid59399
+Thermococcus kodakarensis		Thermococcus_kodakarensis_KOD1_uid58225
+Thermococcus gammatolerans		Thermococcus_gammatolerans_EJ3_uid59389
+####################################
+Burkholderia
+####################################
+Burkholderia phymatum		Burkholderia_phymatum_STM815_uid58699
+Burkholderia ambifaria		Burkholderia_ambifaria_MC40_6_uid58701
+Burkholderia multivorans		Burkholderia_multivorans_ATCC_17616_uid58909
+Burkholderia cenocepacia		Burkholderia_cenocepacia_MC0_3_uid58769
+Burkholderia thailandensis		Burkholderia_thailandensis_E264_uid58081
+Burkholderia glumae		Burkholderia_glumae_BGR1_uid59397
+Burkholderia phytofirmans		Burkholderia_phytofirmans_PsJN_uid58729
+Burkholderia vietnamiensis		Burkholderia_vietnamiensis_G4_uid58075
+Burkholderia pseudomallei		Burkholderia_pseudomallei_MSHR346_uid29855
+Burkholderia rhizoxinica		Burkholderia_rhizoxinica_HKI_454_uid60487
+Burkholderia gladioli		Burkholderia_gladioli_BSR3_uid66301
+Burkholderia mallei		Burkholderia_mallei_SAVP1_uid58387
+Burkholderia xenovorans		Burkholderia_xenovorans_LB400_uid57823
+####################################
+Desulfovibrio
+####################################
+Desulfovibrio africanus		Desulfovibrio_africanus_Walvis_Bay_uid66847
+Desulfovibrio magneticus		Desulfovibrio_magneticus_RS_1_uid59309
+Desulfovibrio vulgaris		Desulfovibrio_vulgaris_RCH1_uid161961
+Desulfovibrio alaskensis		Desulfovibrio_alaskensis_G20_uid57941
+Desulfovibrio desulfuricans		Desulfovibrio_desulfuricans_ND132_uid63159
+Desulfovibrio aespoeensis		Desulfovibrio_aespoeensis_Aspo_2_uid42613
+Desulfovibrio salexigens		Desulfovibrio_salexigens_DSM_2638_uid59223
+####################################
+Deinococcus
+####################################
+Deinococcus deserti		Deinococcus_deserti_VCD115_uid58615
+Deinococcus proteolyticus		Deinococcus_proteolyticus_MRP_uid63399
+Deinococcus radiodurans		Deinococcus_radiodurans_R1_uid57665
+Deinococcus geothermalis		Deinococcus_geothermalis_DSM_11300_uid58275
+Deinococcus maricopensis		Deinococcus_maricopensis_DSM_21211_uid62225
+Deinococcus gobiensis		Deinococcus_gobiensis_I_0_uid162509
+####################################
+Mycoplasma
+####################################
+Mycoplasma synoviae		Mycoplasma_synoviae_53_uid58061
+Mycoplasma arthritidis		Mycoplasma_arthritidis_158L3_1_uid58005
+Mycoplasma penetrans		Mycoplasma_penetrans_HF_2_uid57729
+Mycoplasma pneumoniae		Mycoplasma_pneumoniae_M129_uid57709
+Mycoplasma conjunctivae		Mycoplasma_conjunctivae_HRC_581_uid59325
+Mycoplasma pulmonis		Mycoplasma_pulmonis_UAB_CTIP_uid61569
+Mycoplasma mobile		Mycoplasma_mobile_163K_uid58077
+Mycoplasma haemocanis		Mycoplasma_haemocanis_Illinois_uid82367
+Mycoplasma haemofelis		Mycoplasma_haemofelis_Ohio2_uid162029
+Mycoplasma suis		Mycoplasma_suis_KI3806_uid63665
+Mycoplasma crocodyli		Mycoplasma_crocodyli_MP145_uid47087
+Mycoplasma agalactiae		Mycoplasma_agalactiae_PG2_uid61619
+Mycoplasma capricolum		Mycoplasma_capricolum_ATCC_27343_uid58525
+Mycoplasma hyorhinis		Mycoplasma_hyorhinis_MCLD_uid162087
+Mycoplasma bovis		Mycoplasma_bovis_PG45_uid60859
+Mycoplasma genitalium		Mycoplasma_genitalium_G37_uid57707
+Mycoplasma fermentans		Mycoplasma_fermentans_M64_uid62099
+Mycoplasma gallisepticum		Mycoplasma_gallisepticum_R_low__uid57993
+Mycoplasma hominis		Mycoplasma_hominis_ATCC_23114_uid41875
+Mycoplasma putrefaciens		Mycoplasma_putrefaciens_KS1_uid72481
+Mycoplasma leachii		Mycoplasma_leachii_PG50_uid60849
+Mycoplasma mycoides		Mycoplasma_mycoides_SC_PG1_uid58031
+Mycoplasma hyopneumoniae		Mycoplasma_hyopneumoniae_J_uid58059
+####################################
+Flavobacterium
+####################################
+Flavobacterium columnare		Flavobacterium_columnare_ATCC_49512_uid80731
+Flavobacterium psychrophilum		Flavobacterium_psychrophilum_JIP02_86_uid61627
+Flavobacterium branchiophilum		Flavobacterium_branchiophilum_FL_15_uid73421
+Flavobacterium johnsoniae		Flavobacterium_johnsoniae_UW101_uid58493
+Flavobacterium indicum		Flavobacterium_indicum_GPTSA100_9_uid157999
+####################################
+Bordetella
+####################################
+Bordetella pertussis		Bordetella_pertussis_Tohama_I_uid57617
+Bordetella petrii		Bordetella_petrii_DSM_12804_uid61631
+Bordetella bronchiseptica		Bordetella_bronchiseptica_RB50_uid57613
+Bordetella parapertussis		Bordetella_parapertussis_12822_uid57615
+Bordetella avium		Bordetella_avium_197N_uid61563
+####################################
+Methylobacterium
+####################################
+Methylobacterium chloromethanicum		Methylobacterium_chloromethanicum_CM4_uid58933
+Methylobacterium populi		Methylobacterium_populi_BJ001_uid58937
+Methylobacterium radiotolerans		Methylobacterium_radiotolerans_JCM_2831_uid58845
+Methylobacterium extorquens		Methylobacterium_extorquens_PA1_uid58821
+Methylobacterium nodulans		Methylobacterium_nodulans_ORS_2060_uid59023
