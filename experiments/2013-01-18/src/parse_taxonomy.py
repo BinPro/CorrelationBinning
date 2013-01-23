@@ -10,7 +10,9 @@ if __name__=="__main__":
     parser.add_argument('files', nargs='*', 
         help='specify input taxa file')
     parser.add_argument('-o', '--output', 
-        help='specify the output file.  The default is stdout')
+        help='''specify the base name of the output file. 
+                The default is stdout. Output will be written to
+                [basename]_families.txt and [basename]_genera.txt''')
     parser.add_argument('-v', '--verbose', action='store_true',
         help='information written to stderr during execution.')
     parser.add_argument('-s', '--species', type=int, default=4,
@@ -18,10 +20,8 @@ if __name__=="__main__":
     parser.add_argument('-g', '--genera', type=int, default=4,
         help='number of minimum genera within family.')
     args = parser.parse_args()
-				      
-    if args.output and args.output != '-':
-        sys.stdout = open(args.output, 'w')
-
+    fh = sys.stdout
+    
     families = {}
     genera = {}
     lines = []
@@ -43,15 +43,20 @@ if __name__=="__main__":
             genera[genus][species] = folder
     final_families = {family:family_genera for family,family_genera in families.iteritems() if len(family_genera) > args.genera}
     final_genera = {genus:genus_species for genus,genus_species in genera.iteritems() if len(genus_species) > args.species}
+
+    if args.output and args.output != '-':
+        fh = open(''.join([args.output,'_families.txt']), 'w')
     for family,genera2 in final_families.iteritems():
-        print "###############"
-        print family
-        print "###############"
+        print >> fh, "###############"
+        print >> fh, family
+        print >> fh, "###############"
         for genus in genera2:
-            print genus + '\t\t' + families[family][genus]
+            print >> fh, genus + '\t\t' + families[family][genus]
+    if args.output and args.output != '-':
+        fh = open(''.join([args.output,'_genera.txt']), 'w')
     for genus,species in final_genera.iteritems():
-        print "####################################"
-        print genus
-        print "####################################"
+        print >> fh, "####################################"
+        print >> fh, genus
+        print >> fh, "####################################"
         for specie in species:
-            print specie + '\t\t' + genera[genus][specie]
+            print >> fh, specie + '\t\t' + genera[genus][specie]
