@@ -47,16 +47,12 @@ if __name__=="__main__":
     if args.output and args.output != '-':
         fh = open(''.join([args.output,'_families.txt']), 'w')
     for family,genera2 in final_families.iteritems():
-        print >> fh, "###############"
-        print >> fh, family
-        print >> fh, "###############"
+        print >> fh, 'group_name:\t' + family
         for genus in genera2:
-            print >> fh, genus + '\t\t' + families[family][genus]
+            print >> fh, 'entry:\t' + genus + '\t\t' + families[family][genus]
     if args.output and args.output != '-':
         fh = open(''.join([args.output,'_genera.txt']), 'w')
     for genus,species in final_genera.iteritems():
-        print >> fh, "####################################"
-        print >> fh, genus
-        print >> fh, "####################################"
+        print >> fh, 'group_name:\t' + genus
         for specie in species:
-            print >> fh, specie + '\t\t' + genera[genus][specie]
+            print >> fh, 'entry:\t' + specie + '\t\t' + genera[genus][specie]
