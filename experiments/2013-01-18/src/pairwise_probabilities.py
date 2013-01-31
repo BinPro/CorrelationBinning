@@ -3,10 +3,11 @@ import fileinput
 import sys
 import os
 from argparse import ArgumentParser
+from probin.model.composition import multinomial as mn 
 
 from Bio import SeqIO
 
-def main(open_name_file, dir_path):
+def main(open_name_file, dir_path, kmer_length):
     groups = []
     # Read the file with all names, divide them into groups
     for line in open_name_file:
@@ -17,25 +18,33 @@ def main(open_name_file, dir_path):
 
     # Each genome in a group is a bin, fit parameters to all bins
     os.chdir(dir_path)
+    group_genomes = []
     for group in groups:
+        group_genomes.append((group, []))
         for dir_name in group[-1]:
-            print dir_name
             fasta_files = os.listdir(dir_name)
             for fasta_file in fasta_files:
                 genome_file = open(dir_name + '/' + fasta_file)
                 identifier = genome_file.readline()
                 # Only use non-plasmid genomes
                 if identifier.find('plasmid') == -1 and identifier.find('chromosome 2') == -1:
-                    #Does not work: genome = list(SeqIO.parse(genome_file, "fasta"))
-                    print fasta_file
+                    genome_file.close()
+                    genome_file = open(dir_name + '/' + fasta_file)
+                    genome = list(SeqIO.parse(genome_file, "fasta"))
+                    if len(genome) > 1:
+                        sys.stderr.write("Warning! The file " + fasta_file + " in directory " + dir_name + " contained more than one sequence, ignoring all but the first!" + os.linesep)
+                    par = mn.fit_parameters(kmer_length, genome)
+                    group_genomes[-1][-1].append((genome[0], par[0]))
                 genome_file.close()
 
-            
-            
 
     # For each bin, generate a contig, re-calculate parameters for
     # that bin without contig-section.
-
+    for group in group_genomes:
+        group_name = group[0]
+        for genome, par in group[-1]:
+            print genome.seq[0:30]
+            print par[0:10]
     # Score this contig against all bins, keep within-group
     # scores separate from outside-group scores.
 
@@ -63,5 +72,5 @@ if __name__=="__main__":
     if args.verbose:
         sys.stderr.write("Number of genomes read: %i %s" % (len(genomes),os.linesep))
         
-    main(name_file_handle, args.directory_path)
+    main(name_file_handle, args.directory_path, args.kmer_length)
     name_file_handle.close()
