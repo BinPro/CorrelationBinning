@@ -98,7 +98,7 @@ entry:	Bacillus selenitireducens		Bacillus_selenitireducens_MLS10_uid49513
 entry:	Bacillus weihenstephanensis		Bacillus_weihenstephanensis_KBAB4_uid58315
 entry:	Bacillus thuringiensis		Bacillus_thuringiensis_serovar_konkukian_97_27_uid58089
 entry:	Bacillus pumilus		Bacillus_pumilus_SAFR_032_uid59017
-entry:	Bacillus licheniformis		Bacillus_licheniformis_ATCC_14580_uid58199
+entry:	Bacillus licheniformis		Bacillus_licheniformis_ATCC_14580_uid58097
 entry:	Bacillus amyloliquefaciens		Bacillus_amyloliquefaciens_XH7_uid158881
 entry:	Bacillus subtilis		Bacillus_subtilis_spizizenii_W23_uid51879
 entry:	Bacillus coagulans		Bacillus_coagulans_36D1_uid54335
@@ -227,7 +227,7 @@ entry:	Streptococcus pasteurianus		Streptococcus_pasteurianus_ATCC_43144_uid6801
 entry:	Streptococcus dysgalactiae		Streptococcus_dysgalactiae_equisimilis_GGS_124_uid59103
 entry:	Streptococcus pyogenes		Streptococcus_pyogenes_SSI_1_uid57895
 entry:	Streptococcus mitis		Streptococcus_mitis_B6_uid46097
-entry:	Streptococcus mutans		Streptococcus_mutans_uid162197
+entry:	Streptococcus mutans		Streptococcus_mutans_UA159_uid57947
 entry:	Streptococcus pneumoniae		Streptococcus_pneumoniae_TIGR4_uid57857
 entry:	Streptococcus gallolyticus		Streptococcus_gallolyticus_UCN34_uid46061
 entry:	Streptococcus thermophilus		Streptococcus_thermophilus_ND03_uid162015
@@ -286,7 +286,7 @@ entry:	Lactobacillus brevis		Lactobacillus_brevis_ATCC_367_uid57989
 group_name:	Mycobacterium
 entry:	Mycobacterium bovis		Mycobacterium_bovis_BCG_Tokyo_172_uid59281
 entry:	Mycobacterium ulcerans		Mycobacterium_ulcerans_Agy99_uid62939
-entry:	Mycobacterium gilvum		Mycobacterium_Spyr1_uid61403
+entry:	Mycobacterium gilvum		Mycobacterium_gilvum_PYR_GCK_uid59421
 entry:	Mycobacterium smegmatis		Mycobacterium_smegmatis_MC2_155_uid57701
 entry:	Mycobacterium leprae		Mycobacterium_leprae_TN_uid57697
 entry:	Mycobacterium abscessus		Mycobacterium_abscessus_ATCC_19977_uid61613
