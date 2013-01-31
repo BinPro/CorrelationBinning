@@ -1,0 +1,10 @@
+group_name:	Deferribacteraceae
+entry:	Deferribacter		Deferribacter_desulfuricans_SSM1_uid46653
+entry:	Flexistipes		Flexistipes_sinusarabici_DSM_4947_uid68147
+entry:	Denitrovibrio		Denitrovibrio_acetiphilus_DSM_12809_uid46657
+entry:	Calditerrivibrio		Calditerrivibrio_nitroreducens_DSM_19672_uid60821
+group_name:	Neisseriaceae
+entry:	Pseudogulbenkiania		Pseudogulbenkiania_NH8B_uid73423
+entry:	Laribacter		Laribacter_hongkongensis_HLHK9_uid59265
+entry:	Neisseria		Neisseria_meningitidis_Z2491_uid57819
+entry:	Chromobacterium		Chromobacterium_violaceum_ATCC_12472_uid58001
