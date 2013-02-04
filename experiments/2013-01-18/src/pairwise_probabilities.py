@@ -4,10 +4,11 @@ import sys
 import os
 from argparse import ArgumentParser
 from probin.model.composition import multinomial as mn 
-
+from numpy.random import multinomial as np_mn
 from Bio import SeqIO
+from helpers import sample_contig, score_contig
 
-def main(open_name_file, dir_path, kmer_length):
+def main(open_name_file, dir_path, kmer_length, no_contigs, prio, contig_min_length, contig_max_length, mode):
     groups = []
     # Read the file with all names, divide them into groups
     for line in open_name_file:
@@ -42,9 +43,24 @@ def main(open_name_file, dir_path, kmer_length):
     # that bin without contig-section.
     for group in group_genomes:
         group_name = group[0]
-        for genome, par in group[-1]:
-            print genome.seq[0:30]
-            print par[0:10]
+        genome_no = 0
+        if prio == "groups":
+            n = len(group[-1])
+            no_contigs_per_genome_list = list(np_mn(no_contigs, [1/float(n)]*n, size=1))
+        elif prio == "genomes":
+            n = len(group[-1])
+            no_contigs_per_genome_list = [round(no_contigs/float(n))]*n
+            for genome, par in group[-1]:
+                for i in range(int(no_contigs_per_genome_list[int(genome_no)])):
+                    if mode == "refit":
+                        contig, rest = sample_contig(genome, contig_min_length, contig_max_length)
+                        
+                    else:
+                        contig, rest_genome = sample_contig(genome, contig_min_length, contig_max_length)
+                        contig_signature, genome_signature = mn.calculate_signatures(kmer_length, [contig, rest_genome])
+                        gen_score, group_scores, rest_scores = score_contig(contig_signature, genome_signature, [], [])
+                        print gen_score
+                genome_no += 1
     # Score this contig against all bins, keep within-group
     # scores separate from outside-group scores.
 
@@ -64,6 +80,12 @@ if __name__=="__main__":
         help='specify the kmer length, default is 4')
     parser.add_argument('-d', '--directory_path', default='/home/johannes/repos/DATA/reference_genomes_ncbi', 
         type=str, help='specify the path to where the reference genomes are located locally')
+    parser.add_argument('-c', '--no_contigs', default=100, type=int,
+        help='Specify the number of contigs to be sampled from each group. This may be only approximate due to what priority is chosen') 
+    parser.add_argument('-p', '--priority', default="groups",
+        type=str, help='specify the prioritized way of sampling contigs. Specify "groups" to make sure each group is sampled exactly the number of times specified by no_contigs, distributed randomly over the genomes present in each group, or specify "genomes" to make sure each genome within a certain group contributes with exactly the same number of contigs.')
+    parser.add_argument('--contig_min_length', default=1000, type=int, help='Specify the minimum length for contigs')
+    parser.add_argument('--contig_max_length', default=1000, type=int, help='Specify the maximum length for contigs')
     args = parser.parse_args()
     if args.output and args.output != '-':
         sys.stdout = open(args.output, 'w')
@@ -71,6 +93,6 @@ if __name__=="__main__":
     name_file_handle = fileinput.input(args.files)
     if args.verbose:
         sys.stderr.write("Number of genomes read: %i %s" % (len(genomes),os.linesep))
-        
-    main(name_file_handle, args.directory_path, args.kmer_length)
+    mode = "without_refit"
+    main(name_file_handle, args.directory_path, args.kmer_length, args.no_contigs, args.priority, args.contig_min_length, args.contig_max_length, mode)
     name_file_handle.close()
