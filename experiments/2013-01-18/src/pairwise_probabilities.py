@@ -4,25 +4,25 @@ import sys
 import os
 from argparse import ArgumentParser
 from probin.model.composition import multinomial as mn 
-from numpy.random import multinomial as np_mn
 from Bio import SeqIO
-from helpers import sample_contig, score_contig
+from helpers import sample_contig, score_contig, pairwise, GenomeGroup, Genome, all_but_index
 
 def main(open_name_file, dir_path, kmer_length, no_contigs, prio, contig_min_length, contig_max_length, mode):
     groups = []
     # Read the file with all names, divide them into groups
     for line in open_name_file:
         if line[0:11] == 'group_name:':
-            groups.append((line.split('\t')[1].strip(), []))
+            new_group = GenomeGroup(line.split('\t')[1].strip())
+            groups.append(new_group)
         elif line[0:6] == 'entry:':
-            groups[-1][-1].append(line.split('\t')[3].strip())
+            new_genome = Genome(line.split('\t')[3].strip())
+            groups[-1].add_genome(new_genome)
 
     # Each genome in a group is a bin, fit parameters to all bins
     os.chdir(dir_path)
-    group_genomes = []
     for group in groups:
-        group_genomes.append((group, []))
-        for dir_name in group[-1]:
+        for genome in group.genomes:
+            dir_name = genome.name
             fasta_files = os.listdir(dir_name)
             for fasta_file in fasta_files:
                 genome_file = open(dir_name + '/' + fasta_file)
@@ -31,38 +31,25 @@ def main(open_name_file, dir_path, kmer_length, no_contigs, prio, contig_min_len
                 if identifier.find('plasmid') == -1 and identifier.find('chromosome 2') == -1:
                     genome_file.close()
                     genome_file = open(dir_name + '/' + fasta_file)
-                    genome = list(SeqIO.parse(genome_file, "fasta"))
-                    if len(genome) > 1:
+                    genome_seq = list(SeqIO.parse(genome_file, "fasta"))
+                    if len(genome_seq) > 1:
                         sys.stderr.write("Warning! The file " + fasta_file + " in directory " + dir_name + " contained more than one sequence, ignoring all but the first!" + os.linesep)
-                    par = mn.fit_parameters(kmer_length, genome)
-                    group_genomes[-1][-1].append((genome[0], par[0]))
+                    par = mn.fit_parameters(kmer_length, genome_seq)
+                    genome.seq = genome_seq[0]
+                    print sum(par[0])
+                    genome.par = par[0]
                 genome_file.close()
 
-
-    # For each bin, generate a contig, re-calculate parameters for
-    # that bin without contig-section.
-    for group in group_genomes:
-        group_name = group[0]
-        genome_no = 0
-        if prio == "groups":
-            n = len(group[-1])
-            no_contigs_per_genome_list = list(np_mn(no_contigs, [1/float(n)]*n, size=1))
-        elif prio == "genomes":
-            n = len(group[-1])
-            no_contigs_per_genome_list = [round(no_contigs/float(n))]*n
-            for genome, par in group[-1]:
-                for i in range(int(no_contigs_per_genome_list[int(genome_no)])):
-                    if mode == "refit":
-                        contig, rest = sample_contig(genome, contig_min_length, contig_max_length)
-                        
-                    else:
-                        contig, rest_genome = sample_contig(genome, contig_min_length, contig_max_length)
-                        contig_signature, genome_signature = mn.calculate_signatures(kmer_length, [contig, rest_genome])
-                        gen_score, group_scores, rest_scores = score_contig(contig_signature, genome_signature, [], [])
-                        print gen_score
-                genome_no += 1
-    # Score this contig against all bins, keep within-group
+    # For each bin, generate a number of contigs, 
+    # re-calculate parameters for that bin without contig-section.
+    # Further score this contig against all bins, keep within-group
     # scores separate from outside-group scores.
+    for group_index in range(len(groups)):
+        group = groups[group_index]
+        rest_groups = all_but_index(groups, group_index)
+        rest_pars = [group.parameters() for group in rest_groups]
+        
+        pairwise(group, rest_pars, prio, no_contigs, mode, contig_min_length, contig_max_length, kmer_length)
 
  
 
@@ -93,6 +80,6 @@ if __name__=="__main__":
     name_file_handle = fileinput.input(args.files)
     if args.verbose:
         sys.stderr.write("Number of genomes read: %i %s" % (len(genomes),os.linesep))
-    mode = "without_refit"
+    mode = "refit"
     main(name_file_handle, args.directory_path, args.kmer_length, args.no_contigs, args.priority, args.contig_min_length, args.contig_max_length, mode)
     name_file_handle.close()
