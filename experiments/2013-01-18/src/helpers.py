@@ -33,7 +33,7 @@ def score_contig(signature, gen_par, group_pars, rest_pars):
     for group in rest_pars:
         outside_group = []
         for par in group:
-            outside_grup.append(mn.log_probability(signature,par))
+            outside_group.append(mn.log_probability(signature,par))
         rest_scores.append(outside_group)
     return gen_score, group_scores, rest_scores
 
