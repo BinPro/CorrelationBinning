@@ -5,9 +5,10 @@ import os
 from argparse import ArgumentParser
 from probin.model.composition import multinomial as mn 
 from Bio import SeqIO
-from helpers import sample_contig, score_contig, pairwise, GenomeGroup, Genome, all_but_index
+from helpers import sample_contig, score_contig, all_but_index, GenomeGroup, Genome, ExperimentSetting, Test
 
-def main(open_name_file, dir_path, kmer_length, no_contigs, prio, contig_min_length, contig_max_length, mode):
+def main(open_name_file, dir_path, kmer_length, x_set):
+
     groups = []
     # Read the file with all names, divide them into groups
     for line in open_name_file:
@@ -15,7 +16,7 @@ def main(open_name_file, dir_path, kmer_length, no_contigs, prio, contig_min_len
             new_group = GenomeGroup(line.split('\t')[1].strip())
             groups.append(new_group)
         elif line[0:6] == 'entry:':
-            new_genome = Genome(line.split('\t')[3].strip())
+            new_genome = Genome("",line.split('\t')[3].strip())
             groups[-1].add_genome(new_genome)
 
     # Each genome in a group is a bin, fit parameters to all bins
@@ -44,13 +45,19 @@ def main(open_name_file, dir_path, kmer_length, no_contigs, prio, contig_min_len
     # re-calculate parameters for that bin without contig-section.
     # Further score this contig against all bins, keep within-group
     # scores separate from outside-group scores.
+    all_scores = []
     for group_index in range(len(groups)):
         group = groups[group_index]
         rest_groups = all_but_index(groups, group_index)
-        rest_pars = [group.parameters() for group in rest_groups]
+        test = Test(x_set, group, rest_groups, kmer_length)
+        group_scores = test.execute()
         
-        pairwise(group, rest_pars, prio, no_contigs, mode, contig_min_length, contig_max_length, kmer_length)
-
+        print 
+        all_scores.append(group_scores)
+    for group_scores in all_scores:
+        for genome_scores in group_scores:
+            for score in genome_scores:
+                print str(score)
  
 
 if __name__=="__main__":
@@ -69,7 +76,7 @@ if __name__=="__main__":
         type=str, help='specify the path to where the reference genomes are located locally')
     parser.add_argument('-c', '--no_contigs', default=100, type=int,
         help='Specify the number of contigs to be sampled from each group. This may be only approximate due to what priority is chosen') 
-    parser.add_argument('-p', '--priority', default="groups",
+    parser.add_argument('-p', '--priority', default="genomes",
         type=str, help='specify the prioritized way of sampling contigs. Specify "groups" to make sure each group is sampled exactly the number of times specified by no_contigs, distributed randomly over the genomes present in each group, or specify "genomes" to make sure each genome within a certain group contributes with exactly the same number of contigs.')
     parser.add_argument('--contig_min_length', default=1000, type=int, help='Specify the minimum length for contigs')
     parser.add_argument('--contig_max_length', default=1000, type=int, help='Specify the maximum length for contigs')
@@ -81,5 +88,6 @@ if __name__=="__main__":
     if args.verbose:
         sys.stderr.write("Number of genomes read: %i %s" % (len(genomes),os.linesep))
     mode = "refit"
-    main(name_file_handle, args.directory_path, args.kmer_length, args.no_contigs, args.priority, args.contig_min_length, args.contig_max_length, mode)
+    ex_setting = ExperimentSetting(args.priority, mode, args.no_contigs, args.contig_min_length, args.contig_max_length)
+    main(name_file_handle, args.directory_path, args.kmer_length, ex_setting)
     name_file_handle.close()
