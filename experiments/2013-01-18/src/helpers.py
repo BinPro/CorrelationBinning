@@ -5,19 +5,34 @@ from Bio.SeqRecord import SeqRecord
 from random import randint 
 from probin.model.composition import multinomial as mn
 from probin.dna import DNA
+from copy import copy
 
 def sample_contig(genome, x_st):
     min_length = x_st.contig_min_length
     max_length = x_st.contig_max_length
     l = randint(min_length, max_length)
-    start = randint(0, (len(genome.full_seq)-l))
-    contig = DNA(id = genome.id + " contig", seq = genome.full_seq[start:start+l])
-    rest = DNA(id= genome.id, seq = genome.full_seq[0:start] + genome.full_seq[start+l:-1])
-    return contig, rest
+    gen_l = len(genome.full_seq)
+    start = randint(0, (gen_l-l))
+    end = start+l
+    contig = DNA(id = genome.id + " contig", seq = genome.full_seq[start:end])
+    
+    l_frac_len = min(start,(DNA.kmer_len-1))
+    r_frac_len = min((gen_l-end),(DNA.kmer_len-1))
 
-def score_contig(contig, gen, genome_index, test):
+    lf = genome.full_seq[:start][-l_frac_len:]
+    rf = genome.full_seq[end:][:r_frac_len]
+
+    rest_par = par_subtraction(copy(genome.signature),lf,contig,rf) 
+    return contig, rest_par
+
+def par_subtraction(signature, lf,contig, rf):
+    c_dna = DNA(id="", seq=lf+contig.full_seq+rf)
+    signature.subtract(c_dna.signature)
+    return signature_to_parameters(signature)
+
+def score_contig(contig, par, gen_name, genome_index, test):
     score_obj = ScoreCollection()
-    score_gen = Score(mn.log_probability(contig.signature, gen.par()), gen.id)
+    score_gen = Score(mn.log_probability(contig.signature, par), gen_name)
     score_obj.genome = score_gen
     group_genomes = test.group.all_genomes_but_index(genome_index)
     for gen in group_genomes:
@@ -47,16 +62,19 @@ class GenomeGroup(object):
         return self.genomes[0:i] + self.genomes[i+1:]
 
 
+def signature_to_parameters(signature):
+    pa = {}
+    n = sum(signature.values())
+    for i in xrange(DNA.kmer_hash_count):
+        pa[i] = signature[i]/float(n)
+    return pa
+
 def par(self):
     try:
         return self.parameters
     except:
-        pa = {}
-        n = sum(self.signature.values())
-        for i in xrange(DNA.kmer_hash_count):
-            pa[i] = self.signature[i]/float(n)
-        self.parameters = pa
-        return pa
+        self.parameters = signature_to_parameters(self.signature)
+        return self.parameters
 
 DNA.par = par
 
@@ -92,8 +110,8 @@ class Test(object):
         i = 0
         genome = self.group.genomes[genome_index]
         while i < self.count_per_g[genome_index]:
-            c, rest_g = sample_contig(genome, self.x_st)
-            score_obj = score_contig(c, rest_g, genome_index, self)
+            c, new_par= sample_contig(genome, self.x_st)
+            score_obj = score_contig(c, new_par, genome.id, genome_index, self)
             score_objs.append(score_obj)
             i+=1
         return score_objs
