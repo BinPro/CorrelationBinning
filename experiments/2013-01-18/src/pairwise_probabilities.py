@@ -18,20 +18,20 @@ def main(open_name_file, dir_path, kmer_length, x_set):
             new_group = GenomeGroup(line.split('\t')[1].strip())
             groups.append(new_group)
         elif line[0:6] == 'entry:':
-            new_genome = DNA(id = line.split('\t')[3].strip(), seq="")
-            groups[-1].add_genome(new_genome)
+            
+            new_genome_name = line.split('\t')[3].strip()
+            groups[-1].genome_names.append(new_genome_name)
 
     # Each genome in a group is a bin, fit parameters to all bins
     os.chdir(dir_path)
     for group in groups:
-        for genome in group.genomes:
-            dir_name = genome.id
+        for dir_name in group.genome_names:
             fasta_files = os.listdir(dir_name)
             for fasta_file in fasta_files:
                 genome_file = open(dir_name + '/' + fasta_file)
                 identifier = genome_file.readline()
                 # Only use non-plasmid genomes
-                # Some bacterial genomes contain more than 1 chromosome,  
+                # Some bacterial genomes contain more than 1 chromosonme,  
                 # but assumed not more than 2
                 if identifier.find('plasmid') == -1 and identifier.find('chromosome 2') == -1:
                     genome_file.close() #Close and reopen the same file
@@ -39,7 +39,8 @@ def main(open_name_file, dir_path, kmer_length, x_set):
                     genome_seq = list(SeqIO.parse(genome_file, "fasta"))
                     if len(genome_seq) > 1:
                         sys.stderr.write("Warning! The file " + fasta_file + " in directory " + dir_name + " contained more than one sequence, ignoring all but the first!" + os.linesep)
-                    genome.seq =str(genome_seq[0].seq)
+                    genome = DNA(id = genome_seq[0].id, seq = str(genome_seq[0].seq))
+                    group.add_genome(genome)
                 genome_file.close()
 
     # For each bin, generate a number of contigs, 
