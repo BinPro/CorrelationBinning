@@ -4,7 +4,7 @@ from Bio.Seq import Seq
 from Bio.SeqRecord import SeqRecord
 from random import randint 
 from probin.model.composition import multinomial as mn
-
+from probin.dna import DNA
 
 def sample_contigs(genome, n, min_length, max_length):
     contigs = []
@@ -21,24 +21,25 @@ def sample_contig(genome, x_st):
     max_length = x_st.contig_max_length
     l = randint(min_length, max_length)
     start = randint(0, (len(genome.seq)-l))
-    contig = SeqRecord(genome.seq[start:start+l])
-    rest = Genome(genome.seq[0:start] + genome.seq[start+l:-1], genome.name)
+    contig = DNA(id = genome.id + " contig", seq = genome.seq[start:start+l])
+    rest = DNA(id= genome.id, seq = genome.seq[0:start] + genome.seq[start+l:-1])
     return contig, rest
 
-def score_contig(signature, gen, genome_index, test):
+def score_contig(contig, gen, genome_index, test):
     score_obj = ScoreCollection()
-    score_gen = Score(mn.log_probability(signature, gen.par), gen.name)
+    score_gen = Score(mn.log_probability(contig.signature, gen.par()), gen.id)
     score_obj.genome = score_gen
     group_genomes = test.group.all_genomes_but_index(genome_index)
     for gen in group_genomes:
-        score_obj.group.append(Score(mn.log_probability(signature,gen.par),gen.name)) 
+        score_obj.group.append(Score(mn.log_probability(contig.signature, gen.par()),gen.id)) 
     for group in test.rest_groups:
         outside_group = []
         for gen in group.genomes:
-            score = Score(mn.log_probability(signature,gen.par), gen.name)
+            score = Score(mn.log_probability(contig.signature,gen.par()), gen.id)
             outside_group.append(score)
         score_obj.other.append(outside_group)
     return score_obj
+
 def all_but_index(l,i):
     return l[0:i] + l[i+1:]
 
@@ -57,13 +58,18 @@ class GenomeGroup:
         return self.genomes[0:i] + self.genomes[i+1:]
 
 
-class Genome:
-    def __init__(self, seq, name):
-        self.name = name
-        self.seq = seq
-        self.par = []
-    def add_parameter(self,para):
-        self.par = para
+def par(self):
+    try:
+        return self.parameters
+    except:
+        pa = {}
+        n = sum(self.signature.values())
+        for i,cnt in self.signature.items():
+            pa[i] = cnt/float(n)
+        self.parameters = pa
+        return pa
+
+DNA.par = par
 
 class ExperimentSetting:
     """A class for storing variables related to all experiments"""
@@ -75,13 +81,12 @@ class ExperimentSetting:
         self.contig_max_length = contig_max_length
 
 class Test:
-    def __init__(self,x_st, group, rest_groups, kmer_length):
+    def __init__(self,x_st, group, rest_groups):
         self.n = len(group)
         self.count_per_g = self.count_per_g(x_st.no_contigs, self.n)
         self.group = group
         self.rest_groups = rest_groups
         self.x_st = x_st
-        self.kmer_length = kmer_length
 
     def count_per_g(self, no_contigs, n):
         return [round(no_contigs/float(self.n))]*self.n
@@ -98,11 +103,8 @@ class Test:
         i = 0
         genome = self.group.genomes[genome_index]
         while i < self.count_per_g[genome_index]:
-            c, rest_g_seq = sample_contig(genome, self.x_st)
-            par = mn.fit_parameters(self.kmer_length, [rest_g_seq.seq])[0]
-            rest_g_seq.add_parameter(par)
-            c_sign =  mn.calculate_signatures(self.kmer_length, [c.seq]) 
-            score_obj = score_contig(c_sign[0], rest_g_seq, genome_index, self)
+            c, rest_g = sample_contig(genome, self.x_st)
+            score_obj = score_contig(c, rest_g, genome_index, self)
             score_objs.append(score_obj)
             i+=1
         return score_objs
