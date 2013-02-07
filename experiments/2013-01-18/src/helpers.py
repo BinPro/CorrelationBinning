@@ -1,7 +1,4 @@
 #!/usr/bin/env python
-from Bio import SeqIO
-from Bio.Seq import Seq
-from Bio.SeqRecord import SeqRecord
 from random import randint 
 from probin.model.composition import multinomial as mn
 from probin.dna import DNA
@@ -12,22 +9,18 @@ def sample_contig(genome, x_st):
     max_length = x_st.contig_max_length
     l = randint(min_length, max_length)
     gen_l = len(genome.full_seq)
-    start = randint(0, (gen_l-l))
+    if x_st.debug_mode:
+        start = 0
+    else:
+        start = randint(0, (gen_l-l))
     end = start+l
     contig = DNA(id = genome.id + " contig", seq = genome.full_seq[start:end])
     
-    l_frac_len = min(start,(DNA.kmer_len-1))
-    r_frac_len = min((gen_l-end),(DNA.kmer_len-1))
-
-    lf = genome.full_seq[:start][-l_frac_len:]
-    rf = genome.full_seq[end:][:r_frac_len]
-
-    rest_par = par_subtraction(copy(genome.signature),lf,contig,rf) 
+    rest_par = par_subtraction(copy(genome.signature),contig) 
     return contig, rest_par
 
-def par_subtraction(signature, lf,contig, rf):
-    c_dna = DNA(id="", seq=lf+contig.full_seq+rf)
-    signature.subtract(c_dna.signature)
+def par_subtraction(signature, contig):
+    signature.subtract(contig.signature)
     return signature_to_parameters(signature)
 
 def score_contig(contig, par, gen_name, genome_index, test):
@@ -80,12 +73,13 @@ DNA.par = par
 
 class ExperimentSetting(object):
     """A class for storing variables related to all experiments"""
-    def __init__(self, prio, mode, no_contigs, contig_min_length, contig_max_length):
+    def __init__(self, prio, mode, no_contigs, contig_min_length, contig_max_length, debug_mode):
         self.prio = prio
         self.mode = mode
         self.no_contigs = no_contigs
         self.contig_min_length = contig_min_length
         self.contig_max_length = contig_max_length
+        self.debug_mode = debug_mode
 
 class Test(object):
     def __init__(self,x_st, group, rest_groups):

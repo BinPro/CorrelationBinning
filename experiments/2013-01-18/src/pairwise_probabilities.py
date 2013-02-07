@@ -6,7 +6,7 @@ from argparse import ArgumentParser
 from probin.model.composition import multinomial as mn 
 from probin.dna import DNA
 from Bio import SeqIO
-from helpers import sample_contig, score_contig, all_but_index, GenomeGroup, ExperimentSetting, Test
+from helpers import all_but_index, GenomeGroup, ExperimentSetting, Test
 
 def main(open_name_file, dir_path, kmer_length, x_set):
 
@@ -61,35 +61,37 @@ def main(open_name_file, dir_path, kmer_length, x_set):
             for score in genome_scores:
                 print str(score)
  
+    sys.stderr.write("Debug mode: " + str(x_set.debug_mode))
 
 if __name__=="__main__":
     parser = ArgumentParser()
     parser.add_argument('files', nargs='*', 
-        help='specify input files, default is stdin')
+                        help='specify input files, default is stdin')
     parser.add_argument('-o', '--output', 
-        help='specify the output file.  The default is stdout')
+                        help='specify the output file.  The default is stdout')
     parser.add_argument('-v', '--verbose', action='store_true',
-        help='information written to stderr during execution.')
+                        help='information written to stderr during execution.')
     parser.add_argument('-m', '--model', default="multinomial", type=str,
-        help='specify the model to use for calculating the probabilities, default is multinomial')
+                        help='specify the model to use for calculating the probabilities, default is multinomial')
     parser.add_argument('-k', '--kmer_length', default=4, type=int,
-        help='specify the kmer length, default is 4')
+                        help='specify the kmer length, default is 4')
     parser.add_argument('-d', '--directory_path', default='/home/johannes/repos/DATA/reference_genomes_ncbi', 
-        type=str, help='specify the path to where the reference genomes are located locally')
+                        type=str, help='specify the path to where the reference genomes are located locally')
     parser.add_argument('-c', '--no_contigs', default=100, type=int,
-        help='Specify the number of contigs to be sampled from each group. This may be only approximate due to what priority is chosen') 
+                        help='Specify the number of contigs to be sampled from each group. This may be only approximate due to what priority is chosen') 
     parser.add_argument('-p', '--priority', default="genomes",
-        type=str, help='specify the prioritized way of sampling contigs. Specify "groups" to make sure each group is sampled exactly the number of times specified by no_contigs, distributed randomly over the genomes present in each group, or specify "genomes" to make sure each genome within a certain group contributes with exactly the same number of contigs.')
+                        type=str, help='specify the prioritized way of sampling contigs. Specify "groups" to make sure each group is sampled exactly the number of times specified by no_contigs, distributed randomly over the genomes present in each group, or specify "genomes" to make sure each genome within a certain group contributes with exactly the same number of contigs.')
     parser.add_argument('--contig_min_length', default=1000, type=int, help='Specify the minimum length for contigs')
     parser.add_argument('--contig_max_length', default=1000, type=int, help='Specify the maximum length for contigs')
+    parser.add_argument('--debug_mode', action='store_true', help='In debug mode, all contigs will start at the first nucleotide, making testing possible.')
     args = parser.parse_args()
     if args.output and args.output != '-':
         sys.stdout = open(args.output, 'w')
-
+        
     name_file_handle = fileinput.input(args.files)
     if args.verbose:
         sys.stderr.write("Number of genomes read: %i %s" % (len(genomes),os.linesep))
     mode = "refit"
-    ex_setting = ExperimentSetting(args.priority, mode, args.no_contigs, args.contig_min_length, args.contig_max_length)
+    ex_setting = ExperimentSetting(args.priority, mode, args.no_contigs, args.contig_min_length, args.contig_max_length, args.debug_mode)
     main(name_file_handle, args.directory_path, args.kmer_length, ex_setting)
     name_file_handle.close()
