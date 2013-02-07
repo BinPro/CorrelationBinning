@@ -20,12 +20,18 @@ def main(open_name_file, dir_path, kmer_length, x_set):
         elif line[0:6] == 'entry:':
             
             new_genome_name = line.split('\t')[3].strip()
-            groups[-1].genome_names.append(new_genome_name)
+            new_genome_species = line.split('\t')[4].strip()
+            new_genome_genus = line.split('\t')[5].strip()
+            new_genome = DNA(id = new_genome_name, seq="")
+            new_genome.species = new_genome_species
+            new_genome.genus = new_genome_genus
+            groups[-1].genomes.append(new_genome)
 
     # Each genome in a group is a bin, fit parameters to all bins
     os.chdir(dir_path)
     for group in groups:
-        for dir_name in group.genome_names:
+        for genome in group.genomes:
+            dir_name = genome.id
             fasta_files = os.listdir(dir_name)
             for fasta_file in fasta_files:
                 genome_file = open(dir_name + '/' + fasta_file)

@@ -23,9 +23,13 @@ def par_subtraction(signature, contig):
     signature.subtract(contig.signature)
     return signature_to_parameters(signature)
 
-def score_contig(contig, par, gen_name, genome_index, test):
+def score_contig(contig, par, genome, genome_index, test):
     score_obj = ScoreCollection()
-    score_gen = Score(mn.log_probability(contig.signature, par), gen_name)
+    info_hash = {'species_contig': genome.species,
+                 'genus_contig' : genome.genus,
+                 'species_compare': genome.species,
+                 'genus_compare': genome.genus}
+    score_gen = Score(mn.log_probability(contig.signature, par), info_hash)
     score_obj.genome = score_gen
     group_genomes = test.group.all_genomes_but_index(genome_index)
     for gen in group_genomes:
@@ -105,7 +109,7 @@ class Test(object):
         genome = self.group.genomes[genome_index]
         while i < self.count_per_g[genome_index]:
             c, new_par= sample_contig(genome, self.x_st)
-            score_obj = score_contig(c, new_par, genome.id, genome_index, self)
+            score_obj = score_contig(c, new_par, genome, genome.id, genome_index, self)
             score_objs.append(score_obj)
             i+=1
         return score_objs
@@ -129,11 +133,12 @@ class ScoreCollection(object):
         
 
 class Score(object):
-    def __init__(self, p_value, species_contig):
+    def __init__(self, p_value, info_hash):
         self.p_value = p_value
-        self.species_contig = species_contig
-        self.genus_contig = ""
-        self.species_compare = ""
-        self.genus_compare = ""
+        self.species_contig = info_hash['species_contig']
+        self.genus_contig = info_hash["genus_contig"]
+        self.species_compare = info_hash["species_compare"]
+        self.genus_compare = info_hash["genus_compare"]
+
     def __str__(self):
         return "%f\t%s\t%s\t%s\t%s" % (self.p_value, self.species_contig, self.genus_contig, self.species_compare, self.genus_compare)
