@@ -1,0 +1,193 @@
+group_name:	Sphingomonadaceae
+entry:	Sphingomonas		Sphingomonas_wittichii_RW1_uid58691
+entry:	Zymomonas		Zymomonas_mobilis_ZM4_uid58095
+entry:	Sphingobium		Sphingobium_SYK_6_uid73353
+entry:	Novosphingobium		Novosphingobium_PP1Y_uid67383
+entry:	Sphingopyxis		Sphingopyxis_alaskensis_RB2256_uid58351
+group_name:	Bacillaceae
+entry:	Geobacillus		Geobacillus_Y4_1MC1_uid55779
+entry:	Bacillus		Bacillus_weihenstephanensis_KBAB4_uid58315
+entry:	Oceanobacillus		Oceanobacillus_iheyensis_HTE831_uid57867
+entry:	Halobacillus		Halobacillus_halophilus_DSM_2266_uid162033
+entry:	Anoxybacillus		Anoxybacillus_flavithermus_WK1_uid59135
+entry:	Lysinibacillus		Lysinibacillus_sphaericus_C3_41_uid58945
+group_name:	Rhodobacteraceae
+entry:	Dinoroseobacter		Dinoroseobacter_shibae_DFL_12_uid58707
+entry:	Ruegeria		Ruegeria_TM1040_uid58193
+entry:	Rhodobacter		Rhodobacter_sphaeroides_KD131_uid59277
+entry:	Jannaschia		Jannaschia_CCS1_uid58147
+entry:	Paracoccus		Paracoccus_denitrificans_PD1222_uid58187
+entry:	Roseobacter		Roseobacter_litoralis_Och_149_uid54719
+entry:	Ketogulonicigenium		Ketogulonigenium_vulgarum_WSH_001_uid161161
+entry:	Pseudovibrio		Pseudovibrio_FO_BEG1_uid82373
+group_name:	Thermotogaceae
+entry:	Fervidobacterium		Fervidobacterium_pennivorans_DSM_9078_uid78143
+entry:	Petrotoga		Petrotoga_mobilis_SJ95_uid58747
+entry:	Marinitoga		Marinitoga_piezophila_KA3_uid81629
+entry:	Thermotoga		Thermotoga_thermarum_DSM_5069_uid68449
+entry:	Kosmotoga		Kosmotoga_olearia_TBF_19_5_1_uid59205
+entry:	Thermosipho		Thermosipho_melanesiensis_BI429_uid58683
+group_name:	Pseudonocardiaceae
+entry:	Amycolatopsis		Amycolatopsis_mediterranei_U32_uid50565
+entry:	Pseudonocardia		Pseudonocardia_dioxanivorans_CB1190_uid65087
+entry:	Thermobispora		Thermobispora_bispora_DSM_43833_uid48999
+entry:	Saccharopolyspora		Saccharopolyspora_erythraea_NRRL_2338_uid62947
+entry:	Actinosynnema		Actinosynnema_mirum_DSM_43827_uid58951
+entry:	Saccharomonospora		Saccharomonospora_viridis_DSM_43017_uid59055
+group_name:	Desulfurococcaceae
+entry:	Desulfurococcus		Desulfurococcus_mucosus_DSM_2162_uid62227
+entry:	Ignisphaera		Ignisphaera_aggregans_DSM_17230_uid51875
+entry:	Ignicoccus		Ignicoccus_hospitalis_KIN4_I_uid58365
+entry:	Aeropyrum		Aeropyrum_pernix_K1_uid57757
+entry:	Thermosphaera		Thermosphaera_aggregans_DSM_11486_uid48993
+entry:	Staphylothermus		Staphylothermus_marinus_F1_uid58719
+group_name:	Methanosarcinaceae
+entry:	Methanococcoides		Methanococcoides_burtonii_DSM_6242_uid58023
+entry:	Methanohalophilus		Methanohalophilus_mahii_DSM_5219_uid47313
+entry:	Methanohalobium		Methanohalobium_evestigatum_Z_7303_uid49857
+entry:	Methanosalsum		Methanosalsum_zhilinae_DSM_4017_uid68249
+entry:	Methanosarcina		Methanosarcina_mazei_Go1_uid57893
+group_name:	Micrococcaceae
+entry:	Rothia		Rothia_mucilaginosa_uid43093
+entry:	Micrococcus		Micrococcus_luteus_NCTC_2665_uid59033
+entry:	Arthrobacter		Arthrobacter_phenanthrenivorans_Sphe3_uid63629
+entry:	Kocuria		Kocuria_rhizophila_DC2201_uid59099
+entry:	Renibacterium		Renibacterium_salmoninarum_ATCC_33209_uid58899
+group_name:	Oxalobacteraceae
+entry:	Herminiimonas		Herminiimonas_arsenicoxydans_uid58291
+entry:	Janthinobacterium		Janthinobacterium_Marseille_uid58603
+entry:	Herbaspirillum		Herbaspirillum_seropedicae_SmR1_uid50427
+entry:	Collimonas		Collimonas_fungivorans_Ter331_uid70793
+entry:	Candidatus Zinderia		Candidatus_Zinderia_insecticola_CARI_uid52459
+group_name:	Acetobacteraceae
+entry:	Acetobacter		Acetobacter_pasteurianus_IFO_3283_32_uid158375
+entry:	Gluconobacter		Gluconobacter_oxydans_621H_uid58239
+entry:	Granulibacter		Granulibacter_bethesdensis_CGDNIH1_uid58661
+entry:	Gluconacetobacter		Gluconacetobacter_xylinus_NBRC_3288_uid46523
+entry:	Acidiphilium		Acidiphilium_multivorum_AIU301_uid63345
+group_name:	Rhodocyclaceae
+entry:	Azoarcus		Azoarcus_BH72_uid61603
+entry:	Aromatoleum		Aromatoleum_aromaticum_EbN1_uid58231
+entry:	Thauera		Thauera_MZ1T_uid58987
+entry:	Dechloromonas		Dechloromonas_aromatica_RCB_uid58025
+entry:	Azospira		Dechlorosoma_suillum_PS_uid81439
+group_name:	Halobacteriaceae
+entry:	Halogeometricum		Halogeometricum_borinquense_DSM_11551_uid54919
+entry:	Halomicrobium		Halomicrobium_mukohataei_DSM_12286_uid59107
+entry:	Halopiger		Halopiger_xanaduensis_SH_6_uid68105
+entry:	Natrialba		Natrialba_magadii_ATCC_43099_uid46245
+entry:	Haloarcula		Haloarcula_marismortui_ATCC_43049_uid57719
+entry:	Halalkalicoccus		Halalkalicoccus_jeotgali_B3_uid50305
+entry:	Natronomonas		Natronomonas_pharaonis_DSM_2160_uid58435
+entry:	Halorubrum		Halorubrum_lacusprofundi_ATCC_49239_uid58807
+entry:	Haloferax		Haloferax_volcanii_DS2_uid46845
+entry:	Halorhabdus		Halorhabdus_utahensis_DSM_12940_uid59189
+entry:	Halobacterium		Halobacterium_salinarum_R1_uid61571
+entry:	Haloterrigena		Haloterrigena_turkmenica_DSM_5511_uid43501
+entry:	Haloquadratum		Haloquadratum_walsbyi_DSM_16790_uid58673
+group_name:	Porphyromonadaceae
+entry:	Tannerella		Tannerella_forsythia_ATCC_43037_uid83157
+entry:	Porphyromonas		Porphyromonas_gingivalis_W83_uid57641
+entry:	Parabacteroides		Parabacteroides_distasonis_ATCC_8503_uid58301
+entry:	Paludibacter		Paludibacter_propionicigenes_WB4_uid60725
+entry:	Odoribacter		Odoribacter_splanchnicus_DSM_20712_uid63397
+group_name:	Pasteurellaceae
+entry:	Gallibacterium		Gallibacterium_anatis_UMN179_uid66567
+entry:	Haemophilus		Haemophilus_parasuis_SH0165_uid59273
+entry:	Actinobacillus		Actinobacillus_succinogenes_130Z_uid58247
+entry:	Aggregatibacter		Aggregatibacter_aphrophilus_NJ8700_uid59407
+entry:	Basfia		Mannheimia_succiniciproducens_MBEL55E_uid58197
+entry:	Histophilus		Haemophilus_somnus_2336_uid57979
+entry:	Pasteurella		Pasteurella_multocida_Pm70_uid57627
+group_name:	Chlorobiaceae
+entry:	Chlorobium		Chlorobium_phaeovibrioides_DSM_265_uid58129
+entry:	Chloroherpeton		Chloroherpeton_thalassium_ATCC_35110_uid59187
+entry:	Pelodictyon		Pelodictyon_phaeoclathratiforme_BU_1_uid58173
+entry:	Prosthecochloris		Prosthecochloris_aestuarii_DSM_271_uid58151
+entry:	Chlorobaculum		Chlorobium_tepidum_TLS_uid57897
+group_name:	Xanthomonadaceae
+entry:	Pseudoxanthomonas		Pseudoxanthomonas_suwonensis_11_1_uid62105
+entry:	Frateuria		Frateuria_aurantia_DSM_6220_uid81775
+entry:	Xanthomonas		Xanthomonas_oryzae_PXO99A_uid59131
+entry:	Xylella		Xylella_fastidiosa_Temecula1_uid57869
+entry:	Stenotrophomonas		Stenotrophomonas_maltophilia_R551_3_uid58657
+group_name:	Comamonadaceae
+entry:	Polaromonas		Polaromonas_naphthalenivorans_CJ2_uid58273
+entry:	Acidovorax		Acidovorax_JS42_uid58427
+entry:	Albidiferax		Rhodoferax_ferrireducens_T118_uid58353
+entry:	Comamonas		Comamonas_testosteroni_CNB_2_uid62961
+entry:	Variovorax		Variovorax_paradoxus_S110_uid59437
+entry:	Ramlibacter		Ramlibacter_tataouinensis_TTB310_uid68279
+entry:	Alicycliphilus		Alicycliphilus_denitrificans_K601_uid66307
+entry:	Delftia		Delftia_Cs1_4_uid67319
+entry:	Verminephrobacter		Verminephrobacter_eiseniae_EF01_2_uid58675
+group_name:	Coriobacteriaceae
+entry:	Eggerthella		Eggerthella_YY7918_uid68707
+entry:	Coriobacterium		Coriobacterium_glomerans_PW2_uid65787
+entry:	Atopobium		Atopobium_parvulum_DSM_20469_uid59195
+entry:	Olsenella		Olsenella_uli_DSM_7084_uid51367
+entry:	Slackia		Slackia_heliotrinireducens_DSM_20476_uid59051
+entry:	Cryptobacterium		Cryptobacterium_curtum_DSM_15641_uid59041
+group_name:	Enterobacteriaceae
+entry:	Klebsiella		Klebsiella_variicola_At_22_uid42113
+entry:	Rahnella		Rahnella_Y9602_uid62715
+entry:	Dickeya		Dickeya_zeae_Ech1591_uid59297
+entry:	Shigella		Shigella_sonnei_Ss046_uid58217
+entry:	Citrobacter		Citrobacter_rodentium_ICC168_uid43089
+entry:	Candidatus Riesia		Candidatus_Riesia_pediculicola_USDA_uid46841
+entry:	Proteus		Proteus_mirabilis_HI4320_uid61599
+entry:	Wigglesworthia		Wigglesworthia_glossinidia_endosymbiont_of_Glossina_morsitans__Yale_colony__uid88075
+entry:	Candidatus Moranella		Candidatus_Moranella_endobia_PCIT_uid68739
+entry:	Salmonella		Salmonella_enterica_serovar_Typhimurium_UK_1_uid87049
+entry:	Escherichia		Escherichia_fergusonii_ATCC_35469_uid59375
+entry:	Cronobacter		Cronobacter_turicensis_z3032_uid40821
+entry:	Candidatus Blochmannia		Candidatus_Blochmannia_vafer_BVAF_uid62083
+entry:	Pantoea		Pantoea_vagans_C9_1_uid49871
+entry:	Enterobacter		Enterobacter_cloacae_SCF1_uid59969
+entry:	Yersinia		Yersinia_pseudotuberculosis_YPIII_uid59151
+entry:	Edwardsiella		Edwardsiella_tarda_FL6_60_uid159657
+entry:	Xenorhabdus		Xenorhabdus_nematophila_ATCC_19061_uid49133
+entry:	Erwinia		Erwinia_tasmaniensis_Et1_99_uid59029
+entry:	Photorhabdus		Photorhabdus_luminescens_laumondii_TTO1_uid61593
+entry:	Buchnera		Buchnera_aphidicola_Ua__Uroleucon_ambrosiae__uid158535
+entry:	Serratia		Serratia_symbiotica__Cinara_cedri__uid82363
+entry:	Providencia		Providencia_stuartii_MRSN_2154_uid162193
+entry:	Candidatus Hamiltonella		Candidatus_Hamiltonella_defensa_5AT__Acyrthosiphon_pisum__uid59289
+entry:	Sodalis		Sodalis_glossinidius__morsitans__uid58553
+entry:	Pectobacterium		Pectobacterium_wasabiae_WPP163_uid41297
+group_name:	Cytophagaceae
+entry:	Leadbetterella		Leadbetterella_byssophila_DSM_17132_uid60161
+entry:	Dyadobacter		Dyadobacter_fermentans_DSM_18053_uid59049
+entry:	Spirosoma		Spirosoma_linguale_DSM_74_uid43413
+entry:	Cytophaga		Cytophaga_hutchinsonii_ATCC_33406_uid57651
+entry:	Runella		Runella_slithyformis_DSM_19594_uid68317
+group_name:	Flavobacteriaceae
+entry:	Lacinutrix		Lacinutrix_5H_3_7_4_uid68067
+entry:	Cellulophaga		Cellulophaga_lytica_DSM_7489_uid63401
+entry:	Zobellia		Zobellia_galactanivorans_uid70621
+entry:	Croceibacter		Croceibacter_atlanticus_HTCC2559_uid49661
+entry:	Robiginitalea		Robiginitalea_biformata_HTCC2501_uid58285
+entry:	Weeksella		Weeksella_virosa_DSM_16922_uid63627
+entry:	Riemerella		Riemerella_anatipestifer_RA_GD_uid162013
+entry:	Capnocytophaga		Capnocytophaga_ochracea_DSM_7271_uid59197
+entry:	Muricauda		Muricauda_ruestringensis_DSM_13258_uid72479
+entry:	Zunongwangia		Zunongwangia_profunda_SM_A87_uid48073
+entry:	Gramella		Gramella_forsetii_KT0803_uid58881
+entry:	Maribacter		Flavobacteriales_bacterium_HTCC2170_uid51877
+entry:	Flavobacterium		Flavobacterium_psychrophilum_JIP02_86_uid61627
+entry:	Krokinobacter		Krokinobacter_4H_3_7_5_uid66593
+group_name:	Peptococcaceae
+entry:	Pelotomaculum		Pelotomaculum_thermopropionicum_SI_uid58877
+entry:	Desulfotomaculum		Desulfotomaculum_ruminis_DSM_2154_uid67507
+entry:	Candidatus Desulforudis		Candidatus_Desulforudis_audaxviator_MP104C_uid59067
+entry:	Thermincola		Thermincola_potens_JR_uid48823
+entry:	Desulfitobacterium		Desulfitobacterium_hafniense_Y51_uid58605
+entry:	Desulfosporosinus		Desulfosporosinus_orientis_DSM_765_uid82939
+entry:	Syntrophobotulus		Syntrophobotulus_glycolicus_DSM_8271_uid63343
+group_name:	Thermoanaerobacteraceae
+entry:	Caldanaerobacter		Thermoanaerobacter_tengcongensis_MB4_uid57813
+entry:	Ammonifex		Ammonifex_degensii_KC4_uid41053
+entry:	Carboxydothermus		Carboxydothermus_hydrogenoformans_Z_2901_uid57821
+entry:	Tepidanaerobacter		Tepidanaerobacter_Re1_uid66873
+entry:	Moorella		Moorella_thermoacetica_ATCC_39073_uid58051
+entry:	Thermoanaerobacter		Thermoanaerobacter_X514_uid58589

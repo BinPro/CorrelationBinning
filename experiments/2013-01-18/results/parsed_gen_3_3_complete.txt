@@ -1,0 +1,31 @@
+family_name:	Enterobacteriaceae
+genus_name:	Klebsiella
+entry:	Klebsiella variicola		Klebsiella_variicola_At_22_uid42113
+entry:	Klebsiella oxytoca		Klebsiella_oxytoca_KCTC_1686_uid83159
+entry:	Klebsiella pneumoniae		Klebsiella_pneumoniae_NTUH_K2044_uid59073
+genus_name:	Shigella
+entry:	Shigella flexneri		Shigella_flexneri_5_8401_uid58583
+entry:	Shigella sonnei		Shigella_sonnei_Ss046_uid58217
+entry:	Shigella dysenteriae		Shigella_dysenteriae_Sd197_uid58213
+entry:	Shigella boydii		Shigella_boydii_Sb227_uid58215
+genus_name:	Enterobacter
+entry:	Enterobacter asburiae		Enterobacter_asburiae_LF7a_uid72793
+entry:	Enterobacter aerogenes		Enterobacter_aerogenes_KCTC_2190_uid68103
+entry:	Enterobacter cloacae		Enterobacter_cloacae_SCF1_uid59969
+genus_name:	Yersinia
+entry:	Yersinia pseudotuberculosis		Yersinia_pseudotuberculosis_YPIII_uid59151
+entry:	Yersinia enterocolitica		Yersinia_enterocolitica_palearctica_Y11_uid162069
+entry:	Yersinia pestis		Yersinia_pestis_Z176003_uid47317
+genus_name:	Erwinia
+entry:	Erwinia tasmaniensis		Erwinia_tasmaniensis_Et1_99_uid59029
+entry:	Erwinia pyrifoliae		Erwinia_pyrifoliae_Ep1_96_uid40659
+entry:	Erwinia amylovora		Erwinia_amylovora_CFBP1430_uid46839
+entry:	Erwinia billingiae		Erwinia_billingiae_Eb661_uid50547
+genus_name:	Serratia
+entry:	Serratia symbiotica		Serratia_symbiotica__Cinara_cedri__uid82363
+entry:	Serratia proteamaculans		Serratia_proteamaculans_568_uid58725
+entry:	Serratia plymuthica		Serratia_AS9_uid67313
+genus_name:	Pectobacterium
+entry:	Pectobacterium atrosepticum		Pectobacterium_atrosepticum_SCRI1043_uid57957
+entry:	Pectobacterium carotovorum		Pectobacterium_carotovorum_PC1_uid59295
+entry:	Pectobacterium wasabiae		Pectobacterium_wasabiae_WPP163_uid41297
