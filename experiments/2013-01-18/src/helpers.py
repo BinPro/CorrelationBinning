@@ -117,14 +117,11 @@ class ScoreCollection(object):
         self.other = []
     def __str__(self):
         string = str(self.genome)
-        string += "\t"
         for score in self.group:
-            string += str(score) + ", "
-        string += "\t"
+            string += "\n" + str(score)
         for other_group in self.other:
             for score in other_group:
-                string += str(score) + "; "
-            string += ", "
+                string += "\n" + str(score)
         return string
         
 
@@ -141,4 +138,4 @@ class Score(object):
         self.family_compare = compare_genome.family
 
     def __str__(self):
-        return "%f\t%s\t%s\t%s\t%s" % (self.p_value, self.species_contig, self.genus_contig, self.species_compare, self.genus_compare)
+        return "%f\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s" % (self.p_value,self.family_contig, self.genus_contig, self.species_contig, self.genome_contig, self.family_compare, self.genus_compare, self.species_compare, self.genome_compare)
