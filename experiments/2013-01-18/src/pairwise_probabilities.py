@@ -55,7 +55,6 @@ def main(open_name_file, dir_path, kmer_length, x_set):
                     genome.species = genome_data['species']
                     genome.family = genome_data['family']
                     group.genomes.append(genome)
-                    sys.stderr.write(str(genome.signature) + '\n\n\n')
                 genome_file.close()
 
     # For each bin, generate a number of contigs, 
@@ -75,7 +74,6 @@ def main(open_name_file, dir_path, kmer_length, x_set):
             for score in genome_scores:
                 sys.stdout.write(str(score) + '\n')
  
-    sys.stderr.write("Debug mode: " + str(x_set.debug_mode))
 
 if __name__=="__main__":
     parser = ArgumentParser()
