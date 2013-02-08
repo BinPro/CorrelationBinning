@@ -3,11 +3,32 @@ genus_name:	Klebsiella
 entry:	Klebsiella variicola	Klebsiella_variicola_At_22_uid42113
 entry:	Klebsiella oxytoca	Klebsiella_oxytoca_KCTC_1686_uid83159
 entry:	Klebsiella pneumoniae	Klebsiella_pneumoniae_NTUH_K2044_uid59073
+genus_name:	Dickeya
+entry:	Dickeya dadantii	Dickeya_dadantii_Ech703_uid59363
+entry:	Dickeya zeae	Dickeya_zeae_Ech1591_uid59297
 genus_name:	Shigella
 entry:	Shigella flexneri	Shigella_flexneri_5_8401_uid58583
 entry:	Shigella sonnei	Shigella_sonnei_Ss046_uid58217
 entry:	Shigella dysenteriae	Shigella_dysenteriae_Sd197_uid58213
 entry:	Shigella boydii	Shigella_boydii_Sb227_uid58215
+genus_name:	Citrobacter
+entry:	Citrobacter rodentium	Citrobacter_rodentium_ICC168_uid43089
+entry:	Citrobacter koseri	Citrobacter_koseri_ATCC_BAA_895_uid58143
+genus_name:	Xenorhabdus
+entry:	Xenorhabdus nematophila	Xenorhabdus_nematophila_ATCC_19061_uid49133
+entry:	Xenorhabdus bovienii	Xenorhabdus_bovienii_SS_2004_uid46345
+genus_name:	Escherichia
+entry:	Escherichia fergusonii	Escherichia_fergusonii_ATCC_35469_uid59375
+entry:	Escherichia coli	Escherichia_coli_W_uid162101
+genus_name:	Cronobacter
+entry:	Cronobacter sakazakii	Cronobacter_sakazakii_ATCC_BAA_894_uid58145
+entry:	Cronobacter turicensis	Cronobacter_turicensis_z3032_uid40821
+genus_name:	Candidatus Blochmannia
+entry:	Candidatus Blochmannia vafer	Candidatus_Blochmannia_vafer_BVAF_uid62083
+entry:	Candidatus Blochmannia pennsylvanicus	Candidatus_Blochmannia_pennsylvanicus_BPEN_uid58329
+genus_name:	Pantoea
+entry:	Pantoea vagans	Pantoea_vagans_C9_1_uid49871
+entry:	Pantoea ananatis	Pantoea_ananatis_uid86861
 genus_name:	Enterobacter
 entry:	Enterobacter asburiae	Enterobacter_asburiae_LF7a_uid72793
 entry:	Enterobacter aerogenes	Enterobacter_aerogenes_KCTC_2190_uid68103
@@ -16,11 +37,20 @@ genus_name:	Yersinia
 entry:	Yersinia pseudotuberculosis	Yersinia_pseudotuberculosis_YPIII_uid59151
 entry:	Yersinia enterocolitica	Yersinia_enterocolitica_palearctica_Y11_uid162069
 entry:	Yersinia pestis	Yersinia_pestis_Z176003_uid47317
+genus_name:	Edwardsiella
+entry:	Edwardsiella ictaluri	Edwardsiella_ictaluri_93_146_uid59403
+entry:	Edwardsiella tarda	Edwardsiella_tarda_FL6_60_uid159657
+genus_name:	Salmonella
+entry:	Salmonella enterica	Salmonella_enterica_serovar_Typhimurium_UK_1_uid87049
+entry:	Salmonella bongori	Salmonella_bongori_NCTC_12419_uid70155
 genus_name:	Erwinia
 entry:	Erwinia tasmaniensis	Erwinia_tasmaniensis_Et1_99_uid59029
 entry:	Erwinia pyrifoliae	Erwinia_pyrifoliae_Ep1_96_uid40659
 entry:	Erwinia amylovora	Erwinia_amylovora_CFBP1430_uid46839
 entry:	Erwinia billingiae	Erwinia_billingiae_Eb661_uid50547
+genus_name:	Photorhabdus
+entry:	Photorhabdus asymbiotica	Photorhabdus_asymbiotica_ATCC_43949_uid59243
+entry:	Photorhabdus luminescens	Photorhabdus_luminescens_laumondii_TTO1_uid61593
 genus_name:	Serratia
 entry:	Serratia symbiotica	Serratia_symbiotica__Cinara_cedri__uid82363
 entry:	Serratia proteamaculans	Serratia_proteamaculans_568_uid58725

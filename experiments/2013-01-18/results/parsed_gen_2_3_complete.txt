@@ -1,0 +1,91 @@
+family_name:	Anaplasmataceae
+genus_name:	Ehrlichia
+entry:	Ehrlichia canis	Ehrlichia_canis_Jake_uid58071
+entry:	Ehrlichia ruminantium	Ehrlichia_ruminantium_Welgevonden_uid58243
+entry:	Ehrlichia chaffeensis	Ehrlichia_chaffeensis_Arkansas_uid57933
+genus_name:	Neorickettsia
+entry:	Neorickettsia risticii	Neorickettsia_risticii_Illinois_uid58889
+entry:	Neorickettsia sennetsu	Neorickettsia_sennetsu_Miyayama_uid57965
+genus_name:	Anaplasma
+entry:	Anaplasma marginale	Anaplasma_marginale_Maries_uid57629
+entry:	Anaplasma centrale	Anaplasma_centrale_Israel_uid42155
+entry:	Anaplasma phagocytophilum	Anaplasma_phagocytophilum_HZ_uid57951
+genus_name:	Wolbachia
+entry:	Wolbachia endosymbiont of Culex quinquefasciatus	Wolbachia_endosymbiont_of_Culex_quinquefasciatus_Pel_uid61645
+entry:	Wolbachia endosymbiont of Brugia malayi	Wolbachia_endosymbiont_TRS_of_Brugia_malayi_uid58107
+family_name:	Enterobacteriaceae
+genus_name:	Klebsiella
+entry:	Klebsiella variicola	Klebsiella_variicola_At_22_uid42113
+entry:	Klebsiella oxytoca	Klebsiella_oxytoca_KCTC_1686_uid83159
+entry:	Klebsiella pneumoniae	Klebsiella_pneumoniae_NTUH_K2044_uid59073
+genus_name:	Dickeya
+entry:	Dickeya dadantii	Dickeya_dadantii_Ech703_uid59363
+entry:	Dickeya zeae	Dickeya_zeae_Ech1591_uid59297
+genus_name:	Shigella
+entry:	Shigella flexneri	Shigella_flexneri_5_8401_uid58583
+entry:	Shigella sonnei	Shigella_sonnei_Ss046_uid58217
+entry:	Shigella dysenteriae	Shigella_dysenteriae_Sd197_uid58213
+entry:	Shigella boydii	Shigella_boydii_Sb227_uid58215
+genus_name:	Citrobacter
+entry:	Citrobacter rodentium	Citrobacter_rodentium_ICC168_uid43089
+entry:	Citrobacter koseri	Citrobacter_koseri_ATCC_BAA_895_uid58143
+genus_name:	Xenorhabdus
+entry:	Xenorhabdus nematophila	Xenorhabdus_nematophila_ATCC_19061_uid49133
+entry:	Xenorhabdus bovienii	Xenorhabdus_bovienii_SS_2004_uid46345
+genus_name:	Escherichia
+entry:	Escherichia fergusonii	Escherichia_fergusonii_ATCC_35469_uid59375
+entry:	Escherichia coli	Escherichia_coli_W_uid162101
+genus_name:	Cronobacter
+entry:	Cronobacter sakazakii	Cronobacter_sakazakii_ATCC_BAA_894_uid58145
+entry:	Cronobacter turicensis	Cronobacter_turicensis_z3032_uid40821
+genus_name:	Candidatus Blochmannia
+entry:	Candidatus Blochmannia vafer	Candidatus_Blochmannia_vafer_BVAF_uid62083
+entry:	Candidatus Blochmannia pennsylvanicus	Candidatus_Blochmannia_pennsylvanicus_BPEN_uid58329
+genus_name:	Pantoea
+entry:	Pantoea vagans	Pantoea_vagans_C9_1_uid49871
+entry:	Pantoea ananatis	Pantoea_ananatis_uid86861
+genus_name:	Enterobacter
+entry:	Enterobacter asburiae	Enterobacter_asburiae_LF7a_uid72793
+entry:	Enterobacter aerogenes	Enterobacter_aerogenes_KCTC_2190_uid68103
+entry:	Enterobacter cloacae	Enterobacter_cloacae_SCF1_uid59969
+genus_name:	Yersinia
+entry:	Yersinia pseudotuberculosis	Yersinia_pseudotuberculosis_YPIII_uid59151
+entry:	Yersinia enterocolitica	Yersinia_enterocolitica_palearctica_Y11_uid162069
+entry:	Yersinia pestis	Yersinia_pestis_Z176003_uid47317
+genus_name:	Edwardsiella
+entry:	Edwardsiella ictaluri	Edwardsiella_ictaluri_93_146_uid59403
+entry:	Edwardsiella tarda	Edwardsiella_tarda_FL6_60_uid159657
+genus_name:	Salmonella
+entry:	Salmonella enterica	Salmonella_enterica_serovar_Typhimurium_UK_1_uid87049
+entry:	Salmonella bongori	Salmonella_bongori_NCTC_12419_uid70155
+genus_name:	Erwinia
+entry:	Erwinia tasmaniensis	Erwinia_tasmaniensis_Et1_99_uid59029
+entry:	Erwinia pyrifoliae	Erwinia_pyrifoliae_Ep1_96_uid40659
+entry:	Erwinia amylovora	Erwinia_amylovora_CFBP1430_uid46839
+entry:	Erwinia billingiae	Erwinia_billingiae_Eb661_uid50547
+genus_name:	Photorhabdus
+entry:	Photorhabdus asymbiotica	Photorhabdus_asymbiotica_ATCC_43949_uid59243
+entry:	Photorhabdus luminescens	Photorhabdus_luminescens_laumondii_TTO1_uid61593
+genus_name:	Serratia
+entry:	Serratia symbiotica	Serratia_symbiotica__Cinara_cedri__uid82363
+entry:	Serratia proteamaculans	Serratia_proteamaculans_568_uid58725
+entry:	Serratia plymuthica	Serratia_AS9_uid67313
+genus_name:	Pectobacterium
+entry:	Pectobacterium atrosepticum	Pectobacterium_atrosepticum_SCRI1043_uid57957
+entry:	Pectobacterium carotovorum	Pectobacterium_carotovorum_PC1_uid59295
+entry:	Pectobacterium wasabiae	Pectobacterium_wasabiae_WPP163_uid41297
+family_name:	Rhizobiaceae
+genus_name:	Agrobacterium
+entry:	Agrobacterium tumefaciens	Agrobacterium_radiobacter_K84_uid58269
+entry:	Agrobacterium fabrum	Agrobacterium_tumefaciens_C58_uid57865
+entry:	Agrobacterium vitis	Agrobacterium_vitis_S4_uid58249
+genus_name:	Sinorhizobium
+entry:	Sinorhizobium medicae	Sinorhizobium_medicae_WSM419_uid58549
+entry:	Sinorhizobium fredii	Sinorhizobium_fredii_HH103_uid86865
+entry:	Sinorhizobium meliloti	Sinorhizobium_meliloti_SM11_uid159685
+genus_name:	Rhizobium
+entry:	Rhizobium etli	Rhizobium_etli_CIAT_652_uid59115
+entry:	Rhizobium leguminosarum	Rhizobium_leguminosarum_bv__viciae_3841_uid57955
+genus_name:	Candidatus Liberibacter
+entry:	Candidatus Liberibacter solanacearum	Candidatus_Liberibacter_solanacearum_CLso_ZC1_uid61245
+entry:	Candidatus Liberibacter asiaticus	Candidatus_Liberibacter_asiaticus_psy62_uid59227

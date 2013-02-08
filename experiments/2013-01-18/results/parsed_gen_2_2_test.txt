@@ -1,0 +1,15 @@
+family_name:	Anaplasmataceae
+genus_name:	Ehrlichia
+entry:	Ehrlichia canis	Ehrlichia_canis_Jake_uid58071
+entry:	Ehrlichia ruminantium	Ehrlichia_ruminantium_Welgevonden_uid58243
+entry:	Ehrlichia chaffeensis	Ehrlichia_chaffeensis_Arkansas_uid57933
+genus_name:	Neorickettsia
+entry:	Neorickettsia risticii	Neorickettsia_risticii_Illinois_uid58889
+entry:	Neorickettsia sennetsu	Neorickettsia_sennetsu_Miyayama_uid57965
+family_name:	Flavobacteriaceae
+genus_name:	Cellulophaga
+entry:	Cellulophaga algicola	Cellulophaga_algicola_DSM_14237_uid62159
+entry:	Cellulophaga lytica	Cellulophaga_lytica_DSM_7489_uid63401
+genus_name:	Capnocytophaga
+entry:	Capnocytophaga canimorsus	Capnocytophaga_canimorsus_Cc5_uid70727
+entry:	Capnocytophaga ochracea	Capnocytophaga_ochracea_DSM_7271_uid59197
