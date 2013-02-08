@@ -14,24 +14,29 @@ def main(open_name_file, dir_path, kmer_length, x_set):
     DNA.generate_kmer_hash(kmer_length)
     # Read the file with all names, divide them into groups
     for line in open_name_file:
-        if line[0:11] == 'group_name:':
-            new_group = GenomeGroup(line.split('\t')[1].strip())
+        if line[0:12] == 'family_name:':
+            family = line.split('\t')[1].strip()
+        elif line[0:11] == 'genus_name:':
+            genus = line.split('\t')[1].strip()
+            new_group = GenomeGroup(genus)
+            new_group.family = family
             groups.append(new_group)
         elif line[0:6] == 'entry:':
-            
-            new_genome_name = line.split('\t')[3].strip()
-            new_genome_species = line.split('\t')[4].strip()
-            new_genome_genus = line.split('\t')[5].strip()
-            new_genome = DNA(id = new_genome_name, seq="")
-            new_genome.species = new_genome_species
-            new_genome.genus = new_genome_genus
-            groups[-1].genomes.append(new_genome)
+            genome_name = line.split('\t')[2].strip()
+            genome_species = line.split('\t')[1].strip()
+            meta_genome = {'id': genome_name,
+                           'species': genome_species,
+                           'genus': genus,
+                           'family': family,
+                           'file_name': genome_name
+                          }
+            groups[-1].genome_data.append(meta_genome)
 
     # Each genome in a group is a bin, fit parameters to all bins
     os.chdir(dir_path)
     for group in groups:
-        for genome in group.genomes:
-            dir_name = genome.id
+        for genome_data in group.genome_data:
+            dir_name = genome_data['file_name']
             fasta_files = os.listdir(dir_name)
             for fasta_file in fasta_files:
                 genome_file = open(dir_name + '/' + fasta_file)
@@ -45,8 +50,12 @@ def main(open_name_file, dir_path, kmer_length, x_set):
                     genome_seq = list(SeqIO.parse(genome_file, "fasta"))
                     if len(genome_seq) > 1:
                         sys.stderr.write("Warning! The file " + fasta_file + " in directory " + dir_name + " contained more than one sequence, ignoring all but the first!" + os.linesep)
-                    genome = DNA(id = genome_seq[0].id, seq = str(genome_seq[0].seq))
-                    group.add_genome(genome)
+                    genome = DNA(id = dir_name, seq= str(genome_seq[0].seq))
+                    genome.genus = genome_data['genus']
+                    genome.species = genome_data['species']
+                    genome.family = genome_data['family']
+                    group.genomes.append(genome)
+                    sys.stderr.write(str(genome.signature) + '\n\n\n')
                 genome_file.close()
 
     # For each bin, generate a number of contigs, 
@@ -60,12 +69,11 @@ def main(open_name_file, dir_path, kmer_length, x_set):
         test = Test(x_set, group, rest_groups)
         group_scores = test.execute()
         
-        print 
         all_scores.append(group_scores)
     for group_scores in all_scores:
         for genome_scores in group_scores:
             for score in genome_scores:
-                print str(score)
+                sys.stdout.write(str(score) + '\n')
  
     sys.stderr.write("Debug mode: " + str(x_set.debug_mode))
 

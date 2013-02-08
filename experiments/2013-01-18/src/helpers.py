@@ -25,19 +25,15 @@ def par_subtraction(signature, contig):
 
 def score_contig(contig, par, genome, genome_index, test):
     score_obj = ScoreCollection()
-    info_hash = {'species_contig': genome.species,
-                 'genus_contig' : genome.genus,
-                 'species_compare': genome.species,
-                 'genus_compare': genome.genus}
-    score_gen = Score(mn.log_probability(contig.signature, par), info_hash)
+    score_gen = Score(mn.log_probability(contig.signature, par), genome, genome)
     score_obj.genome = score_gen
     group_genomes = test.group.all_genomes_but_index(genome_index)
     for gen in group_genomes:
-        score_obj.group.append(Score(mn.log_probability(contig.signature, gen.par()),gen.id))
+        score_obj.group.append(Score(mn.log_probability(contig.signature, gen.par()),genome, gen))
     for group in test.rest_groups:
         outside_group = []
         for gen in group.genomes:
-            score = Score(mn.log_probability(contig.signature,gen.par()), gen.id)
+            score = Score(mn.log_probability(contig.signature,gen.par()), genome, gen)
             outside_group.append(score)
         score_obj.other.append(outside_group)
     return score_obj
@@ -50,7 +46,7 @@ class GenomeGroup(object):
     def __init__(self, name):
         self.genomes = []
         self.name = name
-        self.genome_names = []
+        self.genome_data = []
     def add_genome(self, genome):
         self.genomes.append(genome)
     def __len__(self):
@@ -109,7 +105,7 @@ class Test(object):
         genome = self.group.genomes[genome_index]
         while i < self.count_per_g[genome_index]:
             c, new_par= sample_contig(genome, self.x_st)
-            score_obj = score_contig(c, new_par, genome, genome.id, genome_index, self)
+            score_obj = score_contig(c, new_par, genome, genome_index, self)
             score_objs.append(score_obj)
             i+=1
         return score_objs
@@ -133,12 +129,16 @@ class ScoreCollection(object):
         
 
 class Score(object):
-    def __init__(self, p_value, info_hash):
+    def __init__(self, p_value, contig_genome, compare_genome):
         self.p_value = p_value
-        self.species_contig = info_hash['species_contig']
-        self.genus_contig = info_hash["genus_contig"]
-        self.species_compare = info_hash["species_compare"]
-        self.genus_compare = info_hash["genus_compare"]
+        self.genome_contig = contig_genome.id
+        self.species_contig = contig_genome.species
+        self.genus_contig = contig_genome.genus
+        self.family_contig = contig_genome.family
+        self.genome_compare = compare_genome.id
+        self.species_compare = compare_genome.species
+        self.genus_compare = compare_genome.genus
+        self.family_compare = compare_genome.family
 
     def __str__(self):
         return "%f\t%s\t%s\t%s\t%s" % (self.p_value, self.species_contig, self.genus_contig, self.species_compare, self.genus_compare)
