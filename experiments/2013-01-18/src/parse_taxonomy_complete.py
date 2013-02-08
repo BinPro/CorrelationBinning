@@ -31,7 +31,6 @@ if __name__=="__main__":
             lines.append(line)
         else:
             keys = line.strip().split('\t')
-    print keys
     lines.sort(key=lambda s: s.lower())
     for line in lines:
         tmp_line = line.strip().split('\t')
