@@ -66,4 +66,4 @@ if __name__=="__main__":
         for genus in genera2:
             print >> fh, 'genus_name:\t' + genus
             for specie,tmp_hash in families[family][genus].iteritems():
-                print >> fh, 'entry:\t' + specie + '\t\t' + families[family][genus][specie]['genome']
+                print >> fh, 'entry:\t' + specie + '\t' + families[family][genus][specie]['genome']
