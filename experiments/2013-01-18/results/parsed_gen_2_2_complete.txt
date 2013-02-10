@@ -131,13 +131,9 @@ entry:	Erwinia tasmaniensis	Erwinia_tasmaniensis_Et1_99_uid59029
 entry:	Erwinia pyrifoliae	Erwinia_pyrifoliae_Ep1_96_uid40659
 entry:	Erwinia amylovora	Erwinia_amylovora_CFBP1430_uid46839
 entry:	Erwinia billingiae	Erwinia_billingiae_Eb661_uid50547
-genus_name:	Photorhabdus
-entry:	Photorhabdus asymbiotica	Photorhabdus_asymbiotica_ATCC_43949_uid59243
-entry:	Photorhabdus luminescens	Photorhabdus_luminescens_laumondii_TTO1_uid61593
 genus_name:	Serratia
-entry:	Serratia symbiotica	Serratia_symbiotica__Cinara_cedri__uid82363
 entry:	Serratia proteamaculans	Serratia_proteamaculans_568_uid58725
-entry:	Serratia plymuthica	Serratia_AS9_uid67313
+entry:	Serratia symbiotica	Serratia_symbiotica__Cinara_cedri__uid82363
 genus_name:	Pectobacterium
 entry:	Pectobacterium atrosepticum	Pectobacterium_atrosepticum_SCRI1043_uid57957
 entry:	Pectobacterium carotovorum	Pectobacterium_carotovorum_PC1_uid59295
@@ -163,7 +159,6 @@ entry:	Pyrobaculum islandicum	Pyrobaculum_islandicum_DSM_4184_uid58635
 entry:	Pyrobaculum aerophilum	Pyrobaculum_aerophilum_IM2_uid57727
 genus_name:	Thermoproteus
 entry:	Thermoproteus uzoniensis	Thermoproteus_uzoniensis_768_20_uid65089
-entry:	Thermoproteus neutrophilus	Thermoproteus_neutrophilus_V24Sta_uid58421
 entry:	Thermoproteus tenax	Thermoproteus_tenax_Kra_1_uid74443
 genus_name:	Vulcanisaeta
 entry:	Vulcanisaeta moutnovskia	Vulcanisaeta_moutnovskia_768_28_uid63631
