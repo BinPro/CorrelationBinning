@@ -69,6 +69,7 @@ def main(open_name_file, dir_path, kmer_length, x_set):
         group_scores = test.execute()
         
         all_scores.append(group_scores)
+        sys.stdout.write("p_value\tcontig_family\tcontig_genus\tcontig_species\tcontig_genome\tcompare_family\tcompare_genus\tcompare_species\tcompare_genome")
     for group_scores in all_scores:
         for genome_scores in group_scores:
             for score in genome_scores:
