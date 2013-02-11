@@ -1,13 +1,19 @@
 #!/usr/bin/env python
 from argparse import ArgumentParser
+import sys
 import pandas
+import numpy as np
 
 def main(file_name):
     df =  pandas.io.parsers.read_table(file_name, sep='\t')
     # Self-to-self scoring:
+    df_sts = pandas.DataFrame()
     for specie in df.contig_species.unique():
-        print specie
-        print df[(df.contig_species == specie) & (df.compare_species == specie)].p_value
+        s_specie = df[(df.contig_species == specie) & (df.compare_species == specie)].p_value
+        m_val = s_specie.mean()
+        std_val = np.std(np.array(s_specie))
+        sys.stdout.write(specie + '\t' + str(m_val) +'\t' + str(std_val) + '\n')
+
     # Within-genus scoring:
     
     # Within-family scoring:
