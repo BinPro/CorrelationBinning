@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 from argparse import ArgumentParser
+import fileinput
 import sys
 import pandas
 import numpy as np
@@ -8,7 +9,7 @@ def main(file_name, output_base):
     df =  pandas.io.parsers.read_table(file_name, sep='\t')
     df_sts = pandas.DataFrame()
     if output_base:
-        sys.stdout = open(output_base + '_species', 'w')
+        sys.stdout = open(output_base + '_species', 'w+')
         
     for specie in df.contig_species.unique():
         genus = df[df.contig_species == specie].contig_genus.unique()[0]
@@ -29,7 +30,6 @@ def main(file_name, output_base):
         std_val_family = np.std(np.array(s_family))
         sys.stdout.write(specie + '\t' + str(m_val_specie) +'\t' + str(std_val_specie) + '\t' + str(m_val_genus) + '\t' + str(std_val_specie) +'\t' + str(m_val_family) +'\t' + str(std_val_family) +  '\n')
 
-    
 
     # Outside-family scoring:
 
