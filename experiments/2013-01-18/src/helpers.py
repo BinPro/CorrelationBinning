@@ -4,7 +4,7 @@ from probin.model.composition import multinomial as mn
 from probin.dna import DNA
 from copy import copy
 
-def sample_contig(genome, x_st):
+def sample_contig(genome, x_st, contig_id):
     min_length = x_st.contig_min_length
     max_length = x_st.contig_max_length
     l = randint(min_length, max_length)
@@ -15,6 +15,7 @@ def sample_contig(genome, x_st):
         start = randint(0, (gen_l-l))
     end = start+l
     contig = DNA(id = genome.id + " contig", seq = genome.full_seq[start:end])
+    contig.contig_id = contig_id
     
     rest_par = par_subtraction(copy(genome.signature),contig) 
     return contig, rest_par
@@ -25,15 +26,15 @@ def par_subtraction(signature, contig):
 
 def score_contig(contig, par, genome, genome_index, test):
     score_obj = ScoreCollection()
-    score_gen = Score(mn.log_probability(contig.signature, par), genome, genome)
+    score_gen = Score(mn.log_probability(contig.signature, par), genome, genome, contig.contig_id)
     score_obj.genome = score_gen
     group_genomes = test.group.all_genomes_but_index(genome_index)
     for gen in group_genomes:
-        score_obj.group.append(Score(mn.log_probability(contig.signature, gen.par()),genome, gen))
+        score_obj.group.append(Score(mn.log_probability(contig.signature, gen.par()),genome, gen, contig.contig_id))
     for group in test.rest_groups:
         outside_group = []
         for gen in group.genomes:
-            score = Score(mn.log_probability(contig.signature,gen.par()), genome, gen)
+            score = Score(mn.log_probability(contig.signature,gen.par()), genome, gen, contig.contig_id)
             outside_group.append(score)
         score_obj.other.append(outside_group)
     return score_obj
@@ -82,12 +83,13 @@ class ExperimentSetting(object):
         self.debug_mode = debug_mode
 
 class Test(object):
-    def __init__(self,x_st, group, rest_groups):
+    def __init__(self,x_st, group, rest_groups, id_gen):
         self.n = len(group)
         self.count_per_g = self.count_per_g(x_st.no_contigs, self.n)
         self.group = group
         self.rest_groups = rest_groups
         self.x_st = x_st
+        self.id_gen = id_gen
 
     def count_per_g(self, no_contigs, n):
         return [round(no_contigs/float(self.n))]*self.n
@@ -104,7 +106,7 @@ class Test(object):
         i = 0
         genome = self.group.genomes[genome_index]
         while i < self.count_per_g[genome_index]:
-            c, new_par= sample_contig(genome, self.x_st)
+            c, new_par= sample_contig(genome, self.x_st, self.id_gen.id())
             score_obj = score_contig(c, new_par, genome, genome_index, self)
             score_objs.append(score_obj)
             i+=1
@@ -126,7 +128,7 @@ class ScoreCollection(object):
         
 
 class Score(object):
-    def __init__(self, p_value, contig_genome, compare_genome):
+    def __init__(self, p_value, contig_genome, compare_genome, contig_id):
         self.p_value = p_value
         self.genome_contig = contig_genome.id
         self.species_contig = contig_genome.species
@@ -136,6 +138,19 @@ class Score(object):
         self.species_compare = compare_genome.species
         self.genus_compare = compare_genome.genus
         self.family_compare = compare_genome.family
+        self.contig_id = contig_id
 
     def __str__(self):
-        return "%f\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s" % (self.p_value,self.family_contig, self.genus_contig, self.species_contig, self.genome_contig, self.family_compare, self.genus_compare, self.species_compare, self.genome_compare)
+        return "%f\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%i" % (self.p_value,self.family_contig, self.genus_contig, self.species_contig, self.genome_contig, self.family_compare, self.genus_compare, self.species_compare, self.genome_compare, self.contig_id)
+
+
+class Uniq_id(object):
+    def __init__(self, start_val=0, incr=1):
+        self.start = start_val
+        self.curr_val = start_val
+        self.incr = incr
+
+    def id(self):
+        val = self.curr_val
+        self.curr_val +=self.incr
+        return val

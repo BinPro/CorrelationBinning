@@ -6,7 +6,7 @@ from argparse import ArgumentParser
 from probin.model.composition import multinomial as mn 
 from probin.dna import DNA
 from Bio import SeqIO
-from helpers import all_but_index, GenomeGroup, ExperimentSetting, Test
+from helpers import all_but_index, GenomeGroup, ExperimentSetting, Test, Uniq_id
 
 def main(open_name_file, dir_path, kmer_length, x_set):
 
@@ -62,10 +62,11 @@ def main(open_name_file, dir_path, kmer_length, x_set):
     # Further score this contig against all bins, keep within-group
     # scores separate from outside-group scores.
     all_scores = []
+    id_generator = Uniq_id(1000)
     for group_index in range(len(groups)):
         group = groups[group_index]
         rest_groups = all_but_index(groups, group_index)
-        test = Test(x_set, group, rest_groups)
+        test = Test(x_set, group, rest_groups, id_generator)
         group_scores = test.execute()
         
         all_scores.append(group_scores)
