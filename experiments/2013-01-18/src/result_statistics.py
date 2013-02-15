@@ -5,6 +5,19 @@ import sys
 import pandas
 import numpy as np
 
+def within_family(df,family,genus,specie):
+    s_family = df[(df.contig_species == specie) & (df.compare_genus != genus) & (df.compare_family == family)].p_value
+    return s_family
+
+def within_genus(df,genus, specie):
+    s_genus = df[(df.contig_species == specie) & (df.compare_species != specie) & (df.compare_genus == genus)].p_value
+    return s_genus
+    
+def within_specie(df, specie):
+    s_specie = df[(df.contig_species == specie) & (df.compare_species == specie)].p_value
+    return s_specie
+
+
 def main(file_name, output_base):
     df =  pandas.io.parsers.read_table(file_name, sep='\t')
     df_sts = pandas.DataFrame()
@@ -16,16 +29,16 @@ def main(file_name, output_base):
         family = df[df.contig_species == specie].contig_family.unique()[0]
 
         # Self-to-self scoring:
-        s_specie = df[(df.contig_species == specie) & (df.compare_species == specie)].p_value
+        s_specie = within_specie(df,specie)
         m_val_specie = s_specie.mean()
         std_val_specie = np.std(np.array(s_specie))
         # Within-genus scoring:
-        s_genus = df[(df.contig_species == specie) & (df.compare_species != specie) & (df.compare_genus == genus)].p_value
+        s_genus = within_genus(df,genus,specie)
         m_val_genus = s_genus.mean()
         std_val_genus = np.std(np.array(s_genus))
         
         # Within-family scoring:
-        s_family = df[(df.contig_genus != genus) & (df.contig_species != specie) & (df.compare_genus == genus)].p_value
+        s_family = within_family(df,family,genus,specie)
         m_val_family = s_family.mean()
         std_val_family = np.std(np.array(s_family))
         sys.stdout.write(specie + '\t' + str(m_val_specie) +'\t' + str(std_val_specie) + '\t' + str(m_val_genus) + '\t' + str(std_val_specie) +'\t' + str(m_val_family) +'\t' + str(std_val_family) +  '\n')
