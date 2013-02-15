@@ -1,18 +1,18 @@
 #!/usr/bin/env bash
 #SBATCH -A b2010008
-#SBATCH -p core
-#SBATCH -n 1
-#SBATCH -t 4:00:00
+#SBATCH -p node
+#SBATCH -t 8:00:00
 
-# This experiment aim is to compare how different kmer-lengths affect 
+# This experiment aim is to compare how different kmer-lengths affect
 # the genomic profile specificity for different taxonomic levels.
-
 
 DATA_PATH=$HOME"/glob/data"
 #DATA_PATH=$HOME"/repos/DATA"
 
+RESULTS_PATH=$HOME"/glob/results/2013-01-18"
+
 echo "Parsing the taxonomy file" >&2
-time ./parse_taxonomy_complete.py -s 2 -g 2 $DATA_PATH"/gen_tax.tab" -o ../results/parsed_gen_2_2_u
+time ./parse_taxonomy_complete.py -s 2 -g 2 $DATA_PATH"/gen_tax.tab" -o $RESULTS_PATH"/parsed_gen_2_2_u"
 echo "Calculate multinomial log probabilities for contigs from all genomes" >&2
 echo "k=3"
 time ./pairwise_probabilities.py -m "multinomial" -k 3 ../results/parsed_gen_2_2_u_complete.txt -o ../results/multinomial_3_1000 -d $DATA_PATH"/reference_genomes_ncbi" -c 1000 -p "genomes" --contig_min_length 1000 --contig_max_length 1000
