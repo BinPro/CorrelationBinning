@@ -7,3 +7,7 @@
 *~
 # Result files #
 results/
+# Python package files
+src/dist/*
+src/build/*
+src/*.egg*
