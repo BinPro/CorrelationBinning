@@ -7,8 +7,8 @@ import matplotlib.pyplot as plt
 import pandas as p
 
 
-def main(input_file, output_file):
-    hist_range = (-400,-250)
+def main(input_file, output_file, min_score, max_score):
+    hist_range = (min_score,max_score)
     df =  p.io.parsers.read_table(input_file, sep='\t')
     df_self_to_self = df[df.contig_species == df.compare_species]
     df_within_genus = df[(df.contig_species != df.compare_species) & (df.contig_genus == df.compare_genus)]
@@ -34,6 +34,10 @@ if __name__=="__main__":
                         help='specify input file, default is stdin')
     parser.add_argument('-o', '--output', 
                         help='specify the base name of the output file.  The default is stdout')
+    parser.add_argument('--min_score', type=int,
+                        help='specify the left limit of the histograms')
+    parser.add_argument('--max_score', type=int,
+                        help='specify the right limit of the histograms')
     args = parser.parse_args()
 
-    main(args.file, args.output)
+    main(args.file, args.output, args.min_score, args.max_score)

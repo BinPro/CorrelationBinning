@@ -6,7 +6,8 @@ from argparse import ArgumentParser
 from probin.model.composition import multinomial as mn 
 from probin.dna import DNA
 from Bio import SeqIO
-from helpers import all_but_index, GenomeGroup, ExperimentSetting, Test, Uniq_id
+from corrbin.misc import all_but_index, Uniq_id
+from corrbin.multinomial import GenomeGroup, ExperimentSetting, Test
 
 def main(open_name_file, dir_path, kmer_length, x_set):
 
