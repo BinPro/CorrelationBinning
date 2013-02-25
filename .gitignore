@@ -7,3 +7,5 @@
 *~
 # Result files #
 results/
+# Uppmax output files
+slurm*
