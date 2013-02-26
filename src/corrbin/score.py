@@ -1,3 +1,7 @@
+import pandas as p
+from scipy.stats.mstats import zscore
+import corrbin.classification as c
+
 class ScoreCollection(object):
     def __init__(self):
         self.genome = None
@@ -29,4 +33,21 @@ class Score(object):
     def __str__(self):
         return "%f\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%i" % (self.p_value,self.family_contig, self.genus_contig, self.species_contig, self.genome_contig, self.family_compare, self.genus_compare, self.species_compare, self.genome_compare, self.contig_id)
 
+
+class ExperimentData(object):
+    def __init__(self):
+        self.df = None
+        self.classifications = []
+        
+    def load_data_frame(self,input_file):
+        self.df = p.io.parsers.read_table(input_file, sep='\t')
+    
+    def standardize(self):
+        self.df['p_value_standardized'] = p.Series(zscore(self.df.p_value), index=self.df.index)
+
+    def classify(self, q):
+        s_est, s_real = c.classify_bool(self,q)
+        df_class = p.DataFrame({"estimated_classification": s_est, "real_classification": s_real})
+        self.classification.append((q,df_class))
+        return df_class
 
