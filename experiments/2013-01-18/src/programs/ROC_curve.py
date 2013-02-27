@@ -9,6 +9,7 @@ import matplotlib.pyplot as plt
 
 def main(input_files, output_file):
     counter = 0
+    fig = plt.figure(1)
     for input_file in input_files:
         data = ExperimentData()
         data.load_data_frame(input_file)
@@ -18,9 +19,13 @@ def main(input_files, output_file):
         # Plot ROC curve
         x = data.roc_data.false_positive_rate
         y = data.roc_data.true_positive_rate
-        plt.plot(x,y)
-        plt.savefig(output_file + str(counter))
         counter += 1
+        
+        plt.plot(x,y,label=input_file)
+    
+    plt.legend()
+    plt.savefig(output_file)
+    
         
 
 
