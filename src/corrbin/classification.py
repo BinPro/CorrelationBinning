@@ -72,15 +72,21 @@ def true_positive_rate(est_positive, est_negative):
     TN = est_negative.count(False)
     FN = est_negative.count(True)
     
-    return float(TP)/(TP + FN)
+    if TP == 0:
+        return 0.0
+    else:
+        return float(TP)/(TP + FN)
 
 def false_positive_rate(est_positive, est_negative):
     TP = est_positive.count(True)
     FP = est_positive.count(False)
     TN = est_negative.count(False)
     FN = est_negative.count(True)
-
-    return float(FP)/(FP+TN)
+    
+    if FP == 0:
+        return 0.0
+    else:
+        return float(FP)/(FP+TN)
 
 def sensitivity(df,q):
     pass
