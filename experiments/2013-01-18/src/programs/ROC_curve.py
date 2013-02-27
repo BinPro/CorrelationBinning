@@ -3,19 +3,22 @@ from argparse import ArgumentParser
 import fileinput
 import numpy as np
 import pandas as p
-from corrbin.external import pyroc as roc
 from corrbin.score import ExperimentData
 from corrbin.classification import classify_bool
-from corrbin.misc import decimal_range
+import matplotlib.pyplot as plt
 
 def main(input_file, output_file):
     data = ExperimentData()
     data.load_data_frame(input_file)
-    data.standardize()
-    qs = decimal_range(-1,1,0.1)
-    for q in qs:
-        data.classify(q)
+    data.classify()
+    data.calculate_roc()
     
+    #Plot ROC curve
+    x = data.roc_data.false_positive_rate
+    y = data.roc_data.true_positive_rate
+    plt.plot(x,y)
+    plt.savefig(output_file)
+        
 
 
 if __name__=="__main__":
