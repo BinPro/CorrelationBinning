@@ -1,6 +1,7 @@
 import pandas as p
 from scipy.stats.mstats import zscore
 import corrbin.classification as c
+import numpy as np
 
 class ScoreCollection(object):
     def __init__(self):
@@ -44,7 +45,8 @@ class ExperimentData(object):
         self.df = p.io.parsers.read_table(input_file, sep='\t')
     
     def standardize(self):
-        self.df['p_value_standardized'] = p.Series(zscore(self.df.p_value), index=self.df.index)
+        no_inf_df = self.df.replace(-np.inf,np.nan)
+        self.df['p_value_standardized'] = p.Series(zscore(no_inf_df.p_value), index=self.df.index)
 
     def classify(self):
         self.standardize()
