@@ -38,7 +38,8 @@ class ExperimentData(object):
     def __init__(self):
         self.df = None
         self.classification = None
-        
+        self.roc_data = None
+
     def load_data_frame(self,input_file):
         self.df = p.io.parsers.read_table(input_file, sep='\t')
     
@@ -46,6 +47,12 @@ class ExperimentData(object):
         self.df['p_value_standardized'] = p.Series(zscore(self.df.p_value), index=self.df.index)
 
     def classify(self):
+        self.standardize()
         df_class = c.classify_bool(self)
         self.classification = df_class
 
+    def calculate_roc(self):
+        if self.classification is not None:
+            self.roc_data = c.calculate_roc(self.classification)
+        else:
+            pass

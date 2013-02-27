@@ -43,6 +43,44 @@ def classify_contig_bool(df):
         real_class = (max_rows.contig_genome == max_rows.compare_genome)
     return bool(real_class), max_q
         
+# Calculates the data needed to make a ROC-curve
+# Input: dataframe with columns "max_std_p" 
+# and a boolean as the second column.
+# Output: A data frame with two columns, True positive rate
+# and false positive rate calculated using each 
+# max_std_p value as a threshold respectively.
+def calculate_roc(df):
+    # Sort max_p
+    sorted_class = [row[1] for row in df.sort(columns="max_std_p", ascending=False).values]
+    # Stepwise, calculate the roc_data
+    est_positives = []
+    TPR=[]
+    FPR=[]
+    while sorted_class != []:
+        est_positives.append(sorted_class.pop())
+        TPR.append(true_positive_rate(est_positives, sorted_class))
+        FPR.append(false_positive_rate(est_positives, sorted_class))
+    # collect in a series
+    TPR_s = p.Series(TPR)
+    FPR_s = p.Series(FPR)
+    df = p.DataFrame({"true_positive_rate":TPR_s, "false_positive_rate":FPR_s})
+    return df
+
+def true_positive_rate(est_positive, est_negative):
+    TP = est_positive.count(True)
+    FP = est_positive.count(False)
+    TN = est_negative.count(False)
+    FN = est_negative.count(True)
+    
+    return float(TP)/(TP + FN)
+
+def false_positive_rate(est_positive, est_negative):
+    TP = est_positive.count(True)
+    FP = est_positive.count(False)
+    TN = est_negative.count(False)
+    FN = est_negative.count(True)
+
+    return float(FP)/(FP+TN)
 
 def sensitivity(df,q):
     pass
