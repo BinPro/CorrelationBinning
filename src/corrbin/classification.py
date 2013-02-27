@@ -12,24 +12,25 @@ import pandas as p
 # other line than above.
 # If the max contig score is less than q, the classification
 # will be negative, otherwise positive.
-def classify_bool(d, q):
+def classify_bool(d):
     df = d.df
     contig_ids = df.contig_id.unique()
-    output_est = []
     output_real = []
+    output_q = []
     for contig_id in contig_ids:
         contig_df = df[df.contig_id == contig_id]
-        est_class, real_class = classify_contig_bool(contig_df, q)
-        output_est.append(est_class)
+        real_class, max_q_std = classify_contig_bool(contig_df)
         output_real.append(real_class)
-    s_est = p.Series(output_est,index=contig_ids)
+        output_q.append(max_q_std)
     s_real = p.Series(output_real,index=contig_ids)
-    return s_est,s_real
+    s_max_q = p.Series(output_q, index=contig_ids)
+    df = p.DataFrame({"real_classif": s_real,
+                      "max_std_p": s_max_q})
+    return df
 
 
-def classify_contig_bool(df, q):
+def classify_contig_bool(df):
     max_q = df.p_value_standardized.max()
-    est_class = max_q >= q
 
     real_class = False
     max_rows = df[df.p_value_standardized == max_q]
@@ -40,7 +41,7 @@ def classify_contig_bool(df, q):
                 real_class
     else:
         real_class = (max_rows.contig_genome == max_rows.compare_genome)
-    return est_class, bool(real_class)
+    return bool(real_class), max_q
         
 
 def sensitivity(df,q):

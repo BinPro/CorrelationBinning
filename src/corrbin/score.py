@@ -37,7 +37,7 @@ class Score(object):
 class ExperimentData(object):
     def __init__(self):
         self.df = None
-        self.classifications = []
+        self.classification = None
         
     def load_data_frame(self,input_file):
         self.df = p.io.parsers.read_table(input_file, sep='\t')
@@ -45,9 +45,7 @@ class ExperimentData(object):
     def standardize(self):
         self.df['p_value_standardized'] = p.Series(zscore(self.df.p_value), index=self.df.index)
 
-    def classify(self, q):
-        s_est, s_real = c.classify_bool(self,q)
-        df_class = p.DataFrame({"estimated_classification": s_est, "real_classification": s_real})
-        self.classification.append((q,df_class))
-        return df_class
+    def classify(self):
+        df_class = c.classify_bool(self)
+        self.classification = df_class
 
