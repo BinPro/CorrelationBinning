@@ -39,7 +39,8 @@ class Score(object):
 class ExperimentData(object):
     """Making sense out of the experiment data"""
 
-    def __init__(self):
+    def __init__(self, roc_axis_funs):
+        self.roc_axis_funs = roc_axis_funs
         self.df = None
         self.classification = {}
         self.roc_data = {}
@@ -54,7 +55,8 @@ class ExperimentData(object):
     def classify(self, level):
         self.standardize()
         try:
-            df_class = c.classify_bool(self,level)
+            df_class = \
+                c.classify_bool(self,level)
             self.classification[level] = df_class
         except exc.LevelError as e:
             print "Wrong value of level: ", e.level
@@ -63,6 +65,21 @@ class ExperimentData(object):
         if len(self.classification)>0:
             for level in self.classification.keys():
                 self.roc_data[level] = \
-                    c.calculate_roc(self.classification[level])
+                    c.calculate_roc(self.classification[level],\
+                                        self.roc_axis_funs)
         else:
             pass
+
+
+class RocAxisFuns(object):
+    FUNS = ["true_positive_rate","false_positive_rate","precision"]
+    def __init__(self, x_fun_name, y_fun_name):
+        if (x_fun_name in self.FUNS) and (y_fun_name in self.FUNS):
+            self.x_fun = eval("c." + x_fun_name)
+            self.y_fun = eval("c." + y_fun_name)
+        else:
+            self.x_fun = None
+            self.y_fun = None
+            print "Please specify a valid function name."
+
+            

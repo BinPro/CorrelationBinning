@@ -55,21 +55,23 @@ def classify_contig_bool(df,level):
 # Output: A data frame with two columns, True positive rate
 # and false positive rate calculated using each 
 # max_std_p value as a threshold respectively.
-def calculate_roc(df):
+def calculate_roc(df,axis_funs):
+    x_fun = axis_funs.x_fun
+    y_fun = axis_funs.y_fun
     # Sort max_p
     sorted_class = [row[1] for row in df.sort(columns="max_std_p", ascending=False).values]
     # Stepwise, calculate the roc_data
     est_positives = []
-    TPR=[]
-    FPR=[]
+    y = []
+    x = []
     while sorted_class != []:
         est_positives.append(sorted_class.pop())
-        TPR.append(true_positive_rate(est_positives, sorted_class))
-        FPR.append(false_positive_rate(est_positives, sorted_class))
+        y.append(y_fun(est_positives, sorted_class))
+        x.append(x_fun(est_positives, sorted_class))
     # collect in a series
-    TPR_s = p.Series(TPR)
-    FPR_s = p.Series(FPR)
-    df = p.DataFrame({"true_positive_rate":TPR_s, "false_positive_rate":FPR_s})
+    y_s = p.Series(y)
+    x_s = p.Series(x)
+    df = p.DataFrame({"x":x_s, "y":y_s})
     return df
 
 def true_positive_rate(est_positive, est_negative):
@@ -93,6 +95,17 @@ def false_positive_rate(est_positive, est_negative):
         return 0.0
     else:
         return float(FP)/(FP+TN)
+
+def precision(est_positive, est_negative):
+    TP = est_positive.count(True)
+    FP = est_positive.count(False)
+    TN = est_negative.count(False)
+    FN = est_negative.count(True)
+    
+    if TP == 0:
+        return 0.0
+    else:
+        return float(TP)/(TP+FP)
 
 def sensitivity(df,q):
     pass

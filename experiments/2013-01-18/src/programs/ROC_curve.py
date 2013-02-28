@@ -3,14 +3,15 @@ from argparse import ArgumentParser
 import fileinput
 import numpy as np
 import pandas as p
-from corrbin.score import ExperimentData
+from corrbin.score import ExperimentData, RocAxisFuns
 from corrbin.classification import classify_bool
 import matplotlib.pyplot as plt
 
 def main(input_files, output_file, levels):
     fig = plt.figure(1)
+    axis_funs = RocAxisFuns("false_positive_rate","precision")
     for input_file in input_files:
-        data = ExperimentData()
+        data = ExperimentData(axis_funs)
         data.load_data_frame(input_file)
         for level in levels:
             data.classify(level)
@@ -18,8 +19,8 @@ def main(input_files, output_file, levels):
     
         # Plot ROC curve
         for level in levels:
-            x = data.roc_data[level].false_positive_rate
-            y = data.roc_data[level].true_positive_rate
+            x = data.roc_data[level].x
+            y = data.roc_data[level].y
         
             file_name = input_file.split('/')[-1]
             plt.plot(x,y,label=file_name + ", " + level)
