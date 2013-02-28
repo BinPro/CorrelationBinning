@@ -1,7 +1,8 @@
 import pandas as p
-from scipy.stats.mstats import zscore
 import corrbin.classification as c
+from scipy.stats.mstats import zscore
 import numpy as np
+import corrbin.exceptions as exc
 
 class ScoreCollection(object):
     def __init__(self):
@@ -36,10 +37,12 @@ class Score(object):
 
 
 class ExperimentData(object):
+    """Making sense out of the experiment data"""
+
     def __init__(self):
         self.df = None
-        self.classification = None
-        self.roc_data = None
+        self.classification = {}
+        self.roc_data = {}
 
     def load_data_frame(self,input_file):
         self.df = p.io.parsers.read_table(input_file, sep='\t')
@@ -48,13 +51,18 @@ class ExperimentData(object):
         no_inf_df = self.df.replace(-np.inf,np.nan)
         self.df['p_value_standardized'] = p.Series(zscore(no_inf_df.p_value), index=self.df.index)
 
-    def classify(self):
+    def classify(self, level):
         self.standardize()
-        df_class = c.classify_bool(self)
-        self.classification = df_class
+        try:
+            df_class = c.classify_bool(self,level)
+            self.classification[level] = df_class
+        except exc.LevelError as e:
+            print "Wrong value of level: ", e.level
 
     def calculate_roc(self):
-        if self.classification is not None:
-            self.roc_data = c.calculate_roc(self.classification)
+        if len(self.classification)>0:
+            for level in self.classification.keys():
+                self.roc_data[level] = \
+                    c.calculate_roc(self.classification[level])
         else:
             pass

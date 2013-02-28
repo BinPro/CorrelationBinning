@@ -1,4 +1,5 @@
 import pandas as p
+import corrbin.exceptions as exc
 
 # Classifies each contig in dataframe df
 # according to cut-off value: q.
@@ -12,14 +13,14 @@ import pandas as p
 # other line than above.
 # If the max contig score is less than q, the classification
 # will be negative, otherwise positive.
-def classify_bool(d):
+def classify_bool(d, level):
     df = d.df
     contig_ids = df.contig_id.unique()
     output_real = []
     output_q = []
     for contig_id in contig_ids:
         contig_df = df[df.contig_id == contig_id]
-        real_class, max_q_std = classify_contig_bool(contig_df)
+        real_class, max_q_std = classify_contig_bool(contig_df,level)
         output_real.append(real_class)
         output_q.append(max_q_std)
     s_real = p.Series(output_real,index=contig_ids)
@@ -29,20 +30,25 @@ def classify_bool(d):
     return df
 
 
-def classify_contig_bool(df):
+def classify_contig_bool(df,level):
     max_q = df.p_value_standardized.max()
-
+    # Since eval is used later in code, check that level
+    # is a safe string.
+    if not (level in ["genome","species", "genus","family"]):
+        raise exc.LevelError(level)
     real_class = False
     max_rows = df[df.p_value_standardized == max_q]
     if len(max_rows)>1:
         for row in max_rows:
             real_class = \
-                (row.contig_genome == row.compare_genome) or \
-                real_class
+                (eval("row.contig_" + level) == \
+                     eval("row.compare_" + level)) or \
+                     real_class
     else:
-        real_class = (max_rows.contig_genome == max_rows.compare_genome)
+        real_class = (eval("max_rows.contig_" + level) == \
+                          eval("max_rows.compare_" + level))
     return bool(real_class), max_q
-        
+
 # Calculates the data needed to make a ROC-curve
 # Input: dataframe with columns "max_std_p" 
 # and a boolean as the second column.
