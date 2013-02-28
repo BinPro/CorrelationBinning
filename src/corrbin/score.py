@@ -58,7 +58,6 @@ class ExperimentData(object):
                 p.Series(zscore(no_inf_df.p_value[cond]), index=self.df.index[cond])
 
     def classify(self, level):
-        self.standardize()
         try:
             df_class = \
                 c.classify_bool(self,level)

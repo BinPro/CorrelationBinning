@@ -15,6 +15,7 @@ def main(input_files, output_file, levels):
     for input_file in input_files:
         data = ExperimentData(axis_funs)
         data.load_data_frame(input_file)
+        data.standardize()
         for level in levels:
             data.classify(level)
         data.calculate_roc()
