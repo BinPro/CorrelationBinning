@@ -28,7 +28,8 @@ def main(input_files, output_file, levels):
             file_name = input_file.split('/')[-1]
             plt.plot(x,y,label=file_name + ", " + level)
     
-    plt.legend()
+    plt.legend(loc='upper center', bbox_to_anchor=(0.5, 1.05),
+          ncol=2, fancybox=True, shadow=True)
     plt.xlabel(x_fun_name)
     plt.ylabel(y_fun_name)
     plt.savefig(output_file)

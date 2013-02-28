@@ -59,7 +59,7 @@ def calculate_roc(df,axis_funs):
     x_fun = axis_funs.x_fun
     y_fun = axis_funs.y_fun
     # Sort max_p
-    sorted_class = [row[1] for row in df.sort(columns="max_std_p", ascending=False).values]
+    sorted_class = [row[1] for row in df.sort(columns="max_std_p", ascending=True).values]
     # Stepwise, calculate the roc_data
     est_positives = []
     y = []
@@ -117,6 +117,20 @@ def false_discovery_rate(est_positive, est_negative):
         return 0.0
     else:
         return float(FP)/(TP+FP)
+
+def estimated_positives_ratio(est_positive,est_negative):
+    total = len(est_positive)+len(est_negative)
+    return float(len(est_positive))/total
+
+
+def accuracy(est_positive,est_negative):
+    TP = est_positive.count(True)
+    FP = est_positive.count(False)
+    TN = est_negative.count(False)
+    FN = est_negative.count(True)
+    
+    total = TP+FP+TN+FN
+    return float(TP+TN)/total
 
 def sensitivity(df,q):
     pass
