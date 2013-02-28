@@ -11,3 +11,5 @@ results/
 src/dist/*
 src/build/*
 src/*.egg*
+
+.screenrc
