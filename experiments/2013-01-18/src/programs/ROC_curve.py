@@ -9,7 +9,9 @@ import matplotlib.pyplot as plt
 
 def main(input_files, output_file, levels):
     fig = plt.figure(1)
-    axis_funs = RocAxisFuns("false_discovery_rate","precision")
+    x_fun_name = "false_positive_rate"
+    y_fun_name = "true_positive_rate"
+    axis_funs = RocAxisFuns(x_fun_name,y_fun_name)
     for input_file in input_files:
         data = ExperimentData(axis_funs)
         data.load_data_frame(input_file)
@@ -26,6 +28,8 @@ def main(input_files, output_file, levels):
             plt.plot(x,y,label=file_name + ", " + level)
     
     plt.legend()
+    plt.xlabel(x_fun_name)
+    plt.ylabel(y_fun_name)
     plt.savefig(output_file)
     
         

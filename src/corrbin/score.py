@@ -50,7 +50,12 @@ class ExperimentData(object):
     
     def standardize(self):
         no_inf_df = self.df.replace(-np.inf,np.nan)
-        self.df['p_value_standardized'] = p.Series(zscore(no_inf_df.p_value), index=self.df.index)
+        self.df['p_value_standardized'] = \
+            p.Series(no_inf_df.p_value, index=self.df.index)
+        for contig_id in self.df.contig_id.unique():
+            cond = self.df.contig_id == contig_id
+            self.df.p_value_standardized[cond] =\
+                p.Series(zscore(no_inf_df.p_value[cond]), index=self.df.index[cond])
 
     def classify(self, level):
         self.standardize()

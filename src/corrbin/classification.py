@@ -116,7 +116,7 @@ def false_discovery_rate(est_positive, est_negative):
     if FP == 0:
         return 0.0
     else:
-        return float(FP)/(TP + FP)
+        return float(FP)/(TP+FP)
 
 def sensitivity(df,q):
     pass
