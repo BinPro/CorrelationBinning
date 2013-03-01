@@ -12,7 +12,7 @@ def main(input_files, output_file, levels):
     ax = plt.subplot(111)
     
     x_fun_name = "included_contigs_ratio"
-    y_fun_name = "true_positive_rate"
+    y_fun_name = "precision"
     axis_funs = RocAxisFuns(x_fun_name,y_fun_name)
     for input_file in input_files:
         data = ExperimentData(axis_funs)
