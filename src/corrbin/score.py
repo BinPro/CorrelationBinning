@@ -78,7 +78,7 @@ class ExperimentData(object):
 class RocAxisFuns(object):
     FUNS = ["true_positive_rate","false_positive_rate",\
                 "precision", "false_discovery_rate", \
-                "estimated_positives_ratio", "accuracy"]
+                "included_contigs_ratio", "accuracy"]
     def __init__(self, x_fun_name, y_fun_name):
         if (x_fun_name in self.FUNS) and (y_fun_name in self.FUNS):
             self.x_fun = eval("c." + x_fun_name)

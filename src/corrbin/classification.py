@@ -118,7 +118,7 @@ def false_discovery_rate(est_positive, est_negative):
     else:
         return float(FP)/(TP+FP)
 
-def estimated_positives_ratio(est_positive,est_negative):
+def included_contigs_ratio(est_positive,est_negative):
     total = len(est_positive)+len(est_negative)
     return float(len(est_positive))/total
 

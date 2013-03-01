@@ -8,8 +8,10 @@ from corrbin.classification import classify_bool
 import matplotlib.pyplot as plt
 
 def main(input_files, output_file, levels):
-    fig = plt.figure(1)
-    x_fun_name = "false_positive_rate"
+    fig = plt.figure()
+    ax = plt.subplot(111)
+    
+    x_fun_name = "included_contigs_ratio"
     y_fun_name = "true_positive_rate"
     axis_funs = RocAxisFuns(x_fun_name,y_fun_name)
     for input_file in input_files:
@@ -28,7 +30,9 @@ def main(input_files, output_file, levels):
             file_name = input_file.split('/')[-1]
             plt.plot(x,y,label=file_name + ", " + level)
     
-    plt.legend(loc='upper center', bbox_to_anchor=(0.5, 1.05),
+    box = ax.get_position()
+    ax.set_position([box.x0,box.y0,box.width,box.height*0.8])
+    plt.legend(loc='upper center', bbox_to_anchor=(0.5, 1.35),
           ncol=2, fancybox=True, shadow=True)
     plt.xlabel(x_fun_name)
     plt.ylabel(y_fun_name)
