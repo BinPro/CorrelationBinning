@@ -5,22 +5,8 @@ from probin.dna import DNA
 from probin.model.composition import multinomial as mn
 
 from corrbin.score import ScoreCollection, Score
+from corrbin.contig_generation import SampleSetting,sample_contig
 
-def sample_contig(genome, x_st, contig_id):
-    min_length = x_st.contig_min_length
-    max_length = x_st.contig_max_length
-    l = randint(min_length, max_length)
-    gen_l = len(genome.full_seq)
-    if x_st.debug_mode:
-        start = 0
-    else:
-        start = randint(0, (gen_l-l))
-    end = start+l
-    contig = DNA(id = genome.id + " contig", seq = genome.full_seq[start:end])
-    contig.contig_id = contig_id
-    
-    rest_par = par_subtraction(copy(genome.signature),contig) 
-    return contig, rest_par
 
 def par_subtraction(signature, contig):
     signature.subtract(contig.signature)
@@ -74,16 +60,6 @@ class GenomeGroup(object):
     def all_genomes_but_index(self,i):
         return self.genomes[0:i] + self.genomes[i+1:]
 
-class ExperimentSetting(object):
-    """A class for storing variables related to all experiments"""
-    def __init__(self, prio, mode, no_contigs, contig_min_length, contig_max_length, debug_mode):
-        self.prio = prio
-        self.mode = mode
-        self.no_contigs = no_contigs
-        self.contig_min_length = contig_min_length
-        self.contig_max_length = contig_max_length
-        self.debug_mode = debug_mode
-
 class Test(object):
     def __init__(self,x_st, group, rest_groups, id_gen):
         self.n = len(group)
@@ -108,7 +84,9 @@ class Test(object):
         i = 0
         genome = self.group.genomes[genome_index]
         while i < self.count_per_g[genome_index]:
-            c, new_par= sample_contig(genome, self.x_st, self.id_gen.id())
+            c = sample_contig(genome, self.x_st, self.id_gen.id())
+            new_par = par_subtraction(copy(genome.signature),c) 
+
             score_obj = score_contig(c, new_par, genome, genome_index, self)
             score_objs.append(score_obj)
             i+=1
