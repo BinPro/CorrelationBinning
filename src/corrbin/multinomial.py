@@ -1,5 +1,4 @@
 from copy import copy
-from random import randint
 
 from probin.dna import DNA
 from probin.model.composition import multinomial as mn
