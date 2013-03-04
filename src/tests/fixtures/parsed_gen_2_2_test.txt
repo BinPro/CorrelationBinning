@@ -3,9 +3,6 @@ genus_name:	Ehrlichia
 entry:	Ehrlichia canis	Ehrlichia_canis_Jake_uid58071
 entry:	Ehrlichia ruminantium	Ehrlichia_ruminantium_Welgevonden_uid58243
 entry:	Ehrlichia chaffeensis	Ehrlichia_chaffeensis_Arkansas_uid57933
-genus_name:	Neorickettsia
-entry:	Neorickettsia risticii	Neorickettsia_risticii_Illinois_uid58889
-entry:	Neorickettsia sennetsu	Neorickettsia_sennetsu_Miyayama_uid57965
 family_name:	Flavobacteriaceae
 genus_name:	Cellulophaga
 entry:	Cellulophaga algicola	Cellulophaga_algicola_DSM_14237_uid62159
