@@ -1,6 +1,6 @@
 from probin.dna import DNA
 from random import randint
-
+from corrbin.misc import GenomeGroup
 
 class SampleSetting(object):
     """A class for storing variables related to the contig sampling"""
@@ -52,6 +52,7 @@ def read_parsed_taxonomy_file(open_name_file):
                            'file_name': genome_name
                           }
             groups[-1].genome_data.append(meta_genome)
+    return groups
 
 def read_FASTA_files(groups):
     pass

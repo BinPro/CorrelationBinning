@@ -46,19 +46,6 @@ def par(self):
 DNA.par = par
 
 
-class GenomeGroup(object):
-    """A wrapper for the genome groups used in pairwise testing"""
-    def __init__(self, name):
-        self.genomes = []
-        self.name = name
-        self.genome_data = []
-    def add_genome(self, genome):
-        self.genomes.append(genome)
-    def __len__(self):
-        return len(self.genomes)
-    def all_genomes_but_index(self,i):
-        return self.genomes[0:i] + self.genomes[i+1:]
-
 class Test(object):
     def __init__(self,x_st, group, rest_groups, id_gen):
         self.n = len(group)
