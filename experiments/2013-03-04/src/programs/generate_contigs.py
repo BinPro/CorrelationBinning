@@ -6,32 +6,16 @@ from argparse import ArgumentParser
 from probin.dna import DNA
 from Bio import SeqIO
 from corrbin.misc import all_but_index, Uniq_id
-from corrbin.multinomial import GenomeGroup, ExperimentSetting, Test
+from corrbin.contig_generation import SampleSetting, sample_contig
 
-def main(open_name_file, dir_path, kmer_length, x_set):
+def main(open_name_file, dir_path, x_set):
 
-    groups = []
     DNA.generate_kmer_hash(kmer_length)
-    # Read the file with all names, divide them into groups
-    for line in open_name_file:
-        if line[0:12] == 'family_name:':
-            family = line.split('\t')[1].strip()
-        elif line[0:11] == 'genus_name:':
-            genus = line.split('\t')[1].strip()
-            new_group = GenomeGroup(genus)
-            new_group.family = family
-            groups.append(new_group)
-        elif line[0:6] == 'entry:':
-            genome_name = line.split('\t')[2].strip()
-            genome_species = line.split('\t')[1].strip()
-            meta_genome = {'id': genome_name,
-                           'species': genome_species,
-                           'genus': genus,
-                           'family': family,
-                           'file_name': genome_name
-                          }
-            groups[-1].genome_data.append(meta_genome)
 
+    groups = read_parsed_taxonomy_file(open_name_file)
+
+    # Read the FASTA files for each genome
+    
     # Each genome in a group is a bin, fit parameters to all bins
     os.chdir(dir_path)
     for group in groups:
