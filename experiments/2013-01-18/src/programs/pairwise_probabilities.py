@@ -7,7 +7,8 @@ from probin.model.composition import multinomial as mn
 from probin.dna import DNA
 from Bio import SeqIO
 from corrbin.misc import all_but_index, Uniq_id
-from corrbin.multinomial import GenomeGroup, ExperimentSetting, Test
+from corrbin.multinomial import GenomeGroup, Test
+from corrbin.contig_generation import SampleSetting
 
 def main(open_name_file, dir_path, kmer_length, x_set):
 
@@ -106,7 +107,6 @@ if __name__=="__main__":
     name_file_handle = fileinput.input(args.files)
     if args.verbose:
         sys.stderr.write("Number of genomes read: %i %s" % (len(genomes),os.linesep))
-    mode = "refit"
-    ex_setting = ExperimentSetting(args.priority, mode, args.no_contigs, args.contig_min_length, args.contig_max_length, args.debug_mode)
+    ex_setting = SampleSetting(args.priority, args.no_contigs, args.contig_min_length, args.contig_max_length, args.debug_mode)
     main(name_file_handle, args.directory_path, args.kmer_length, ex_setting)
     name_file_handle.close()
