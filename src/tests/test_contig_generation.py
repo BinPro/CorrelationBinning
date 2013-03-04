@@ -76,3 +76,4 @@ def test_read_FASTA_files():
     # A correct family
     assert_equal(groups[-1].genomes[-1].family, "Flavobacteriaceae")
     
+    

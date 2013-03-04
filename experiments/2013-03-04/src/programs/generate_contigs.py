@@ -18,14 +18,12 @@ def main(open_name_file, dir_path, x_set):
     read_FASTA_files(groups,dir_path)
 
     # For each bin, generate a number of contigs, 
-    # re-calculate parameters for that bin without contig-section.
-    # Further score this contig against all bins, keep within-group
-    # scores separate from outside-group scores.
     all_scores = []
     id_generator = Uniq_id(1000)
     for group_index in range(len(groups)):
         group = groups[group_index]
         rest_groups = all_but_index(groups, group_index)
+        
         test = Test(x_set, group, rest_groups, id_generator)
         group_scores = test.execute()
         

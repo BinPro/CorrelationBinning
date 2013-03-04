@@ -45,7 +45,6 @@ def par(self):
 
 DNA.par = par
 
-
 class Test(object):
     def __init__(self,x_st, group, rest_groups, id_gen):
         self.n = len(group)
