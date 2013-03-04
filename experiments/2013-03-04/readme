@@ -1,0 +1,14 @@
+Data generation:
+Generation of x contigs, random start position, length 1000 from genomes, chosen so that there will be at least 2 species within each genera and at least 2 genera within each family.
+
+Data is generated only once, saved to FASTA-file in data directory.
+
+The number of contigs are chosen in a non obvious way.
+
+Fit multinomial parameters to the genomes used. No probability is estimated = 0, all kmer_count = kmer_count + 1
+
+Score each contig against all genomes. 
+When scoring agains the genome that the contig originated from, remove the parameters corresponding to the contig, to avoid overfitting.
+
+Result processing:
+Classify each contig to belong to the genome where it scored its max and plot statisitcs in graph with ROC_curve.py
