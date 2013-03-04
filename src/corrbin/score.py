@@ -1,6 +1,8 @@
 import pandas as p
-from scipy.stats.mstats import zscore
 import corrbin.classification as c
+from scipy.stats.mstats import zscore
+import numpy as np
+import corrbin.exceptions as exc
 
 class ScoreCollection(object):
     def __init__(self):
@@ -35,19 +37,55 @@ class Score(object):
 
 
 class ExperimentData(object):
-    def __init__(self):
+    """Making sense out of the experiment data"""
+
+    def __init__(self, roc_axis_funs):
+        self.roc_axis_funs = roc_axis_funs
         self.df = None
-        self.classifications = []
-        
+        self.classification = {}
+        self.roc_data = {}
+
     def load_data_frame(self,input_file):
         self.df = p.io.parsers.read_table(input_file, sep='\t')
     
     def standardize(self):
-        self.df['p_value_standardized'] = p.Series(zscore(self.df.p_value), index=self.df.index)
+        no_inf_df = self.df.replace(-np.inf,np.nan)
+        self.df['p_value_standardized'] = \
+            p.Series(no_inf_df.p_value, index=self.df.index)
+        for contig_id in self.df.contig_id.unique():
+            cond = self.df.contig_id == contig_id
+            self.df.p_value_standardized[cond] =\
+                p.Series(zscore(no_inf_df.p_value[cond]), index=self.df.index[cond])
 
-    def classify(self, q):
-        s_est, s_real = c.classify_bool(self,q)
-        df_class = p.DataFrame({"estimated_classification": s_est, "real_classification": s_real})
-        self.classification.append((q,df_class))
-        return df_class
+    def classify(self, level):
+        try:
+            df_class = \
+                c.classify_bool(self,level)
+            self.classification[level] = df_class
+        except exc.LevelError as e:
+            print "Wrong value of level: ", e.level
 
+    def calculate_roc(self):
+        if len(self.classification)>0:
+            for level in self.classification.keys():
+                self.roc_data[level] = \
+                    c.calculate_roc(self.classification[level],\
+                                        self.roc_axis_funs)
+        else:
+            pass
+
+
+class RocAxisFuns(object):
+    FUNS = ["true_positive_rate","false_positive_rate",\
+                "precision", "false_discovery_rate", \
+                "included_contigs_ratio", "accuracy"]
+    def __init__(self, x_fun_name, y_fun_name):
+        if (x_fun_name in self.FUNS) and (y_fun_name in self.FUNS):
+            self.x_fun = eval("c." + x_fun_name)
+            self.y_fun = eval("c." + y_fun_name)
+        else:
+            self.x_fun = None
+            self.y_fun = None
+            print "Please specify a valid function name."
+
+            
