@@ -1,6 +1,8 @@
 from probin.dna import DNA
 from random import randint
 from corrbin.misc import GenomeGroup
+import os
+from Bio import SeqIO
 
 class SampleSetting(object):
     """A class for storing variables related to the contig sampling"""
@@ -54,5 +56,30 @@ def read_parsed_taxonomy_file(open_name_file):
             groups[-1].genome_data.append(meta_genome)
     return groups
 
-def read_FASTA_files(groups):
-    pass
+def read_FASTA_files(groups, dir_path):
+    cur_dir = os.getcwd()
+    os.chdir(dir_path)
+    for group in groups:
+        for genome_data in group.genome_data:
+            dir_name = genome_data['file_name']
+            fasta_files = os.listdir(dir_name)
+            for fasta_file in fasta_files:
+                genome_file = open(dir_name + '/' + fasta_file)
+                identifier = genome_file.readline()
+                # Only use non-plasmid genomes
+                # Some bacterial genomes contain more than 1 chromosonme,  
+                # but assumed not more than 2
+                if identifier.find('plasmid') == -1 and identifier.find('chromosome 2') == -1:
+                    genome_file.close() #Close and reopen the same file
+                    genome_file = open(dir_name + '/' + fasta_file)
+                    genome_seq = list(SeqIO.parse(genome_file, "fasta"))
+                    if len(genome_seq) > 1:
+                        sys.stderr.write("Warning! The file " + fasta_file + " in directory " + dir_name + " contained more than one sequence, ignoring all but the first!" + os.linesep)
+                    genome = DNA(id = dir_name, seq= str(genome_seq[0].seq))
+                    genome.genus = genome_data['genus']
+                    genome.species = genome_data['species']
+                    genome.family = genome_data['family']
+                    group.genomes.append(genome)
+                genome_file.close()
+
+    os.chdir(cur_dir)

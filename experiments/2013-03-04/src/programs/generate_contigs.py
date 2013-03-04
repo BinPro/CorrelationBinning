@@ -14,32 +14,8 @@ def main(open_name_file, dir_path, x_set):
 
     groups = read_parsed_taxonomy_file(open_name_file)
 
-    # Read the FASTA files for each genome
-    
-    # Each genome in a group is a bin, fit parameters to all bins
-    os.chdir(dir_path)
-    for group in groups:
-        for genome_data in group.genome_data:
-            dir_name = genome_data['file_name']
-            fasta_files = os.listdir(dir_name)
-            for fasta_file in fasta_files:
-                genome_file = open(dir_name + '/' + fasta_file)
-                identifier = genome_file.readline()
-                # Only use non-plasmid genomes
-                # Some bacterial genomes contain more than 1 chromosonme,  
-                # but assumed not more than 2
-                if identifier.find('plasmid') == -1 and identifier.find('chromosome 2') == -1:
-                    genome_file.close() #Close and reopen the same file
-                    genome_file = open(dir_name + '/' + fasta_file)
-                    genome_seq = list(SeqIO.parse(genome_file, "fasta"))
-                    if len(genome_seq) > 1:
-                        sys.stderr.write("Warning! The file " + fasta_file + " in directory " + dir_name + " contained more than one sequence, ignoring all but the first!" + os.linesep)
-                    genome = DNA(id = dir_name, seq= str(genome_seq[0].seq))
-                    genome.genus = genome_data['genus']
-                    genome.species = genome_data['species']
-                    genome.family = genome_data['family']
-                    group.genomes.append(genome)
-                genome_file.close()
+    # Read in the FASTA files for each genome
+    read_FASTA_files(groups,dir_path)
 
     # For each bin, generate a number of contigs, 
     # re-calculate parameters for that bin without contig-section.
