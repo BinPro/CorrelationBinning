@@ -84,6 +84,32 @@ def read_FASTA_files(groups, dir_path):
 
     os.chdir(cur_dir)
 
+class SampleGroup(object):
+    """Somewhat a duplicate of multinomial.Experiment"""
+    def __init__(self,s_st, group,id_gen):
+        self.s_st = s_st
+        self.group = group
+        self.count_per_g = self.count_per_g()
+        self.id_gen = id_gen
+
+    def count_per_g(self):
+        if self.s_st.prio == "genomes":
+            return [round(self.s_st.no_contigs/float(self.n))]*self.n
+        elif self.s_st.prio == "groups":
+            base = self.s_st.no_contigs/self.n
+            count_l = [base]*self.n
+            list_index = 0
+            while sum(count_l)<self.s_st.no_contigs:
+                try:
+                    count_l[list_index] += 1
+                    list_index += 1
+                except:
+                    list_index = 0
+            return count_l
+
+    @property
+    def n(self):
+        return len(self.group)
 
 def generate_group_contigs(group,s_st, uniq_id):
     for genome in group.genomes:
@@ -91,7 +117,6 @@ def generate_group_contigs(group,s_st, uniq_id):
         genome.contigs.append(\
             sample_contig(genome, s_st, uniq_id.id())\
             )
-        
     return None
 
 def print_group_contigs(group):

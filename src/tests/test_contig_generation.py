@@ -6,7 +6,8 @@ import os
 
 from corrbin.contig_generation import SampleSetting,\
     sample_contig, read_parsed_taxonomy_file, \
-    read_FASTA_files, generate_group_contigs
+    read_FASTA_files, generate_group_contigs, \
+    SampleGroup
 from corrbin.misc import Uniq_id
 
 import probin.dna as dna
@@ -99,3 +100,35 @@ class TestContigGeneration(object):
         assert_equal(len(group.genomes[-1].contigs[-1].full_seq),1100)
         assert_equal(len(group.genomes[-1].contigs), 20)
 
+    def test_count_per_g(self):
+        # testing class: SampleGroup, function count_per_g
+        s_set = SampleSetting("genomes",10,\
+                                  1100,1200,\
+                                  True)
+        sg = SampleGroup(s_set, ["list","of","length","4"],None)
+        assert_equal(sg.count_per_g, [3,3,3,3])
+
+    def test_count_per_g2(self):
+        # testing class: SampleGroup, function count_per_g
+        s_set = SampleSetting("genomes",10,\
+                                  1100,1200,\
+                                  True)
+        sg = SampleGroup(s_set, [5]*5, None)
+        assert_equal(sg.count_per_g,[2,2,2,2,2])
+
+    def test_count_per_g3(self):
+        # testing class: SampleGroup, function count_per_g
+        s_set = SampleSetting("genomes",10,\
+                                  1100,1200,\
+                                  True)
+        sg = SampleGroup(s_set, [5]*5, None)
+        assert_equal(sg.count_per_g,[2,2,2,2,2])
+        
+    def test_count_per_g4(self):
+        # testing class: SampleGroup, function count_per_g
+        s_set = SampleSetting("groups",10,\
+                                  1100,1200,\
+                                  True)
+        sg = SampleGroup(s_set, [5]*4, None)
+        assert_equal(sg.count_per_g,[3,3,2,2])
+        assert_equal(sum(sg.count_per_g),10)
