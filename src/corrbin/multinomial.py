@@ -64,6 +64,7 @@ class Experiment(object):
             while sum(count_l)<no_contigs:
                 try:
                     count_l[list_index] += 1
+                    list_index += 1
                 except:
                     list_index = 0
             return count_l
