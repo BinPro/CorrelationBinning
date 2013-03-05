@@ -83,3 +83,16 @@ def read_FASTA_files(groups, dir_path):
                 genome_file.close()
 
     os.chdir(cur_dir)
+
+
+def generate_group_contigs(group,s_st, uniq_id):
+    for genome in group.genomes:
+        genome.contigs = []
+        genome.contigs.append(\
+            sample_contig(genome, s_st, uniq_id.id())\
+            )
+        
+    return None
+
+def print_group_contigs(group):
+    pass
