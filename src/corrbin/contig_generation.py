@@ -2,7 +2,7 @@ from probin.dna import DNA
 from random import randint
 from corrbin.misc import GenomeGroup
 import os
-from Bio import SeqIO
+from Bio import SeqIO, SeqRecord, Seq
 
 class SampleSetting(object):
     """A class for storing variables related to the contig sampling"""
@@ -111,13 +111,29 @@ class SampleGroup(object):
     def n(self):
         return len(self.group)
 
-def generate_group_contigs(group,s_st, uniq_id):
-    for genome in group.genomes:
-        genome.contigs = []
-        genome.contigs.append(\
-            sample_contig(genome, s_st, uniq_id.id())\
-            )
-    return None
+    def generate_group_contigs(self):
+        for genome_index in range(self.n):
+            genome = self.group.genomes[genome_index]
+            genome.contigs = []
+            i = 0 
+            while i< self.count_per_g[genome_index]:
+                c = sample_contig(genome, self.s_st, self.id_gen.id())
+                genome.contigs.append(c)
+                i+=1
+        return None
 
-def print_group_contigs(group):
-    pass
+    def print_group_contigs(self,file_handle):
+        recs = []
+        for genome in self.group.genomes:
+            for contig in genome.contigs:
+                if contig.contig_id == 10:
+                    print contig.full_seq
+                recs.append(SeqRecord.SeqRecord(\
+                        contig.full_seq,id="{0}_{1}"\
+                            .format(genome.id,\
+                                        contig.contig_id), \
+                            name="", \
+                            description="{0}|{1}".format(\
+                            genome.family, \
+                                genome.genus)))
+        SeqIO.write(recs,file_handle,"fasta")

@@ -3,11 +3,11 @@ import unittest
 from nose.tools import assert_almost_equal, assert_equal,\
     assert_is_none
 import os
+import tempfile
 
 from corrbin.contig_generation import SampleSetting,\
     sample_contig, read_parsed_taxonomy_file, \
-    read_FASTA_files, generate_group_contigs, \
-    SampleGroup
+    read_FASTA_files, SampleGroup
 from corrbin.misc import Uniq_id
 
 import probin.dna as dna
@@ -95,10 +95,13 @@ class TestContigGeneration(object):
         s_set = SampleSetting("genomes",20,\
                                   1100,1100,\
                                   True)
-        generate_group_contigs(group,s_set, uniq_id)
+        sg = SampleGroup(s_set, group, uniq_id)
+        sg.generate_group_contigs()
         
+        assert_equal(len(sg.group.genomes[-1].contigs[-1].full_seq),1100)
         assert_equal(len(group.genomes[-1].contigs[-1].full_seq),1100)
-        assert_equal(len(group.genomes[-1].contigs), 20)
+        assert_equal(len(group.genomes[-1].contigs)+len(group.genomes[0].contigs), 20)
+
 
     def test_count_per_g(self):
         # testing class: SampleGroup, function count_per_g
@@ -132,3 +135,26 @@ class TestContigGeneration(object):
         sg = SampleGroup(s_set, [5]*4, None)
         assert_equal(sg.count_per_g,[3,3,2,2])
         assert_equal(sum(sg.count_per_g),10)
+
+    def test_print_group_contigs(self):
+        cur_dir = os.path.dirname(__file__)
+        parsed_file_name = os.path.join(cur_dir,"fixtures/parsed_gen_2_2_test.txt")
+        open_file = open(parsed_file_name, 'r')
+        groups = read_parsed_taxonomy_file(open_file)
+        dir_path = os.path.join(cur_dir,"fixtures/reference_genomes")
+        read_FASTA_files(groups, dir_path)
+        uniq_id = Uniq_id(10)
+        group = groups[-1]
+        s_set = SampleSetting("genomes",10,\
+                                  1100,1100,\
+                                  True)
+        sg = SampleGroup(s_set, group, uniq_id)
+        sg.generate_group_contigs()
+
+        with tempfile.NamedTemporaryFile() as tmp_file:
+            sg.print_group_contigs(tmp_file)
+            tmp_file.seek(0)
+            contig_seqs = list(SeqIO.parse(tmp_file, "fasta"))
+            assert_equal(len(contig_seqs),20)
+            assert_equal(contig_seqs[0].id, ">")
+
