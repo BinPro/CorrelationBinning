@@ -1,0 +1,97 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+
+\usepackage[fleqn]{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{listings}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage[font=small, margin=40]{caption}
+\usepackage[left=1in,top=1in,right=1in,bottom=1in,nohead, vmargin=8em, hmargin=8em]{geometry}
+
+\lstset{columns=fullflexible,basicstyle=\ttfamily}
+
+\renewcommand{\P}[1]{\operatorname{P}\!\left( #1 \right)}
+\newcommand{\Id}{\operatorname{Id}}
+\renewcommand{\log}{\operatorname{log}}
+\renewcommand{\exp}{\operatorname{exp}}
+
+\begin {document}
+\title {Contig Generation Experiment}
+
+\maketitle
+\section*{Different contig sizes}
+Run on x200
+\subsection*{Contig length 100}
+\begin{lstlisting}[breaklines]
+#!/usr/bin/env bash
+#SBATCH -A b2010008
+#SBATCH -p node
+#SBATCH -t 4:00:00
+
+# This script generates contigs to be used for classification 
+# evaluation. The output is saved in order to be reused for all 
+# experiments.
+
+#DATA_PATH=$HOME"/glob/data"
+DATA_PATH=$HOME"/repos/DATA"
+
+#RESULTS_PATH=$HOME"/glob/results/2013-01-18"
+RESULTS_PATH=$HOME"/repos/DATA/contigs"
+
+echo "Generate contigs" >&2
+time ../programs/generate_contigs.py $DATA_PATH"/parsed_gen_2_2_complete_old.txt" -o $RESULTS_PATH"/contigs_2_2_old_100_100.fna" -d $DATA_PATH"/reference_genomes_ncbi" -c 100 -p "genomes" --contig_min_length 100 --contig_max_length 100
+
+
+\end{lstlisting}
+\subsection*{Contig length 1000}
+\begin{lstlisting}[breaklines]
+#!/usr/bin/env bash
+#SBATCH -A b2010008
+#SBATCH -p node
+#SBATCH -t 4:00:00
+
+# This script generates contigs to be used for classification 
+# evaluation. The output is saved in order to be reused for all 
+# experiments.
+
+#DATA_PATH=$HOME"/glob/data"
+DATA_PATH=$HOME"/repos/DATA"
+
+#RESULTS_PATH=$HOME"/glob/results/2013-01-18"
+RESULTS_PATH=$HOME"/repos/DATA/contigs"
+
+echo "Generate contigs" >&2
+time ../programs/generate_contigs.py $DATA_PATH"/parsed_gen_2_2_complete_old.txt" -o $RESULTS_PATH"/contigs_2_2_old_100_1000.fna" -d $DATA_PATH"/reference_genomes_ncbi" -c 100 -p "genomes" --contig_min_length 1000 --contig_max_length 1000
+
+\end{lstlisting}
+\subsection*{Contig length of 10000}
+\begin{lstlisting}[breaklines]
+#!/usr/bin/env bash
+#SBATCH -A b2010008
+#SBATCH -p node
+#SBATCH -t 4:00:00
+
+# This script generates contigs to be used for classification 
+# evaluation. The output is saved in order to be reused for all 
+# experiments.
+
+#DATA_PATH=$HOME"/glob/data"
+DATA_PATH=$HOME"/repos/DATA"
+
+#RESULTS_PATH=$HOME"/glob/results/2013-01-18"
+RESULTS_PATH=$HOME"/repos/DATA/contigs"
+
+echo "Generate contigs" >&2
+time ../programs/generate_contigs.py $DATA_PATH"/parsed_gen_2_2_complete_old.txt" -o $RESULTS_PATH"/contigs_2_2_old_100_10000.fna" -d $DATA_PATH"/reference_genomes_ncbi" -c 100 -p "genomes" --contig_min_length 10000 --contig_max_length 10000
+
+\end{lstlisting}
+\end{document}
+\begin{figure}[h!t]
+  \begin{minipage}[b]{\linewidth}
+    \centering
+    \includegraphics[trim= 0 0 0 0, clip=true, scale=0.7]{../figures/multinomial_34567_precision_family.png}
+    \caption{\small{\emph{Comparison of five different kmer-lengths, where a true positive is noted when the max p-value for a contig occurs within the family it originates from. Precision is calculated as TP/(TP+FP).}}}
+  \end{minipage}
+\end{figure}
