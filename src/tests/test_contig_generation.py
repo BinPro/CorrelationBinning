@@ -150,11 +150,11 @@ class TestContigGeneration(object):
                                   True)
         sg = SampleGroup(s_set, group, uniq_id)
         sg.generate_group_contigs()
-
+        
         with tempfile.NamedTemporaryFile() as tmp_file:
             sg.print_group_contigs(tmp_file)
             tmp_file.seek(0)
             contig_seqs = list(SeqIO.parse(tmp_file, "fasta"))
-            assert_equal(len(contig_seqs),20)
-            assert_equal(contig_seqs[0].id, ">")
+            assert_equal(len(contig_seqs),10)
+            assert_equal(contig_seqs[0].id, "Capnocytophaga_canimorsus_Cc5_uid70727_10")
 
