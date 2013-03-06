@@ -2,6 +2,7 @@ from probin.dna import DNA
 from random import randint
 from corrbin.misc import GenomeGroup
 import os
+import sys
 from Bio import SeqIO
 from Bio.SeqRecord import SeqRecord
 from Bio.Seq import Seq
@@ -69,9 +70,11 @@ def read_FASTA_files(groups, dir_path):
                 genome_file = open(dir_name + '/' + fasta_file)
                 identifier = genome_file.readline()
                 # Only use non-plasmid genomes
-                # Some bacterial genomes contain more than 1 chromosonme,  
+                # Some bacterial genomes contain more than 1 chromosome,  
                 # but assumed not more than 2
-                if identifier.find('plasmid') == -1 and identifier.find('chromosome 2') == -1:
+                if identifier.find('plasmid') == -1 and \
+                        (identifier.find('complete genome') != -1 or\
+                             identifier.find('chromosome 1') != -1):
                     genome_file.close() #Close and reopen the same file
                     genome_file = open(dir_name + '/' + fasta_file)
                     genome_seq = list(SeqIO.parse(genome_file, "fasta"))
