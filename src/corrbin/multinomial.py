@@ -1,5 +1,4 @@
 from copy import copy
-from random import randint
 
 from probin.dna import DNA
 from probin.model.composition import multinomial as mn
@@ -46,31 +45,29 @@ def par(self):
 
 DNA.par = par
 
-
-class GenomeGroup(object):
-    """A wrapper for the genome groups used in pairwise testing"""
-    def __init__(self, name):
-        self.genomes = []
-        self.name = name
-        self.genome_data = []
-    def add_genome(self, genome):
-        self.genomes.append(genome)
-    def __len__(self):
-        return len(self.genomes)
-    def all_genomes_but_index(self,i):
-        return self.genomes[0:i] + self.genomes[i+1:]
-
-class Test(object):
+class Experiment(object):
     def __init__(self,x_st, group, rest_groups, id_gen):
         self.n = len(group)
-        self.count_per_g = self.count_per_g(x_st.no_contigs, self.n)
+        self.x_st = x_st
+        self.count_per_g = self.count_per_g(x_st.no_contigs)
         self.group = group
         self.rest_groups = rest_groups
-        self.x_st = x_st
         self.id_gen = id_gen
 
-    def count_per_g(self, no_contigs, n):
-        return [round(no_contigs/float(self.n))]*self.n
+    def count_per_g(self, no_contigs):
+        if self.x_st.prio == "genomes":
+            return [round(no_contigs/float(self.n))]*self.n
+        elif self.x_st.prio == "groups":
+            base = no_contigs/self.n
+            count_l = [base]*self.n
+            list_index = 0
+            while sum(count_l)<no_contigs:
+                try:
+                    count_l[list_index] += 1
+                    list_index += 1
+                except:
+                    list_index = 0
+            return count_l
 
     def execute(self):
         all_scores = []
