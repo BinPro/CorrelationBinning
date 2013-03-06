@@ -5,12 +5,14 @@ import os
 from argparse import ArgumentParser
 from probin.dna import DNA
 from Bio import SeqIO
-from corrbin.misc import all_but_index, Uniq_id
-from corrbin.contig_generation import SampleSetting, sample_contig
+from corrbin.misc import all_but_index, Uniq_id, GenomeGroup
+from corrbin.contig_generation import SampleSetting, sample_contig,\
+    read_parsed_taxonomy_file, read_FASTA_files, SampleGroup
+
 
 def main(open_name_file, dir_path, x_set):
 
-    DNA.generate_kmer_hash(kmer_length)
+    DNA.generate_kmer_hash(2)
 
     groups = read_parsed_taxonomy_file(open_name_file)
 
@@ -24,15 +26,9 @@ def main(open_name_file, dir_path, x_set):
         group = groups[group_index]
         rest_groups = all_but_index(groups, group_index)
         
-        test = Test(x_set, group, rest_groups, id_generator)
-        group_scores = test.execute()
-        
-        all_scores.append(group_scores)
-    sys.stdout.write("p_value\tcontig_family\tcontig_genus\tcontig_species\tcontig_genome\tcompare_family\tcompare_genus\tcompare_species\tcompare_genome\tcontig_id" + os.linesep)
-    for group_scores in all_scores:
-        for genome_scores in group_scores:
-            for score in genome_scores:
-                sys.stdout.write(str(score) + '\n')
+        sg = SampleGroup(x_set, group, id_generator)
+        sg.generate_group_contigs()
+        sg.print_group_contigs(sys.stdout)
  
 
 if __name__=="__main__":
@@ -56,5 +52,6 @@ if __name__=="__main__":
         
     name_file_handle = fileinput.input(args.file)
     sample_setting = SampleSetting(args.priority, args.no_contigs, args.contig_min_length, args.contig_max_length, args.debug_mode)
-    main(name_file_handle, args.directory_path, args.kmer_length, sample_setting)
+    main(name_file_handle, args.directory_path, sample_setting)
     name_file_handle.close()
+    sys.stdout.close()
