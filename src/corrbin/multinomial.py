@@ -82,6 +82,7 @@ class Experiment(object):
         genome = self.group.genomes[genome_index]
         while i < self.count_per_g[genome_index]:
             c = sample_contig(genome, self.x_st, self.id_gen.id())
+            c.calculate_signature()
             new_par = par_subtraction(copy(genome.signature),c) 
 
             score_obj = score_contig(c, new_par, genome, genome_index, self)

@@ -6,8 +6,8 @@ from argparse import ArgumentParser
 from probin.model.composition import multinomial as mn 
 from probin.dna import DNA
 from Bio import SeqIO
-from corrbin.misc import all_but_index, Uniq_id
-from corrbin.multinomial import GenomeGroup, Test
+from corrbin.misc import all_but_index, Uniq_id, GenomeGroup
+from corrbin.multinomial import Experiment
 from corrbin.contig_generation import SampleSetting
 
 def main(open_name_file, dir_path, kmer_length, x_set):
@@ -53,6 +53,7 @@ def main(open_name_file, dir_path, kmer_length, x_set):
                     if len(genome_seq) > 1:
                         sys.stderr.write("Warning! The file " + fasta_file + " in directory " + dir_name + " contained more than one sequence, ignoring all but the first!" + os.linesep)
                     genome = DNA(id = dir_name, seq= str(genome_seq[0].seq))
+                    genome.calculate_signature()
                     genome.genus = genome_data['genus']
                     genome.species = genome_data['species']
                     genome.family = genome_data['family']
@@ -68,7 +69,7 @@ def main(open_name_file, dir_path, kmer_length, x_set):
     for group_index in range(len(groups)):
         group = groups[group_index]
         rest_groups = all_but_index(groups, group_index)
-        test = Test(x_set, group, rest_groups, id_generator)
+        test = Experiment(x_set, group, rest_groups, id_generator)
         group_scores = test.execute()
         
         all_scores.append(group_scores)
