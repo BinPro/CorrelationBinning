@@ -9,79 +9,33 @@ from Bio import SeqIO
 from corrbin.misc import all_but_index, Uniq_id, GenomeGroup
 from corrbin.multinomial import Experiment
 from corrbin.contig_generation import SampleSetting
+from corrbin.score import read_contigs_file
 
 def main(contigs_file,taxonomy_file, dir_path, kmer_length):
 
     groups = []
     DNA.generate_kmer_hash(kmer_length)
 
-    # Read the file with all names, divide them into groups
+    contigs = read_contigs_file(contigs_file)
     
-    for line in open_name_file:
-        if line[0:12] == 'family_name:':
-            family = line.split('\t')[1].strip()
-        elif line[0:11] == 'genus_name:':
-            genus = line.split('\t')[1].strip()
-            new_group = GenomeGroup(genus)
-            new_group.family = family
-            groups.append(new_group)
-        elif line[0:6] == 'entry:':
-            genome_name = line.split('\t')[2].strip()
-            genome_species = line.split('\t')[1].strip()
-            meta_genome = {'id': genome_name,
-                           'species': genome_species,
-                           'genus': genus,
-                           'family': family,
-                           'file_name': genome_name
-                          }
-            groups[-1].genome_data.append(meta_genome)
+    # Divide genomes into groups, one for each genus
+    groups = read_parsed_taxonomy_file(taxonomy_file)
 
-    # Each genome in a group is a bin, fit parameters to all bins
-    os.chdir(dir_path)
-    for group in groups:
-        for genome_data in group.genome_data:
-            dir_name = genome_data['file_name']
-            fasta_files = os.listdir(dir_name)
-            for fasta_file in fasta_files:
-                genome_file = open(dir_name + '/' + fasta_file)
-                identifier = genome_file.readline()
-                # Only use non-plasmid genomes
-                # Some bacterial genomes contain more than 1 chromosonme,  
-                # but assumed not more than 2
-                if identifier.find('plasmid') == -1 and identifier.find('chromosome 2') == -1:
-                    genome_file.close() #Close and reopen the same file
-                    genome_file = open(dir_name + '/' + fasta_file)
-                    genome_seq = list(SeqIO.parse(genome_file, "fasta"))
-                    if len(genome_seq) > 1:
-                        sys.stderr.write("Warning! The file " + fasta_file + " in directory " + dir_name + " contained more than one sequence, ignoring all but the first!" + os.linesep)
-                    genome = DNA(id = dir_name, seq= str(genome_seq[0].seq))
-                    genome.calculate_signature()
-                    genome.genus = genome_data['genus']
-                    genome.species = genome_data['species']
-                    genome.family = genome_data['family']
-                    group.genomes.append(genome)
-                genome_file.close()
+    # Fetch sequence for each genome
+    genomes = read_FASTA_files_no_groups(genome_names, dir_path)
 
-    # For each bin, generate a number of contigs, 
-    # re-calculate parameters for that bin without contig-section.
-    # Further score this contig against all bins, keep within-group
-    # scores separate from outside-group scores.
-    all_scores = []
-    id_generator = Uniq_id(1000)
-    for group_index in range(len(groups)):
-        group = groups[group_index]
-        rest_groups = all_but_index(groups, group_index)
-        test = Experiment(x_set, group, rest_groups, id_generator)
-        group_scores = test.execute()
-        
-        all_scores.append(group_scores)
+    for genome in genomes:
+        genome.pseudo_par = genome.fit_nonzero_parameters(genome.sig,DNA.kmer_hash_count)
+
+    for contig in contigs:
+        for genome in genomes:
+            p_val = mn.log_probability(contig.signature, genome.pseudo_par)
+            scores.append(Score(p_val, contig, genome, contig.contig_id))
+
     sys.stdout.write("p_value\tcontig_family\tcontig_genus\tcontig_species\tcontig_genome\tcompare_family\tcompare_genus\tcompare_species\tcompare_genome\tcontig_id" + os.linesep)
-    for group_scores in all_scores:
-        for genome_scores in group_scores:
-            for score in genome_scores:
-                sys.stdout.write(str(score) + '\n')
- 
-
+    for score in scores:
+        sys.stdout.write(str(score) + '\n')
+   
 if __name__=="__main__":
     parser = ArgumentParser()
     parser.add_argument('files', nargs='*', 
