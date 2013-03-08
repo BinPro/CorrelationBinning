@@ -3,8 +3,10 @@ import unittest
 from nose.tools import assert_almost_equal, assert_equal,\
     assert_is_none
 import os
+file_path = os.path.realpath(__file__)
+program_path = os.path.abspath(os.path.join(file_path,"..","..","src/programs/"))
 import sys
-sys.path.append('../src/programs/')
+sys.path.append(program_path)
 import pairwise_probabilities
 import tempfile
 
@@ -47,11 +49,14 @@ class TestPairwiseProbabilities():
                 pairwise_probabilities.main(input_file,dir_path,kmer_length,s_set)
             tmp_file.seek(0)
             num_lines = sum(1 for line in tmp_file)
-            # 29*9=261
-            assert_equal(num_lines,261)
+            # #contigs * #genomes + #header
+            # 29*7+1=204
+            assert_equal(num_lines,204)
             tmp_file.seek(0)
-            first_line = tmp_file.readline()
-            elements =first_line.split("\t")
-            print elements
-            assert_equal("hej" in elements, True)
+            header_line = tmp_file.readline()
+            first_data_line = tmp_file.readline()
+            elements =first_data_line.strip().split("\t")
+            real_elements = ['Anaplasmataceae', 'Ehrlichia', 'Ehrlichia canis', 'Ehrlichia_canis_Jake_uid58071', 'Anaplasmataceae', 'Ehrlichia', 'Ehrlichia canis', 'Ehrlichia_canis_Jake_uid58071', '1000']
+
+            assert_equal(real_elements, elements[1:])
 
