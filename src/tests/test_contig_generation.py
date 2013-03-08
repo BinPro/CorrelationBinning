@@ -157,6 +157,6 @@ class TestContigGeneration(object):
             contig_seqs = list(SeqIO.parse(tmp_file, "fasta"))
             assert_equal(len(contig_seqs),10)
             assert_equal(contig_seqs[0].id, "Capnocytophaga_canimorsus_Cc5_uid70727_10")
-            d_string = "Capnocytophaga_canimorsus_Cc5_uid70727_10 Flavobacteriaceae|Capnocytophaga|canimorsus"
+            d_string = "Capnocytophaga_canimorsus_Cc5_uid70727_10 Flavobacteriaceae|Capnocytophaga|Capnocytophaga canimorsus"
             assert_equal(contig_seqs[0].description, d_string)
 

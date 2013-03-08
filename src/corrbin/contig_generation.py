@@ -131,7 +131,7 @@ class SampleGroup(object):
         recs = []
         for genome in self.group.genomes:
             for contig in genome.contigs:
-                sequence = SeqRecord(Seq(contig.full_seq), id="{0}_{1}".format(genome.id,contig.contig_id), name="",description="{0}|{1}".format(genome.family, genome.genus))
+                sequence = SeqRecord(Seq(contig.full_seq), id="{0}_{1}".format(genome.id,contig.contig_id), name="",description="{0}|{1}|{2}".format(genome.family, genome.genus, genome.species))
                 recs.append(sequence)
                 
         SeqIO.write(recs,file_handle,"fasta")
