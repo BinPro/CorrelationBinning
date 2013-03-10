@@ -5,6 +5,7 @@ import numpy as np
 import corrbin.exceptions as exc
 from Bio import SeqIO
 from probin.dna import DNA
+import sys
 
 class ScoreCollection(object):
     def __init__(self):

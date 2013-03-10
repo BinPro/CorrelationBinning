@@ -59,6 +59,25 @@ def read_parsed_taxonomy_file(open_name_file):
             groups[-1].genome_data.append(meta_genome)
     return groups
 
+def genome_info_from_parsed_taxonomy_file(open_name_file):
+    genomes = []
+    for line in open_name_file:
+        if line[0:12] == 'family_name:':
+            family = line.split('\t')[1].strip()
+        elif line[0:11] == 'genus_name:':
+            genus = line.split('\t')[1].strip()
+        elif line[0:6] == 'entry:':
+            genome_name = line.split('\t')[2].strip()
+            genome_species = line.split('\t')[1].strip()
+            meta_genome = {'id': genome_name,
+                           'species': genome_species,
+                           'genus': genus,
+                           'family': family,
+                           'file_name': genome_name
+                          }
+            genomes.append(meta_genome)
+    return genomes
+    
 def read_FASTA_files(groups, dir_path):
     cur_dir = os.getcwd()
     os.chdir(dir_path)
@@ -88,6 +107,38 @@ def read_FASTA_files(groups, dir_path):
                 genome_file.close()
 
     os.chdir(cur_dir)
+
+def read_FASTA_files_no_groups(meta_genomes, dir_path):
+    cur_dir = os.getcwd()
+    os.chdir(dir_path)
+    genomes = []
+    for genome_data in meta_genomes:
+        dir_name = genome_data['file_name']
+        fasta_files = os.listdir(dir_name)
+        for fasta_file in fasta_files:
+            genome_file = open(dir_name + '/' + fasta_file)
+            identifier = genome_file.readline()
+            # Only use non-plasmid genomes
+            # Some bacterial genomes contain more than 1 chromosome,
+            # but assumed not more than 2
+            if identifier.find('plasmid') == -1 and \
+                    (identifier.find('complete genome') != -1 or\
+                         identifier.find('chromosome 1') != -1):
+                # Close and reopen the same file
+                genome_file.close()
+                genome_file = open(dir_name + '/' + fasta_file)
+                genome_seq = list(SeqIO.parse(genome_file, "fasta"))
+                if len(genome_seq) > 1:
+                    sys.stderr.write("Warning! The file " + fasta_file + " in directory " + dir_name + " contained more than one sequence, ignoring all but the first!" + os.linesep)
+                genome = DNA(id = dir_name, seq= str(genome_seq[0].seq))
+                genome.genus = genome_data['genus']
+                genome.species = genome_data['species']
+                genome.family = genome_data['family']
+                genomes.append(genome)
+            genome_file.close()
+    os.chdir(cur_dir)
+    return genomes
+
 
 class SampleGroup(object):
     """Somewhat a duplicate of multinomial.Experiment"""
