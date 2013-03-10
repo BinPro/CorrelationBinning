@@ -8,8 +8,8 @@ from probin.dna import DNA
 from Bio import SeqIO
 from corrbin.misc import all_but_index, Uniq_id, GenomeGroup
 from corrbin.multinomial import Experiment
-from corrbin.contig_generation import SampleSetting
-from corrbin.score import read_contigs_file
+from corrbin.contig_generation import SampleSetting, genome_info_from_parsed_taxonomy_file, read_FASTA_files_no_groups
+from corrbin.score import read_contigs_file, Score
 
 def main(contigs_file,taxonomy_file, dir_path, kmer_length):
 
@@ -19,15 +19,18 @@ def main(contigs_file,taxonomy_file, dir_path, kmer_length):
     contigs = read_contigs_file(contigs_file)
     
     # Divide genomes into groups, one for each genus
-    groups = read_parsed_taxonomy_file(taxonomy_file)
+    meta_genomes = genome_info_from_parsed_taxonomy_file(taxonomy_file)
 
     # Fetch sequence for each genome
-    genomes = read_FASTA_files_no_groups(genome_names, dir_path)
+    genomes = read_FASTA_files_no_groups(meta_genomes, dir_path)
 
     for genome in genomes:
-        genome.pseudo_par = genome.fit_nonzero_parameters(genome.sig,DNA.kmer_hash_count)
+        genome.calculate_signature()
+        genome.pseudo_par = mn.fit_nonzero_parameters(genome.signature,DNA.kmer_hash_count)
 
+    scores = []
     for contig in contigs:
+        contig.calculate_signature()
         for genome in genomes:
             p_val = mn.log_probability(contig.signature, genome.pseudo_par)
             scores.append(Score(p_val, contig, genome, contig.contig_id))

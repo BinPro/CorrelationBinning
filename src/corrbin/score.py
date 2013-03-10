@@ -102,7 +102,7 @@ def read_contigs_file(open_contigs_file):
         contig = DNA(id=contig_id_hash["genome"], seq=str(seq.seq))
         contig.family = contig_id_hash["family"]
         contig.genus = contig_id_hash["genus"]
-        contig.specie = contig_id_hash["specie"]
+        contig.species = contig_id_hash["species"]
         contig.contig_id = contig_id_hash["contig_id"]
         contigs.append(contig)
 
@@ -117,5 +117,5 @@ def parse_contig_description(contig_d):
     contig_hash["contig_id"] = int(genome_and_contig_id.split("_")[-1])
     contig_hash["family"] = taxonomy.split("|")[0]
     contig_hash["genus"] = taxonomy.split("|")[1]
-    contig_hash["specie"] = taxonomy.split("|")[2]
+    contig_hash["species"] = taxonomy.split("|")[2]
     return contig_hash
