@@ -26,13 +26,13 @@ class test_score(object):
 
 
     def test_parse_contig_descritpion(self):
-        id_string = "my_genome_name_uid123_100 my_family|my_genus|my_genus my_specie"
+        id_string = "my_genome_name_uid123_100 my_family|my_genus|my_genus my_species"
         contig_id_hash = parse_contig_description(id_string)
         assert_equal("my_genome_name_uid123",contig_id_hash["genome"])
         assert_equal(100,contig_id_hash["contig_id"])
         assert_equal("my_family", contig_id_hash["family"])
         assert_equal("my_genus", contig_id_hash["genus"])
-        assert_equal("my_genus my_specie",contig_id_hash["specie"])
+        assert_equal("my_genus my_species",contig_id_hash["species"])
                      
     
 
