@@ -7,11 +7,12 @@
 # evaluation. The output is saved in order to be reused for all 
 # experiments.
 
-#DATA_PATH=$HOME"/glob/data"
-DATA_PATH=$HOME"/repos/DATA"
+DATA_PATH="/bubo/home/h20/brynjar/glob/masterproject/DATA/2013-03-05"
 
-#RESULTS_PATH=$HOME"/glob/results/2013-01-18"
-RESULTS_PATH=$HOME"/repos/DATA/contigs"
+#DATA_PATH=$HOME"/repos/DATA"
+
+RESULTS_PATH="/bubo/home/h20/brynjar/glob/masterproject/DATA/2013-03-05/contigs"
+#RESULTS_PATH=$HOME"/repos/DATA/contigs"
 
 echo "Generate contigs" >&2
-time ../programs/generate_contigs.py $DATA_PATH"/parsed_gen_2_2_complete_old.txt" -o $RESULTS_PATH"/contigs_2_2_old_100_100.fna" -d $DATA_PATH"/reference_genomes_ncbi" -c 100 -p "genomes" --contig_min_length 100 --contig_max_length 100
+time ../programs/generate_contigs.py $DATA_PATH"/parsed_taxonomy_2_2_2013-03-05_complete.txt" -o $RESULTS_PATH"/contigs_2_2_old_100_10000.fna" -d $DATA_PATH"/all_fna" -c 100 -p "genomes" --contig_min_length 10000 --contig_max_length 10000

@@ -93,7 +93,8 @@ def read_FASTA_files(groups, dir_path):
                 # but assumed not more than 2
                 if identifier.find('plasmid') == -1 and \
                         (identifier.find('complete genome') != -1 or\
-                             identifier.find('chromosome 1') != -1):
+                             identifier.find('chromosome 1') != -1 or\
+                             identifier.find('chromosome I,') != -1):
                     genome_file.close() #Close and reopen the same file
                     genome_file = open(dir_name + '/' + fasta_file)
                     genome_seq = list(SeqIO.parse(genome_file, "fasta"))
