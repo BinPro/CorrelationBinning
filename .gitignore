@@ -1,15 +1,28 @@
-# Python byte comde #
+# Python byte code #
 #####################
 *.pyc
 # VIM #
 *.swp
+
 # Emacs generated files #
+#########################
 *~
+
 # Result files #
+################
 results/
+
+# Uppmax output files
+#####################
+slurm*
+
 # Python package files
+######################
 src/dist/*
 src/build/*
 src/*.egg*
 
+# Screen config file #
+######################
 .screenrc
+
