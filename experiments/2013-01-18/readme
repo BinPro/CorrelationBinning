@@ -1,0 +1,11 @@
+Data generation:
+Generation of x contigs, random start position, length x from genomes, chosen so that there will be at least x species within each genera and at least x genera within each family.
+
+The number of contigs are chosen in a non obvious way.
+
+Fit multinomial parameters to the genomes used.
+
+Score each contig against all genomes. 
+
+Result processing:
+Classify each contig to belong to the genome where it scored its max and plot statisitcs in graph with ROC_curve.py
