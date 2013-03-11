@@ -4,7 +4,9 @@ from nose.tools import assert_almost_equal, assert_equal,\
     assert_is_none
 import os
 import sys
-sys.path.append('../src/programs/')
+file_path = os.path.realpath(__file__)
+program_path = os.path.abspath(os.path.join(file_path,"..","..","src/programs/"))
+sys.path.append(program_path)
 import generate_contigs
 import tempfile
 
