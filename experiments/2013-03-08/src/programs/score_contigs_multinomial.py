@@ -2,6 +2,7 @@
 import fileinput
 import sys
 import os
+from copy import copy
 from argparse import ArgumentParser
 from probin.model.composition import multinomial as mn 
 from probin.dna import DNA
@@ -32,8 +33,18 @@ def main(contigs_file,taxonomy_file, dir_path, kmer_length):
     for contig in contigs:
         contig.calculate_signature()
         for genome in genomes:
-            p_val = mn.log_probability(contig.signature, genome.pseudo_par)
-            scores.append(Score(p_val, contig, genome, contig.contig_id))
+            if contig.id == genome.id:
+                temp_genome_signature = copy(genome.signature)
+                temp_genome_signature.subtract(contig.signature)
+                temp_pseudo_par = mn.fit_nonzero_parameters(\
+                    temp_genome_signature, DNA.kmer_hash_count)
+                p_val = mn.log_probability(\
+                    contig.signature, temp_pseudo_par)
+            else:
+                p_val = mn.log_probability(\
+                    contig.signature, genome.pseudo_par)
+            scores.append(\
+                Score(p_val, contig, genome, contig.contig_id))
 
     sys.stdout.write("p_value\tcontig_family\tcontig_genus\tcontig_species\tcontig_genome\tcompare_family\tcompare_genus\tcompare_species\tcompare_genome\tcontig_id" + os.linesep)
     for score in scores:

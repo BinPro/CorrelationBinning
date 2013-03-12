@@ -1,0 +1,6 @@
+family_name:	Anaplasmataceae
+genus_name:	Ehrlichia
+entry:	Ehrlichia canis	Ehrlichia_canis_Jake_uid58071
+family_name:	Flavobacteriaceae
+genus_name:	Cellulophaga
+entry:	Cellulophaga algicola	Cellulophaga_algicola_DSM_14237_uid62159
