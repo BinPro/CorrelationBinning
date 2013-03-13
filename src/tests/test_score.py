@@ -4,7 +4,8 @@ from nose.tools import assert_almost_equal, assert_equal
 
 import os
 
-from corrbin.score import read_contigs_file, parse_contig_description
+from corrbin.score import read_contigs_file, parse_contig_description,\
+    RocAxisFuns, ExperimentData
 from probin import dna
 
 class test_score(object):
@@ -34,6 +35,39 @@ class test_score(object):
         assert_equal("my_genus", contig_id_hash["genus"])
         assert_equal("my_genus my_species",contig_id_hash["species"])
                      
-    
+    def test_experiment_data(self):
+        axis_funs = RocAxisFuns("included_contigs_ratio","precision")
+        d = ExperimentData(axis_funs)
+        cur_dir = os.path.dirname(__file__)
+        input_file = os.path.join(cur_dir,"fixtures/score_mul_test.tsv")
+        d.load_data_frame(input_file)
+        d.standardize()
+        d.classify("family")
+        d.classify("genus")
+        d.classify("genome")
+
+        df = d.classification["family"]
+        assert_equal(df[df.index == 1010].real_classif.values[0],False)
+        assert_equal(list(df.real_classif.values).count(True),28)
+
+        df = d.classification["genus"]
+        assert_equal(df[df.index == 1010].real_classif.values[0],False)
+        assert_equal(df[df.index == 1013].real_classif.values[0],False)
+        assert_equal(df[df.index == 1027].real_classif.values[0],False)
+        assert_equal(list(df.real_classif.values).count(True),26)
 
 
+        df = d.classification["genome"]
+        assert_equal(df[df.index == 1000].real_classif.values[0],False)
+        assert_equal(df[df.index == 1001].real_classif.values[0],False)
+        assert_equal(df[df.index == 1003].real_classif.values[0],False)
+        assert_equal(df[df.index == 1004].real_classif.values[0],False)
+        assert_equal(df[df.index == 1007].real_classif.values[0],False)
+        assert_equal(df[df.index == 1010].real_classif.values[0],False)
+        assert_equal(df[df.index == 1013].real_classif.values[0],False)
+        assert_equal(df[df.index == 1018].real_classif.values[0],False)
+        assert_equal(df[df.index == 1027].real_classif.values[0],False)
+
+        assert_equal(list(df.real_classif.values).count(True),20)
+
+        
