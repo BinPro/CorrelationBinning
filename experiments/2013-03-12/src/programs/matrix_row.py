@@ -39,9 +39,9 @@ if __name__=="__main__":
     args = parser.parse_args()
 
     default_stdout = sys.stdout
-    if args.output:
-        sys.stdout = args.output
+    if args.output and args.output != '-':
+        sys.stdout = open(args.output,'w')
 
-    main(args.files, args.level, args.fun)
+    main(args.files, args.level, args.function)
 
     sys.stdout = default_stdout
