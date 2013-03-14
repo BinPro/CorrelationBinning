@@ -50,16 +50,13 @@ class ExperimentData(object):
 
     def load_data_frame(self,input_file):
         self.df = p.io.parsers.read_table(input_file, sep='\t')
-    
-    def standardize(self):
-        no_inf_df = self.df.replace(-np.inf,np.nan)
-        self.df['p_value_standardized'] = \
-            p.Series(no_inf_df.p_value, index=self.df.index)
-        for contig_id in self.df.contig_id.unique():
-            cond = self.df.contig_id == contig_id
-            self.df.p_value_standardized[cond] =\
-                p.Series(zscore(no_inf_df.p_value[cond]), index=self.df.index[cond])
 
+    def standardize(self):
+        self.df.replace(-np.inf,np.nan)
+        self.df['p_value_standardized'] = \
+            self.df.groupby('contig_id').p_value.transform(zscore)
+
+            
     def classify(self, level):
         try:
             df_class = \

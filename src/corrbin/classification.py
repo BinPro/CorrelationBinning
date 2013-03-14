@@ -13,16 +13,25 @@ import corrbin.exceptions as exc
 # other line than above.
 # If the max contig score is less than q, the classification
 # will be negative, otherwise positive.
+
 def classify_bool(d, level):
-    df = d.df
-    contig_ids = df.contig_id.unique()
+    # Since eval is used later in code, check that level
+    # is a safe string.
+    if not (level in ["genome","species", "genus","family"]):
+        raise exc.LevelError(level)
+    contig_level = "contig_" + level
+    compare_level = "compare_" + level
+    real_classif_df = eval("d.df." + contig_level + "== d.df." + \
+                               compare_level)
+
     output_real = []
     output_q = []
-    for contig_id in contig_ids:
-        contig_df = df[df.contig_id == contig_id]
-        real_class, max_q_std = classify_contig_bool(contig_df,level)
+    contig_ids = []
+    for contig_id,group in d.df.groupby("contig_id"):
+        real_class, max_q_std = classify_contig_bool(group,level)
         output_real.append(real_class)
         output_q.append(max_q_std)
+        contig_ids.append(contig_id)
     s_real = p.Series(output_real,index=contig_ids)
     s_max_q = p.Series(output_q, index=contig_ids)
     df = p.DataFrame({"real_classif": s_real,
@@ -32,10 +41,6 @@ def classify_bool(d, level):
 
 def classify_contig_bool(df,level):
     max_q = df.p_value_standardized.max()
-    # Since eval is used later in code, check that level
-    # is a safe string.
-    if not (level in ["genome","species", "genus","family"]):
-        raise exc.LevelError(level)
     real_class = False
     max_rows = df[df.p_value_standardized == max_q]
     if len(max_rows)>1:
