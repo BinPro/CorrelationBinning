@@ -42,6 +42,12 @@ class test_score(object):
         input_file = os.path.join(cur_dir,"fixtures/score_mul_test.tsv")
         d.load_data_frame(input_file)
         d.standardize()
+        # Random sample to test if the standardization works
+        assert_almost_equal(d.df[0:1].p_value_standardized[0],0.7767953)
+        assert_almost_equal(d.df[5:6].p_value_standardized[5],-0.67591835)
+        assert_almost_equal(d.df[10:11].p_value_standardized[10],-0.1388929)
+        assert_almost_equal(d.df[12:13].p_value_standardized[12],-1.13672827)
+
         d.classify("family")
         d.classify("genus")
         d.classify("genome")
