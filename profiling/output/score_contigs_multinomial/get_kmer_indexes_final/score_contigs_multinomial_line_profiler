@@ -1,0 +1,89 @@
+Timer unit: 1e-06 s
+
+File: /home/johannes/.virtualenvs/probin2.7/local/lib/python2.7/site-packages/probin-0.1-py2.7.egg/probin/dna.py
+Function: calculate_signature at line 51
+Total time: 22.1386 s
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+    51                                               @profile
+    52                                               def calculate_signature(self):
+    53        36           72      2.0      0.0          not_in_hash = 0
+    54        36          375     10.4      0.0          self.signature = Counter()
+    55        72          168      2.3      0.0          for fragment in self.seq:
+    56        36           92      2.6      0.0              if len(fragment) < self.kmer_len:
+    57                                                           continue
+    58        36     22137035 614917.6    100.0              (indexes,not_in_hash) = self._get_kmer_indexes(fragment)
+    59        36          812     22.6      0.0              self.signature.update(indexes)
+    60        36           69      1.9      0.0              if not_in_hash:
+    61                                                           sys.stderr.write("Sequence id: %s, skipped %i kmers that were not in dictionary%s" % (self.id,not_in_hash,os.linesep)) 
+
+File: /home/johannes/.virtualenvs/probin2.7/local/lib/python2.7/site-packages/probin-0.1-py2.7.egg/probin/dna.py
+Function: _get_kmer_indexes at line 63
+Total time: 22.1187 s
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+    63                                               @profile
+    64                                               def _get_kmer_indexes(self,seq):
+    65        36          101      2.8      0.0          indexes = defaultdict(int)
+    66        36           65      1.8      0.0          not_in_hash = 0
+    67                                           
+    68                                                   # This call is the most time consuming 
+    69                                                   # Therefore it is wise to keep it as fast as possible
+    70        36     22100546 613904.1     99.9          kmers = Counter(window(seq,self.kmer_len))
+    71                                           
+    72                                                   # Once the kmers are counted, it's safe to do the checking
+    73      2324         4190      1.8      0.0          for kmer_tuple, count in kmers.iteritems():
+    74      2288         4415      1.9      0.0              kmer = "".join(kmer_tuple)
+    75      2288         4351      1.9      0.0              if kmer in self.kmer_hash:
+    76      2288         4973      2.2      0.0                  indexes[self.kmer_hash[kmer]] += count
+    77                                                       else:
+    78                                                           not_in_hash += 1
+    79        36           67      1.9      0.0          return (indexes,not_in_hash)
+
+File: score_contigs_multinomial.py
+Function: main at line 15
+Total time: 23.6347 s
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+    15                                           @profile
+    16                                           def main(contigs_file,taxonomy_file, dir_path, kmer_length):
+    17                                           
+    18         1            5      5.0      0.0      groups = []
+    19         1          233    233.0      0.0      DNA.generate_kmer_hash(kmer_length)
+    20                                           
+    21         1        10941  10941.0      0.0      contigs = read_contigs_file(contigs_file)
+    22                                               
+    23                                               # Divide genomes into groups, one for each genus
+    24         1           92     92.0      0.0      meta_genomes = genome_info_from_parsed_taxonomy_file(taxonomy_file)
+    25                                           
+    26                                               # Fetch sequence for each genome
+    27         1      1020837 1020837.0      4.3      genomes = read_FASTA_files_no_groups(meta_genomes, dir_path)
+    28                                           
+    29         8           25      3.1      0.0      for genome in genomes:
+    30         7     22070540 3152934.3     93.4          genome.calculate_signature()
+    31         7         1183    169.0      0.0          genome.pseudo_par = mn.fit_nonzero_parameters(genome.signature,DNA.kmer_hash_count)
+    32                                           
+    33         1            2      2.0      0.0      scores = []
+    34        30           71      2.4      0.0      for contig in contigs:
+    35        29        69116   2383.3      0.3          contig.calculate_signature()
+    36       232          572      2.5      0.0          for genome in genomes:
+    37       203          534      2.6      0.0              if contig.id == genome.id:
+    38        29         2103     72.5      0.0                  temp_genome_signature = copy(genome.signature)
+    39        29         1528     52.7      0.0                  temp_genome_signature.subtract(contig.signature)
+    40        29           72      2.5      0.0                  temp_pseudo_par = mn.fit_nonzero_parameters(\
+    41        29         3690    127.2      0.0                      temp_genome_signature, DNA.kmer_hash_count)
+    42        29           77      2.7      0.0                  p_val = mn.log_probability(\
+    43        29        63978   2206.1      0.3                      contig.signature, temp_pseudo_par)
+    44                                                       else:
+    45       174          417      2.4      0.0                  p_val = mn.log_probability(\
+    46       174       382864   2200.4      1.6                      contig.signature, genome.pseudo_par)
+    47       203          613      3.0      0.0              scores.append(\
+    48       203         2458     12.1      0.0                  Score(p_val, contig, genome, contig.contig_id))
+    49                                           
+    50         1           25     25.0      0.0      sys.stdout.write("p_value\tcontig_family\tcontig_genus\tcontig_species\tcontig_genome\tcompare_family\tcompare_genus\tcompare_species\tcompare_genome\tcontig_id" + os.linesep)
+    51       204          500      2.5      0.0      for score in scores:
+    52       203         2262     11.1      0.0          sys.stdout.write(str(score) + '\n')
+
