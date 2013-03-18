@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #SBATCH -A b2010008
 #SBATCH -p node
-#SBATCH -t 2-00:00:00
+#SBATCH -t 3-00:00:00
 
 # This experiment aim is to compare how different kmer-lengths affect
 # the genomic profile specificity for different taxonomic levels.
@@ -9,7 +9,7 @@
 DATA_PATH="/bubo/home/h20/brynjar/glob/masterproject/DATA/2013-03-05"
 #DATA_PATH=$HOME"/repos/DATA"
 
-RESULTS_PATH=$HOME"/glob/results/2013-03-08"
+RESULTS_PATH=$HOME"/glob/results/2013-03-08/2013-03-18"
 
 KMER_LENGTH=10
 
