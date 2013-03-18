@@ -1,0 +1,72 @@
+Timer unit: 1e-06 s
+
+File: ./score_contigs_multinomial.py
+Function: main at line 15
+Total time: 29.7288 s
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+    15                                           @profile
+    16                                           def main(contigs_file,taxonomy_file, dir_path, kmer_length):
+    17                                           
+    18         1            4      4.0      0.0      groups = []
+    19         1          226    226.0      0.0      DNA.generate_kmer_hash(kmer_length)
+    20                                           
+    21         1       221793 221793.0      0.7      contigs = read_contigs_file(contigs_file)
+    22                                               
+    23                                               # Divide genomes into groups, one for each genus
+    24         1          110    110.0      0.0      meta_genomes = genome_info_from_parsed_taxonomy_file(taxonomy_file)
+    25                                           
+    26                                               # Fetch sequence for each genome
+    27         1      1033795 1033795.0      3.5      genomes = read_FASTA_files_no_groups(meta_genomes, dir_path)
+    28                                           
+    29         8           24      3.0      0.0      for genome in genomes:
+    30         7     22316551 3188078.7     75.1          genome.calculate_signature()
+    31         7         1236    176.6      0.0          genome.pseudo_par = mn.fit_nonzero_parameters(genome.signature,DNA.kmer_hash_count)
+    32                                           
+    33         1            2      2.0      0.0      scores = []
+    34       300          715      2.4      0.0      for contig in contigs:
+    35       299      3799065  12705.9     12.8          contig.calculate_signature()
+    36      2392         5816      2.4      0.0          for genome in genomes:
+    37      2093         5653      2.7      0.0              if contig.id == genome.id:
+    38       299        24424     81.7      0.1                  temp_genome_signature = copy(genome.signature)
+    39       299        15027     50.3      0.1                  temp_genome_signature.subtract(contig.signature)
+    40       299          782      2.6      0.0                  temp_pseudo_par = mn.fit_nonzero_parameters(\
+    41       299        39524    132.2      0.1                      temp_genome_signature, DNA.kmer_hash_count)
+    42       299          796      2.7      0.0                  p_val = mn.log_probability(\
+    43       299       335830   1123.2      1.1                      contig.signature, temp_pseudo_par)
+    44                                                       else:
+    45      1794         4150      2.3      0.0                  p_val = mn.log_probability(\
+    46      1794      1868793   1041.7      6.3                      contig.signature, genome.pseudo_par)
+    47      2093         5094      2.4      0.0              scores.append(\
+    48      2093        22649     10.8      0.1                  Score(p_val, contig, genome, contig.contig_id))
+    49                                           
+    50         1           27     27.0      0.0      sys.stdout.write("p_value\tcontig_family\tcontig_genus\tcontig_species\tcontig_genome\tcompare_family\tcompare_genus\tcompare_species\tcompare_genome\tcontig_id" + os.linesep)
+    51      2094         5044      2.4      0.0      for score in scores:
+    52      2093        21686     10.4      0.1          sys.stdout.write(str(score) + '\n')
+
+File: /home/johannes/.virtualenvs/probin2.7/local/lib/python2.7/site-packages/probin-0.1-py2.7.egg/probin/model/composition/multinomial.py
+Function: log_probability at line 20
+Total time: 1.81647 s
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+    20                                           @profile
+    21                                           def log_probability(signature, prob_vector):
+    22      2093         8233      3.9      0.5      phi = sum(signature.values())
+    23      2093         3556      1.7      0.2      log_prod = 0
+    24     69069       141825      2.1      7.8      for i,cnt in signature.iteritems():
+    25     66976      1043651     15.6     57.5          denom = _log_fac(cnt)
+    26     66976       586393      8.8     32.3          log_prod += (log(prob_vector[i])*cnt) - denom
+    27      2093        32816     15.7      1.8      return log_prod + _log_fac(phi)
+
+File: /home/johannes/.virtualenvs/probin2.7/local/lib/python2.7/site-packages/probin-0.1-py2.7.egg/probin/model/composition/multinomial.py
+Function: _log_fac at line 28
+Total time: 0.463022 s
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+    28                                           @profile
+    29                                           def _log_fac(i):
+    30     69069       463022      6.7    100.0      return gammaln(i+1)
+
