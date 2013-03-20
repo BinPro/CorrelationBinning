@@ -4,12 +4,16 @@
 #SBATCH -n 1
 #SBATCH -t 1-00:00:00
 
-DATA_PATH="/bubo/home/h20/brynjar/glob/masterproject/DATA/2013-03-05"
-#DATA_PATH=$HOME"/repos/DATA"
+#DATA_PATH="/bubo/home/h20/brynjar/glob/masterproject/DATA/2013-03-05"
+DATA_PATH=$HOME"/repos/RESULTS/to_big_for_git/2013-03-08"
 
-RESULTS_PATH=$HOME"/glob/results/2013-03-08"
-echo "plotting graph, precision for genus level, contig length 1000"
-time ../programs/plot_graph.py $RESULTS_PATH"/plotting_links/kmer-l_3_contig-l_1000" $RESULTS_PATH"/plotting_links/kmer-l_4_contig-l_1000" $RESULTS_PATH"/plotting_links/kmer-l_5_contig-l_1000" $RESULTS_PATH"/plotting_links/kmer-l_6_contig-l_1000" $RESULTS_PATH"/plotting_links/kmer-l_7_contig-l_1000" $RESULTS_PATH"/plotting_links/kmer-l_8_contig-l_1000" $RESULTS_PATH"/plotting_links/kmer-l_9_contig-l_1000" $RESULTS_PATH"/plotting_links/kmer-l_10_contig-l_1000" -o $RESULTS_PATH"/figures/multinomial_scores_all_kmer_1000_genus" --levels "genus" -x "included_contigs_ratio" -y "precision"
+#RESULTS_PATH=$HOME"/glob/results/2013-03-08"
+RESULTS_PATH=$HOME"/repos/RESULTS/multinomial_kmer_length"
 
-echo "plotting graph, precision for genome level, contig length 1000"
-time ../programs/plot_graph.py $RESULTS_PATH"/plotting_links/kmer-l_3_contig-l_1000" $RESULTS_PATH"/plotting_links/kmer-l_4_contig-l_1000" $RESULTS_PATH"/plotting_links/kmer-l_5_contig-l_1000" $RESULTS_PATH"/plotting_links/kmer-l_6_contig-l_1000" $RESULTS_PATH"/plotting_links/kmer-l_7_contig-l_1000" $RESULTS_PATH"/plotting_links/kmer-l_8_contig-l_1000" $RESULTS_PATH"/plotting_links/kmer-l_9_contig-l_1000" $RESULTS_PATH"/plotting_links/kmer-l_10_contig-l_1000" -o $RESULTS_PATH"/figures/multinomial_scores_all_kmer_1000_genome" --levels "genome" -x "included_contigs_ratio" -y "precision"
+LEVEL="genome"
+
+echo "plotting graph, precision for "$LEVEL" level, contig length 1000, kmer=3-6"
+time ../programs/plot_graph.py $DATA_PATH"/plotting_links/kmer-l_3__contig-l_1000" $DATA_PATH"/plotting_links/kmer-l_4__contig-l_1000" $DATA_PATH"/plotting_links/kmer-l_5__contig-l_1000" $DATA_PATH"/plotting_links/kmer-l_6__contig-l_1000" -o $RESULTS_PATH"/figures/multinomial_scores_kmer_3_to_6_1000_"$LEVEL --levels $LEVEL -x "included_contigs_ratio" -y "precision"
+
+echo "plotting graph, precision for "$LEVEL" level, contig length 1000, kmer=7-11"
+time ../programs/plot_graph.py $DATA_PATH"/plotting_links/kmer-l_7__contig-l_1000" $DATA_PATH"/plotting_links/kmer-l_8__contig-l_1000" $DATA_PATH"/plotting_links/kmer-l_9__contig-l_1000" $DATA_PATH"/plotting_links/kmer-l_10__contig-l_1000" -o $RESULTS_PATH"/figures/multinomial_scores_kmer_7_to_11_1000_"$LEVEL --levels $LEVEL -x "included_contigs_ratio" -y "precision"
