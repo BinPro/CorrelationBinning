@@ -187,3 +187,14 @@ class SampleGroup(object):
                 recs.append(sequence)
                 
         SeqIO.write(recs,file_handle,"fasta")
+
+
+def print_parts(parts,file_handle):
+    recs =[]
+    for part_number, part in enumerate(parts):
+        sequence = SeqRecord(Seq(part.full_seq), id="{0}_{1}"\
+                                 .format(part.id,part.start_position),
+                             name="",
+                             description="{2}".format(part_number))
+        recs.append(sequence)
+    SeqIO.write(recs,file_handle,"fasta")
