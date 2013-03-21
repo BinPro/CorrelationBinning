@@ -1,0 +1,44 @@
+Filename: ./score_contigs_multinomial.py
+
+Line #    Mem usage    Increment   Line Contents
+================================================
+    15                             @profile
+    16                             def main(contigs_file,taxonomy_file, dir_path, kmer_length):
+    17    42.633 MB     0.000 MB   
+    18    42.637 MB     0.004 MB       groups = []
+    19   481.918 MB   439.281 MB       DNA.generate_kmer_hash(kmer_length)
+    20                             
+    21   482.484 MB     0.566 MB       contigs = read_contigs_file(contigs_file)
+    22                                 
+    23                                 # Divide genomes into groups, one for each genus
+    24   482.484 MB     0.000 MB       meta_genomes = genome_info_from_parsed_taxonomy_file(taxonomy_file)
+    25                             
+    26                                 # Fetch sequence for each genome
+    27   499.062 MB    16.578 MB       genomes = read_FASTA_files_no_groups(meta_genomes, dir_path)
+    28                             
+    29   696.730 MB   197.668 MB       for genome in genomes:
+    30   958.590 MB   261.859 MB           genome.calculate_signature()
+    31   958.590 MB     0.000 MB           genome.pseudo_par = mn.fit_nonzero_parameters(genome.signature,DNA.kmer_hash_count)
+    32                             
+    33   958.590 MB     0.000 MB       scores = []
+    34  1056.863 MB    98.273 MB       for contig in contigs:
+    35  1008.863 MB   -48.000 MB           contig.calculate_signature()
+    36  1056.863 MB    48.000 MB           for genome in genomes:
+    37  1056.863 MB     0.000 MB               if contig.id == genome.id:
+    38  1056.863 MB     0.000 MB                   temp_genome_signature = copy(genome.signature)
+    39  1056.863 MB     0.000 MB                   temp_genome_signature.subtract(contig.signature)
+    40  1056.863 MB     0.000 MB                   temp_pseudo_par = mn.fit_nonzero_parameters(\
+    41  1056.863 MB     0.000 MB                       temp_genome_signature, DNA.kmer_hash_count)
+    42  1056.863 MB     0.000 MB                   p_val = mn.log_probability(\
+    43  1008.863 MB   -48.000 MB                       contig.signature, temp_pseudo_par)
+    44                                         else:
+    45  1056.863 MB    48.000 MB                   p_val = mn.log_probability(\
+    46  1056.863 MB     0.000 MB                       contig.signature, genome.pseudo_par)
+    47  1056.863 MB     0.000 MB               scores.append(\
+    48  1056.863 MB     0.000 MB                   Score(p_val, contig, genome, contig.contig_id))
+    49                             
+    50  1056.867 MB     0.004 MB       sys.stdout.write("p_value\tcontig_family\tcontig_genus\tcontig_species\tcontig_genome\tcompare_family\tcompare_genus\tcompare_species\tcompare_genome\tcontig_id" + os.linesep)
+    51  1056.867 MB     0.000 MB       for score in scores:
+    52                                     sys.stdout.write(str(score) + '\n')
+
+
