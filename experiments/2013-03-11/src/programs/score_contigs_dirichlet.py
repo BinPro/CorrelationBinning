@@ -27,8 +27,11 @@ def main(contigs_file,taxonomy_file, dir_path, kmer_length):
 
     for genome in genomes:
         genome.calculate_signature()
-        signatures = genome.split_seq_to_signatures(1000,15)
-        genome.pseudo_par = model.fit_nonzero_parameters(signatures,DNA.kmer_hash_count)
+        parts = genome.split_seq(1000,15)
+        sys.stderr.write("A new genome is fitted\n")
+        for part in parts:
+            part.calculate_signature()
+        genome.pseudo_par = model.fit_nonzero_parameters(parts,DNA.kmer_hash_count)
 
     scores = []
     for contig in contigs:
@@ -37,12 +40,12 @@ def main(contigs_file,taxonomy_file, dir_path, kmer_length):
             if contig.id == genome.id:
                 temp_genome_signature = copy(genome.signature)
                 temp_genome_signature.subtract(contig.signature)
-                temp_pseudo_par = mn.fit_nonzero_parameters(\
+                temp_pseudo_par = model.fit_nonzero_parameters(\
                     temp_genome_signature, DNA.kmer_hash_count)
-                p_val = mn.log_probability(\
+                p_val = model.log_probability(\
                     contig.signature, temp_pseudo_par)
             else:
-                p_val = mn.log_probability(\
+                p_val = model.log_probability(\
                     contig.signature, genome.pseudo_par)
             scores.append(\
                 Score(p_val, contig, genome, contig.contig_id))
