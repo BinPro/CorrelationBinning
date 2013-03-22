@@ -1,0 +1,93 @@
+Filename: /home/johannes/.virtualenvs/probin2.7/local/lib/python2.7/site-packages/probin-0.1-py2.7.egg/probin/model/composition/multinomial.py
+
+Line #    Mem usage    Increment   Line Contents
+================================================
+    13                             def fit_nonzero_parameters(sig,kmer_hash_count):
+    14  2078.875 MB     0.000 MB       pseudo_sig = np.ones(kmer_hash_count)
+    15  2078.887 MB     0.012 MB       for key,cnt in sig.iteritems():
+    16  4727.969 MB  2649.082 MB           pseudo_sig[key] += cnt
+    17  4727.969 MB     0.000 MB       pseudo_sig /= np.sum(pseudo_sig)
+    18  4727.969 MB     0.000 MB       return pseudo_sig
+
+
+Filename: ./score_contigs_multinomial.py
+
+Line #    Mem usage    Increment   Line Contents
+================================================
+    15                             @profile
+    16                             def main(contigs_file,taxonomy_file, dir_path, kmer_length):
+    17    42.637 MB     0.000 MB   
+    18    42.641 MB     0.004 MB       groups = []
+    19  1853.203 MB  1810.562 MB       DNA.generate_kmer_hash(kmer_length)
+    20                             
+    21  1853.535 MB     0.332 MB       contigs = read_contigs_file(contigs_file)
+    22                                 
+    23                                 # Divide genomes into groups, one for each genus
+    24  1853.535 MB     0.000 MB       meta_genomes = genome_info_from_parsed_taxonomy_file(taxonomy_file)
+    25                             
+    26                                 # Fetch sequence for each genome
+    27  1878.809 MB    25.273 MB       genomes = read_FASTA_files_no_groups(meta_genomes, dir_path)
+    28                             
+    29  2790.355 MB   911.547 MB       for genome in genomes:
+    30  2953.727 MB   163.371 MB           genome.calculate_signature()
+    31  3006.523 MB    52.797 MB           genome.pseudo_par = mn.fit_nonzero_parameters(genome.signature,DNA.kmer_hash_count)
+    32                             
+    33  3006.523 MB     0.000 MB       scores = []
+    34  4663.109 MB  1656.586 MB       for contig in contigs:
+    35  3188.367 MB -1474.742 MB           contig.calculate_signature()
+    36  4663.109 MB  1474.742 MB           for genome in genomes:
+    37  4663.109 MB     0.000 MB               if contig.id == genome.id:
+    38  4662.016 MB    -1.094 MB                   temp_genome_signature = copy(genome.signature)
+    39  4662.016 MB     0.000 MB                   temp_genome_signature.subtract(contig.signature)
+    40  4662.016 MB     0.000 MB                   temp_pseudo_par = mn.fit_nonzero_parameters(\
+    41  4727.969 MB    65.953 MB                       temp_genome_signature, DNA.kmer_hash_count)
+    42  4727.969 MB     0.000 MB                   p_val = mn.log_probability(\
+    43  3224.516 MB -1503.453 MB                       contig.signature, temp_pseudo_par)
+    44                                         else:
+    45  4663.109 MB  1438.594 MB                   p_val = mn.log_probability(\
+    46  4352.449 MB  -310.660 MB                       contig.signature, genome.pseudo_par)
+    47  4727.969 MB   375.520 MB               scores.append(\
+    48  4727.969 MB     0.000 MB                   Score(p_val, contig, genome, contig.contig_id))
+    49                             
+    50  4727.973 MB     0.004 MB       sys.stdout.write("p_value\tcontig_family\tcontig_genus\tcontig_species\tcontig_genome\tcompare_family\tcompare_genus\tcompare_species\tcompare_genome\tcontig_id" + os.linesep)
+    51  4727.977 MB     0.004 MB       for score in scores:
+    52                                     sys.stdout.write(str(score) + '\n')
+
+
+Filename: /home/johannes/.virtualenvs/probin2.7/local/lib/python2.7/site-packages/probin-0.1-py2.7.egg/probin/model/composition/multinomial.py
+
+Line #    Mem usage    Increment   Line Contents
+================================================
+    21                                 phi = sum(signature.values())
+    22  3065.457 MB     0.000 MB       log_prod = 0
+    23  4727.969 MB  1662.512 MB       for i,cnt in signature.iteritems():
+    24  3065.492 MB -1662.477 MB           denom = _log_fac(cnt)
+    25  4727.969 MB  1662.477 MB           log_prod += (log(prob_vector[i])*cnt) - denom
+    26  4727.969 MB     0.000 MB       return log_prod + _log_fac(phi)
+    27  4727.969 MB     0.000 MB   
+    28  4727.969 MB     0.000 MB   def _log_fac(i):
+    29                                 # gammaln produces the natural logarithm of the factorial of i-1
+    30                                 return gammaln(i+1)
+
+
+Filename: /home/johannes/.virtualenvs/probin2.7/local/lib/python2.7/site-packages/probin-0.1-py2.7.egg/probin/dna.py
+
+Line #    Mem usage    Increment   Line Contents
+================================================
+    32                                 
+    33                                 @classmethod
+    34    42.641 MB     0.000 MB       def generate_kmer_hash(cls,kmer_len):
+    35    42.641 MB     0.000 MB           if cls.kmer_hash:
+    36                                         raise Exception("Already initialized, can't change during execution")
+    37    42.641 MB     0.000 MB           cls.kmer_len = kmer_len
+    38    42.641 MB     0.000 MB           counter = 0
+    39  1853.203 MB  1810.562 MB           for kmer in product("ATGC",repeat=cls.kmer_len):
+    40  1853.203 MB     0.000 MB               kmer= ''.join(kmer)
+    41  1853.070 MB    -0.133 MB               if kmer not in cls.kmer_hash:
+    42   173.559 MB -1679.512 MB                   cls.kmer_hash[kmer] = counter
+    43  1853.074 MB  1679.516 MB                   rev_compl = ''.join([cls.BASE_COMPLEMENT[x] for x in reversed(kmer)])
+    44  1853.074 MB     0.000 MB                   cls.kmer_hash[rev_compl] = counter
+    45  1853.203 MB     0.129 MB                   counter += 1
+    46  1853.203 MB     0.000 MB           cls.kmer_hash_count = counter
+
+
