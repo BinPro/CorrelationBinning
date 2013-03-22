@@ -11,7 +11,7 @@ DATA_PATH="/bubo/home/h20/brynjar/glob/masterproject/DATA/2013-03-05"
 
 RESULTS_PATH=$HOME"/glob/results/2013-03-08/2013-03-18"
 
-KMER_LENGTH=10
+KMER_LENGTH=12
 
 echo "Scoring contigs, length 100, kmer length "$KMER_LENGTH >&2
 time ../programs/score_contigs_multinomial.py $DATA_PATH"/contigs/contigs_2_2_new_100_100.fna" -o $RESULTS_PATH"/score_mul_2_2_100_100_$KMER_LENGTH"".tsv" -t $DATA_PATH"/parsed_taxonomy_2_2_2013-03-05_complete.txt" -k $KMER_LENGTH -d $DATA_PATH"/all_fna"
