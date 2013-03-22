@@ -12,7 +12,7 @@ from corrbin.contig_generation import read_parsed_taxonomy_file, \
 
 def main(open_name_file, dir_path, n, l):
 
-    DNA.generate_kmer_hash(2)
+    DNA.generate_kmer_hash(1)
 
     groups = read_parsed_taxonomy_file(open_name_file)
 
@@ -22,11 +22,10 @@ def main(open_name_file, dir_path, n, l):
     # For each bin, generate a number of contigs, 
     all_scores = []
     id_generator = Uniq_id(1000)
-    for group_index in range(len(groups)):
-        group = groups[group_index]
+    for group_index,group in enumerate(groups):
         for genome in group.genomes:
             parts = genome.split_seq(l,n)
-            print_parts(parts,sys.stdout)
+            print_parts(parts,sys.stdout, id_generator, genome)
 
 
 if __name__=="__main__":
@@ -45,6 +44,6 @@ if __name__=="__main__":
         sys.stdout = open(args.output, 'w')
         
     taxonomy_file_handle = fileinput.input(args.file)
-    main(taxonomy_file_handle, args.directory_path, args.n, args.part_length)
-    name_file_handle.close()
+    main(taxonomy_file_handle, args.directory_path, args.number_of_parts, args.part_length)
+    taxonomy_file_handle.close()
     sys.stdout.close()

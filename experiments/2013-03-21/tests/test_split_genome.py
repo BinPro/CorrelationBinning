@@ -47,7 +47,7 @@ class TestGenerateContigs(object):
             tmp_file.seek(0)
             parts = list(SeqIO.parse(tmp_file, "fasta"))
             assert_equal(len(parts),70)
-            genomes = [str(contig_seq.id).split("_")[0]\
+            genomes = [str(contig_seq.id).split("_")[0:-2]\
                            for contig_seq in parts]
-            assert_equal("Capnocytophaga_canimorsus_Cc5_uid70727" \
-                             in genomes,True)
+            assert_equal(['Ehrlichia', 'canis', 'Jake', 'uid58071'],
+                         genomes[0])

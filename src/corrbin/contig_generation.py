@@ -189,12 +189,19 @@ class SampleGroup(object):
         SeqIO.write(recs,file_handle,"fasta")
 
 
-def print_parts(parts,file_handle):
+def print_parts(parts,file_handle, ids,genome):
     recs =[]
     for part_number, part in enumerate(parts):
-        sequence = SeqRecord(Seq(part.full_seq), id="{0}_{1}"\
-                                 .format(part.id,part.start_position),
-                             name="",
-                             description="{2}".format(part_number))
+        uniq_id = ids.id
+        sequence = SeqRecord(\
+            Seq(part.full_seq), 
+            id="{0}_{1}_{2}".format(genome.id,
+                                    uniq_id(),
+                                    part.start_position),
+            name="",
+            description="{0}|{1}|{2}".format(genome.family, 
+                                             genome.genus, 
+                                             genome.species, 
+                                             part.start_position))
         recs.append(sequence)
     SeqIO.write(recs,file_handle,"fasta")
