@@ -7,7 +7,7 @@ import sys
 file_path = os.path.realpath(__file__)
 program_path = os.path.abspath(os.path.join(file_path,"..","..","src/programs/"))
 sys.path.append(program_path)
-import split_genomes
+import split_genomes_random as split_genomes
 import tempfile
 
 from probin import dna
@@ -39,14 +39,14 @@ class TestGenerateContigs(object):
         parsed_file_name = os.path.join(cur_dir,"fixtures/parsed_gen_2_2_test.txt")
         dir_path = os.path.join(cur_dir,"fixtures/reference_genomes")
         input_file = open(parsed_file_name,'r')
-        l = 10000
+        n = 10
+        l = 100
         with tempfile.NamedTemporaryFile() as tmp_file:
             with RedirectStdStreams(stdout=tmp_file):
-                split_genomes.main(input_file,dir_path,l)
+                split_genomes.main(input_file,dir_path,n,l)
             tmp_file.seek(0)
             parts = list(SeqIO.parse(tmp_file, "fasta"))
-            assert_equal(len(parts),1788)
-            assert_equal(len(parts[0].seq),10000)
+            assert_equal(len(parts),70)
             genomes = [str(contig_seq.id).split("_")[0:-2]\
                            for contig_seq in parts]
             assert_equal(['Ehrlichia', 'canis', 'Jake', 'uid58071'],
