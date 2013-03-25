@@ -14,7 +14,7 @@ class SampleSetting(object):
         self.contig_max_length = contig_max_length
         self.debug_mode = debug_mode
 
-def sample_contig(genome, x_st, contig_id):
+def sample_contig(genome, x_st, contig_id, start_position=False):
     """ Generates a contig from genome genome
 
     :genome - DNA object
@@ -31,7 +31,8 @@ def sample_contig(genome, x_st, contig_id):
     end = start+l
     contig = DNA(id = genome.id + " contig", seq = genome.full_seq[start:end])
     contig.contig_id = contig_id
-    
+    if start_position:
+        contig.start_position = start
     return contig
 
 
@@ -62,22 +63,26 @@ class SampleGroup(object):
     def n(self):
         return len(self.group)
 
-    def generate_group_contigs(self):
+    def generate_group_contigs(self, start_position=False):
         for genome_index in range(self.n):
             genome = self.group.genomes[genome_index]
             genome.contigs = []
             i = 0 
             while i< self.count_per_g[genome_index]:
-                c = sample_contig(genome, self.s_st, self.id_gen.id())
+                c = sample_contig(genome, self.s_st, self.id_gen.id(), start_position=start_position)
                 genome.contigs.append(c)
                 i+=1
         return None
 
-    def print_group_contigs(self,file_handle):
+    def print_group_contigs(self,file_handle, start_position=False):
         recs = []
         for genome in self.group.genomes:
             for contig in genome.contigs:
-                sequence = SeqRecord(Seq(contig.full_seq), id="{0}_{1}".format(genome.id,contig.contig_id), name="",description="{0}|{1}|{2}".format(genome.family, genome.genus, genome.species))
+                if start_position:
+                    id_string = id="{0}_{1}_{2}".format(genome.id,contig.contig_id, contig.start_position)
+                else:
+                    id_string = id="{0}_{1}".format(genome.id,contig.contig_id)
+                sequence = SeqRecord(Seq(contig.full_seq), id_string,name="",description="{0}|{1}|{2}".format(genome.family, genome.genus, genome.species))
                 recs.append(sequence)
                 
         SeqIO.write(recs,file_handle,"fasta")
