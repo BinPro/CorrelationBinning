@@ -6,7 +6,7 @@ from argparse import ArgumentParser
 from probin.dna import DNA
 from Bio import SeqIO
 from corrbin.misc import all_but_index, Uniq_id, GenomeGroup
-from corrbin.contig_generation import read_parsed_taxonomy_file, \
+from corrbin.io import read_parsed_taxonomy_file, \
     read_FASTA_files, print_parts
 
 

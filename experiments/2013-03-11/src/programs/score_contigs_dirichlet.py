@@ -9,15 +9,15 @@ from probin.dna import DNA
 from Bio import SeqIO
 from corrbin.misc import all_but_index, Uniq_id, GenomeGroup
 from corrbin.multinomial import Experiment
-from corrbin.contig_generation import SampleSetting, genome_info_from_parsed_taxonomy_file, read_FASTA_files_no_groups
-from corrbin.score import read_contigs_file, Score
+from corrbin.score import Score
+from corrbin.io import read_contigs_file, genome_info_from_parsed_taxonomy_file
 
-def main(contigs_file,taxonomy_file, dir_path, kmer_length):
+def main(contigs_file,genome_parts_file, dir_path, kmer_length):
 
     groups = []
     DNA.generate_kmer_hash(kmer_length)
 
-    contigs = read_contigs_file(contigs_file)
+    contigs = read_contigs_file(contigs_file,start_position=True)
     
     # Divide genomes into groups, one for each genus
     meta_genomes = genome_info_from_parsed_taxonomy_file(taxonomy_file)
@@ -27,8 +27,7 @@ def main(contigs_file,taxonomy_file, dir_path, kmer_length):
 
     for genome in genomes:
         genome.calculate_signature()
-        parts = genome.split_seq(1000,15)
-        sys.stderr.write("A new genome is fitted\n")
+        parts = genome.split_seq(10000)
         for part in parts:
             part.calculate_signature()
         genome.pseudo_par = model.fit_nonzero_parameters(parts,DNA.kmer_hash_count)

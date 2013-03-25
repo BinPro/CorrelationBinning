@@ -9,8 +9,9 @@ from probin.dna import DNA
 from Bio import SeqIO
 from corrbin.misc import all_but_index, Uniq_id, GenomeGroup
 from corrbin.multinomial import Experiment
-from corrbin.contig_generation import SampleSetting, genome_info_from_parsed_taxonomy_file, read_FASTA_files_no_groups
-from corrbin.score import read_contigs_file, Score
+from corrbin.contig_generation import SampleSetting 
+from corrbin.score import Score
+from corrbin.io import read_contigs_file, genome_info_from_parsed_taxonomy_file, read_FASTA_files_no_groups
 
 def main(contigs_file,taxonomy_file, dir_path, kmer_length):
 
