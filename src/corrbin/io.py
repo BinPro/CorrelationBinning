@@ -1,5 +1,7 @@
 import os
 from Bio import SeqIO
+from Bio.SeqRecord import SeqRecord
+from Bio.Seq import Seq
 
 from corrbin.misc import GenomeGroup
 from probin.dna import DNA

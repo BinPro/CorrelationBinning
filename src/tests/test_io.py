@@ -7,7 +7,8 @@ from Bio import SeqIO
 
 from corrbin.io import read_parsed_taxonomy_file, \
     genome_info_from_parsed_taxonomy_file, \
-    read_FASTA_files, read_FASTA_files_no_groups
+    read_FASTA_files, read_FASTA_files_no_groups, \
+    print_parts
 
 from corrbin.misc import Uniq_id
 from corrbin.contig_generation import SampleSetting, \
@@ -96,3 +97,20 @@ class TestIO(object):
             assert_equal(contig_seqs[0].description, d_string)
 
 
+    def test_print_parts(self):
+        cur_dir = os.path.dirname(__file__)
+        parsed_file_name = os.path.join(cur_dir,"fixtures/parsed_gen_2_2_test.txt")
+        open_file = open(parsed_file_name, 'r')
+        groups = read_parsed_taxonomy_file(open_file)
+        dir_path = os.path.join(cur_dir,"fixtures/reference_genomes")
+        read_FASTA_files(groups, dir_path)
+        uniq_id = Uniq_id(10)
+        with tempfile.NamedTemporaryFile() as tmp_file:
+            for group_index, group in enumerate(groups):
+                for genome in group.genomes:
+                    parts = genome.split_seq(10000)
+                    print_parts(parts,tmp_file,uniq_id, genome)
+            tmp_file.seek(0)
+            genome_parts = list(SeqIO.parse(tmp_file,"fasta"))
+            assert_equal(len(genome_parts),1788)
+            assert_equal(genome_parts[0].id,"Ehrlichia_canis_Jake_uid58071_10_0")
