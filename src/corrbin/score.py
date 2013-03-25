@@ -109,7 +109,7 @@ def parse_contig_description(contig_d, start_position=False):
     if start_position:
         contig_hash["genome"] = "_".join(genome_and_contig_id.split("_")[0:-2])
         contig_hash["start_position"] = genome_and_contig_id.split("_")[-1]
-        contig_hash["contig_id"] = genome_and_contig_id.split("_")[-2]
+        contig_hash["contig_id"] = int(genome_and_contig_id.split("_")[-2])
         
     else:
         contig_hash["genome"] = "_".join(genome_and_contig_id.split("_")[0:-1])

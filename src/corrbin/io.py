@@ -137,6 +137,8 @@ def read_contigs_file(open_contigs_file, start_position=False):
     for seq in seqs:
         contig_id_hash = parse_contig_description(seq.description, start_position=start_position)
         contig = DNA(id=contig_id_hash["genome"], seq=str(seq.seq))
+        if start_position:
+            contig.start_position = contig_id_hash["start_position"]
         contig.family = contig_id_hash["family"]
         contig.genus = contig_id_hash["genus"]
         contig.species = contig_id_hash["species"]
