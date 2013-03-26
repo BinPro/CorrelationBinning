@@ -4,8 +4,9 @@ from nose.tools import assert_almost_equal, assert_equal
 
 import os
 
-from corrbin.score import read_contigs_file, parse_contig_description,\
+from corrbin.score import parse_contig_description,\
     RocAxisFuns, ExperimentData
+from corrbin.io import read_contigs_file
 from probin import dna
 
 class test_score(object):

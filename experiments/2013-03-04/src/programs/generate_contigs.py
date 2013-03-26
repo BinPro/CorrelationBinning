@@ -7,12 +7,17 @@ from probin.dna import DNA
 from Bio import SeqIO
 from corrbin.misc import all_but_index, Uniq_id, GenomeGroup
 from corrbin.contig_generation import SampleSetting, sample_contig,\
-    read_parsed_taxonomy_file, read_FASTA_files, SampleGroup
+    SampleGroup
+from corrbin.io import read_parsed_taxonomy_file, \
+    read_FASTA_files, print_parts
 
 
-def main(open_name_file, dir_path, x_set):
+def main(open_name_file, dir_path, x_set, start_position=False):
 
-    DNA.generate_kmer_hash(2)
+    try:
+        DNA.generate_kmer_hash(2)
+    except:
+        pass
 
     groups = read_parsed_taxonomy_file(open_name_file)
 
@@ -25,8 +30,8 @@ def main(open_name_file, dir_path, x_set):
     for group_index in range(len(groups)):
         group = groups[group_index]
         sg = SampleGroup(x_set, group, id_generator)
-        sg.generate_group_contigs()
-        sg.print_group_contigs(sys.stdout)
+        sg.generate_group_contigs(start_position=start_position)
+        sg.print_group_contigs(sys.stdout,start_position=start_position)
  
 
 if __name__=="__main__":
@@ -41,6 +46,7 @@ if __name__=="__main__":
                         help='Specify the number of contigs to be sampled from each group. This may be only approximate due to what priority is chosen') 
     parser.add_argument('-p', '--priority', default="genomes",
                         type=str, help='specify the prioritized way of sampling contigs. Specify "groups" to make sure each group is sampled exactly the number of times specified by no_contigs, distributed randomly over the genomes present in each group, or specify "genomes" to make sure each genome within a certain group contributes with exactly the same number of contigs. This setting makes -c setting only approximate.')
+    parser.add_argument('--start_position', action='store_true',help='Add tag for storing start_position for each contig')
     parser.add_argument('--contig_min_length', default=1000, type=int, help='Specify the minimum length for contigs')
     parser.add_argument('--contig_max_length', default=1000, type=int, help='Specify the maximum length for contigs')
     parser.add_argument('--debug_mode', action='store_true', help='In debug mode, all contigs will start at the first nucleotide, making testing possible.')
@@ -50,6 +56,6 @@ if __name__=="__main__":
         
     name_file_handle = fileinput.input(args.file)
     sample_setting = SampleSetting(args.priority, args.no_contigs, args.contig_min_length, args.contig_max_length, args.debug_mode)
-    main(name_file_handle, args.directory_path, sample_setting)
+    main(name_file_handle, args.directory_path, sample_setting,start_position = args.start_position)
     name_file_handle.close()
     sys.stdout.close()
