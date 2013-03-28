@@ -1,0 +1,174 @@
+Timer unit: 1e-06 s
+
+File: /home/binni/.local/lib/python2.7/site-packages/probin-0.1-py2.7.egg/probin/binning/kmeans.py
+Function: cluster at line 7
+Total time: 23.5469 s
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+     7                                           @profile
+     8                                           def cluster(contigs, model, cluster_count ,centroids=None, max_iter=100, repeat=10):
+     9         2            6      3.0      0.0      (max_clustering_prob,max_centroids,max_clusters) = (-np.inf,None,None)
+    10         2            2      1.0      0.0      if repeat != 1:
+    11         1            4      4.0      0.0          (max_clustering_prob,max_centroids,max_clusters) = cluster(contigs, model, cluster_count ,centroids=None, max_iter=max_iter, repeat=repeat-1)
+    12         2            2      1.0      0.0      if centroids is None:
+    13         2      8050925 4025462.5     34.2         centroids = _generate_kplusplus(contigs,model,cluster_count,DNA.kmer_hash_count)
+    14         2            4      2.0      0.0      clustering_prob = -np.inf
+    15         2            3      1.5      0.0      cluster_different = True
+    16                                               
+    17         8           13      1.6      0.0      while (cluster_different and max_iter != 0):
+    18                                           
+    19         6     10211598 1701933.0     43.4          clusters = _expectation(contigs,model,centroids)
+    20                                           
+    21         6      3825405 637567.5     16.2          centroids = _maximization(contigs, model, clusters, centroids.shape)
+    22                                                   
+    23         6      1458892 243148.7      6.2          curr_clustering_prob = _evaluate_clustering(centroids, clusters, model)
+    24                                                   
+    25         6           28      4.7      0.0          if (curr_clustering_prob <= clustering_prob):
+    26                                                       cluster_different = False
+    27                                                       if (curr_clustering_prob < clustering_prob):
+    28                                                           print>>sys.stderr, "Clustering got worse, previous clustering probability : {0}, current clustering probability: {1}".format( clustering_prob, curr_clustering_prob)
+    29         6           11      1.8      0.0          clustering_prob = curr_clustering_prob
+    30         6           11      1.8      0.0          max_iter -= 1
+    31         2           14      7.0      0.0      (curr_max_clust_prob, curr_max_centr, curr_max_clust) = max([(max_clustering_prob, max_centroids, max_clusters), (clustering_prob, centroids, clusters)],key=lambda x: x[0])
+    32         2            3      1.5      0.0      return (curr_max_clust_prob, curr_max_centr, curr_max_clust)
+
+File: /home/binni/.local/lib/python2.7/site-packages/probin-0.1-py2.7.egg/probin/binning/kmeans.py
+Function: _expectation at line 33
+Total time: 10.1911 s
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+    33                                           @profile
+    34                                           def _expectation(contigs, model, centroids):
+    35        48           96      2.0      0.0      clusters = [set() for _ in xrange(len(centroids))]
+    36      1800         1741      1.0      0.0      for contig in contigs:
+    37     14352     10120531    705.2     99.3          prob = [model.log_probability(contig.signature,centroid) for centroid in centroids]
+    38      1794        64039     35.7      0.6          clust_ind = np.argmax(prob)
+    39      1794         4738      2.6      0.0          clusters[clust_ind].add(contig)
+    40         6            4      0.7      0.0      return clusters
+
+File: /home/binni/.local/lib/python2.7/site-packages/probin-0.1-py2.7.egg/probin/binning/kmeans.py
+Function: _maximization at line 41
+Total time: 3.82217 s
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+    41                                           @profile    
+    42                                           def _maximization(contigs, model, clusters, centroids_shape):
+    43         6           81     13.5      0.0      new_centroids = np.zeros(centroids_shape)
+    44        48           91      1.9      0.0      for clust_ind ,clust in enumerate(clusters):
+    45        42           60      1.4      0.0          if not clust:
+    46                                                       select_as_centroid = np.random.randint(0,len(contigs))
+    47                                                       new_centroid = model.fit_nonzero_parameters(contigs[select_as_centroid].signature,DNA.kmer_hash_count)
+    48                                                   else:
+    49        42         1154     27.5      0.0              new_centroid_count = Counter()
+    50      1836      3395013   1849.1     88.8              [new_centroid_count.update(contig.signature) for contig in clust]
+    51        42       425259  10125.2     11.1              new_centroid = model.fit_nonzero_parameters(new_centroid_count,DNA.kmer_hash_count)
+    52        42          511     12.2      0.0          new_centroids[clust_ind,:] = new_centroid
+    53         6            5      0.8      0.0      return new_centroids
+
+File: /home/binni/.local/lib/python2.7/site-packages/probin-0.1-py2.7.egg/probin/binning/kmeans.py
+Function: _generate_centroids at line 54
+Total time: 0 s
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+    54                                           @profile
+    55                                           def _generate_centroids(c_count,c_dim):
+    56                                               centroids = np.random.rand(c_count,c_dim)
+    57                                               centroids /= np.sum(centroids,axis=1,keepdims=True)
+    58                                               return centroids
+
+File: /home/binni/.local/lib/python2.7/site-packages/probin-0.1-py2.7.egg/probin/binning/kmeans.py
+Function: _generate_kplusplus at line 59
+Total time: 8.02827 s
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+    59                                           @profile
+    60                                           def _generate_kplusplus(contigs,model,c_count,c_dim):
+    61         2           15      7.5      0.0      contigs_ind = range(len(contigs))
+    62         2           29     14.5      0.0      centroids = np.zeros((c_count,c_dim))
+    63         2            8      4.0      0.0      contig_ind = np.random.randint(0,len(contigs_ind))
+    64         2            8      4.0      0.0      contigs_ind.remove(contig_ind)
+    65         2        12893   6446.5      0.2      centroids[0,:] = model.fit_nonzero_parameters(contigs[contig_ind].signature,DNA.kmer_hash_count)
+    66        14           22      1.6      0.0      for centroids_index in xrange(1,c_count):
+    67        12          129     10.8      0.0          prob = {}
+    68      3558         3351      0.9      0.0          for contig_ind in contigs_ind:
+    69     15922      7915255    497.1     98.6              sum_prob = sum([model.log_probability(contigs[contig_ind].signature,centroid) for centroid in centroids[:centroids_index]])
+    70      3546        14023      4.0      0.2              prob[np.random.random()*sum_prob] = contig_ind
+    71        12          325     27.1      0.0          furthest = min(prob)
+    72        12           16      1.3      0.0          contig = contigs[prob[furthest]]
+    73        12           59      4.9      0.0          contigs_ind.remove(prob[furthest])
+    74        12        82135   6844.6      1.0          centroids[centroids_index,:] = model.fit_nonzero_parameters(contig.signature,DNA.kmer_hash_count)
+    75         2            1      0.5      0.0      return centroids
+
+File: /home/binni/.local/lib/python2.7/site-packages/probin-0.1-py2.7.egg/probin/binning/kmeans.py
+Function: _evaluate_clustering at line 76
+Total time: 1.45704 s
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+    76                                           @profile
+    77                                           def _evaluate_clustering(centroids,clusters, model):
+    78         6            3      0.5      0.0      cluster_prob = 0
+    79        48           92      1.9      0.0      for i,cluster in enumerate(clusters):
+    80      1836      1456936    793.5    100.0          cluster_prob += sum([model.log_probability(contig.signature,centroids[i]) for contig in cluster])
+    81         6            5      0.8      0.0      return cluster_prob
+
+File: /home/binni/.local/lib/python2.7/site-packages/probin-0.1-py2.7.egg/probin/model/composition/multinomial.py
+Function: fit_parameters at line 5
+Total time: 0 s
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+     5                                           @profile
+     6                                           def fit_parameters(sig):
+     7                                               par = {}
+     8                                               n = sum(sig.values())
+     9                                               for i,v in sig.items():
+    10                                                   par[i] = v/float(n)
+    11                                               return par
+
+File: /home/binni/.local/lib/python2.7/site-packages/probin-0.1-py2.7.egg/probin/model/composition/multinomial.py
+Function: fit_nonzero_parameters at line 12
+Total time: 0.3609 s
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+    12                                           @profile
+    13                                           def fit_nonzero_parameters(sig,kmer_hash_count):
+    14        56         1528     27.3      0.4      pseudo_sig = np.ones(kmer_hash_count)
+    15    105368        84928      0.8     23.5      for key,cnt in sig.iteritems():
+    16    105312       270526      2.6     75.0          pseudo_sig[key] += cnt
+    17        56         3845     68.7      1.1      pseudo_sig /= np.sum(pseudo_sig)
+    18        56           73      1.3      0.0      return pseudo_sig
+
+File: /home/binni/.local/lib/python2.7/site-packages/probin-0.1-py2.7.egg/probin/model/composition/multinomial.py
+Function: log_probability at line 19
+Total time: 19.1909 s
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+    19                                           @profile
+    20                                           def log_probability(signature, prob_vector):
+    21     26728       149201      5.6      0.8      signature_vector = np.zeros(np.shape(prob_vector))
+    22                                           
+    23                                               for key,value in signature.iteritems():
+    24                                                   signature_vector[key] = value
+    25     26728     11162345    417.6     58.2  #    signature_vector[signature.keys()] = signature.values()
+    26                                           
+    27     26728      7879360    294.8     41.1      return np.sum((signature_vector * np.log(prob_vector)) - _log_fac(signature_vector)) + _log_fac(np.sum(signature_vector))
+
+File: /home/binni/.local/lib/python2.7/site-packages/probin-0.1-py2.7.egg/probin/model/composition/multinomial.py
+Function: _log_fac at line 28
+Total time: 3.72653 s
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+    28                                           @profile
+    29                                           def _log_fac(i):
+    30                                               # gammaln produces the natural logarithm of the factorial of i-1
+    31     53456      3726532     69.7    100.0      return gammaln(i+1)
+
