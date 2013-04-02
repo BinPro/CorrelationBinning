@@ -2,6 +2,7 @@
 import fileinput
 import sys
 import os
+import numpy as np
 from copy import copy
 from argparse import ArgumentParser
 from probin.model.composition import dirichlet as model 
@@ -25,35 +26,45 @@ def main(contigs_file,taxonomy_file, dir_path, kmer_length, contig_length):
     # Fetch sequence for each genome
     genomes = read_FASTA_files_no_groups(meta_genomes, dir_path)
 
-    genome_part_l = 100000
+    genome_part_l = 10000
     for genome in genomes:
         genome.calculate_signature()
+        sys.stderr.write(str(genome.signature)+'\n\n')
         genome.parts = genome.split_seq(genome_part_l)
         for part in genome.parts:
             part.calculate_signature()
-        genome.pseudo_par = model.fit_nonzero_parameters(\
+        alpha_fit = model.fit_nonzero_parameters_full_output(\
             genome.parts,
             DNA.kmer_hash_count)
+        sys.stderr.write(str(alpha_fit)+'\n\n')
+        genome.pseudo_par = np.array(alpha_fit[0])
 
     scores = []
     for contig in contigs:
         contig.calculate_signature()
         for genome in genomes:
             if contig.id == genome.id:
+                sys.stderr.write("Contig.id == genome.id\n")
+                sys.stderr.write("contig_id: " +str(contig.id) + "\n")
                 s = int(contig.start_position)
                 start_part_index = s/genome_part_l
                 end_part_index = (s+contig_length)/genome_part_l
                 if start_part_index == end_part_index:
                     i = start_part_index
-                    temp_pseudo_par = model.fit_nonzero_parameters(\
+                    alpha_fit = model.fit_nonzero_parameters_full_output(\
+
                         genome.parts[0:i]+genome.parts[i+1:], 
                         DNA.kmer_hash_count)
+                    sys.stderr.write(str(alpha_fit)+'\n\n')
+                    temp_pseudo_par = np.array(alpha_fit[0])
                 else:
                     i1 = start_part_index
                     i2 = end_part_index
-                    temp_pseudo_par = model.fit_nonzero_parameters(\
+                    alpha_fit = model.fit_nonzero_parameters_full_output(\
                         genome.parts[0:i1]+genome.parts[i2+1:],
                         DNA.kmer_hash_count)
+                    sys.stderr.write(str(alpha_fit)+'\n\n')
+                    temp_pseudo_par = np.array(alpha_fit[0])
 
                 p_val = model.log_probability(\
                     contig, temp_pseudo_par)
