@@ -33,8 +33,7 @@ def main(contigs_file,taxonomy_file, dir_path, kmer_length, contig_length):
         for part in genome.parts:
             part.calculate_signature()
         genome.pseudo_par = model.fit_nonzero_parameters(\
-            genome.parts,
-            DNA.kmer_hash_count)
+            genome.parts)
 
     scores = []
     for contig in contigs:
@@ -47,14 +46,12 @@ def main(contigs_file,taxonomy_file, dir_path, kmer_length, contig_length):
                 if start_part_index == end_part_index:
                     i = start_part_index
                     temp_pseudo_par = model.fit_nonzero_parameters(\
-                        genome.parts[0:i]+genome.parts[i+1:], 
-                        DNA.kmer_hash_count)
+                        genome.parts[0:i]+genome.parts[i+1:])
                 else:
                     i1 = start_part_index
                     i2 = end_part_index
                     temp_pseudo_par = model.fit_nonzero_parameters(\
-                        genome.parts[0:i1]+genome.parts[i2+1:],
-                        DNA.kmer_hash_count)
+                        genome.parts[0:i1]+genome.parts[i2+1:])
 
                 p_val = model.log_probability(\
                     contig, temp_pseudo_par)
