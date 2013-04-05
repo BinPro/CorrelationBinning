@@ -28,7 +28,7 @@ def main(contigs_file,taxonomy_file, dir_path, kmer_length):
 
     for genome in genomes:
         genome.calculate_signature()
-        genome.pseudo_par = mn.fit_nonzero_parameters(genome.signature,DNA.kmer_hash_count)
+        genome.pseudo_par = mn.fit_nonzero_parameters(genome)
 
     scores = []
     for contig in contigs:
