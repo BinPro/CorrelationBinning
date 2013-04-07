@@ -147,3 +147,15 @@ def read_contigs_file(open_contigs_file, start_position=False):
 
     return contigs
 
+def print_contigs_time_series(cs_with_ts,file_handle,number_of_samples):
+    header_line ="Contig_id\tOTU\t" + "\t".join(["sample_"+str(i) for i in range(number_of_samples)]) + os.linesep
+    file_handle.write(header_line)
+    for c_with_ts in cs_with_ts:
+        line = []
+        line.append(str(c_with_ts.contig_id))
+        line.append(str(c_with_ts.otu))
+        line += [str(ts) for ts in c_with_ts.time_series]
+        
+        out_line = "\t".join(line) + os.linesep
+
+        file_handle.write(out_line)
