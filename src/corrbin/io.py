@@ -147,8 +147,8 @@ def read_contigs_file(open_contigs_file, start_position=False):
 
     return contigs
 
-def print_contigs_time_series(cs_with_ts,file_handle,number_of_samples):
-    header_line ="Contig_id\tOTU\t" + "\t".join(["sample_"+str(i) for i in range(number_of_samples)]) + os.linesep
+def print_contigs_time_series(cs_with_ts,file_handle,sample_headers):
+    header_line ="Contig_id\tOTU\t" + "\t".join(sample_headers) + os.linesep
     file_handle.write(header_line)
     for c_with_ts in cs_with_ts:
         line = []
