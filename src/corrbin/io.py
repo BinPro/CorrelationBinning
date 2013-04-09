@@ -159,3 +159,21 @@ def print_contigs_time_series(cs_with_ts,file_handle,sample_headers):
         out_line = "\t".join(line) + os.linesep
 
         file_handle.write(out_line)
+
+def read_time_series(ts_file):
+    return p.io.parsers.read_table(ts_file,sep='\t')
+
+def read_time_series_genomes(meta_genomes,genome_time_series_file):
+    ts_df = read_time_series(genome_time_series_file)
+
+    genomes = []
+    for genome_data, index in zip(meta_genomes,ts_df.index):
+        genome = dna.DNA(id=genome_data['file_name'], seq=None)
+        genome.genus = genome_data['genus']
+        genome.species = genome_data['species']
+        genome.family = genome_data['family']
+        genome.time_series = ts_df.ix[index]
+        genomes.append(genome)
+    return genomes
+
+
