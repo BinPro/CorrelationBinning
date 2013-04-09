@@ -6,27 +6,34 @@ import numpy as np
 from copy import copy
 from argparse import ArgumentParser
 from probin.model.composition import dirichlet as model 
+from probin.model.
 from probin.dna import DNA
 from Bio import SeqIO
 from corrbin.misc import all_but_index, Uniq_id, GenomeGroup
 from corrbin.multinomial import Experiment
 from corrbin.score import Score
-from corrbin.io import read_contigs_file, genome_info_from_parsed_taxonomy_file, read_FASTA_files_no_groups
+from corrbin.io import read_contigs_file, genome_info_from_parsed_taxonomy_file, read_FASTA_files_no_groups, read_time_series
 
-def main(contigs_file,time_series_file, contig_length):
+def main(contigs_file,contig_time_series_file, genome_time_series_file, taxonomy_file, contig_length):
 
-    groups = []
-    DNA.generate_kmer_hash(kmer_length)
+    DNA.generate_kmer_hash(2)
 
     contigs = read_contigs_file(contigs_file,start_position=True)
     
+    contig_time_series_df = read_time_series(contig_time_series_file)
+
+    if len(contigs)!=len(contig_time_series_df.index):
+        raise TypeError "The number of contigs and time series does not match"
+    
+    for contig in contigs:
+        contig.time_series = contig_time_series_df[contig_time_series_df.contig_id == contig.contig_id]
+
     # Divide genomes into groups, one for each genus
     meta_genomes = genome_info_from_parsed_taxonomy_file(taxonomy_file)
 
-    # Fetch sequence for each genome
-    genomes = read_FASTA_files_no_groups(meta_genomes, dir_path)
+    # Fetch time series for each genome
+    genomes = read_time_series_file_genomes(meta_genomes, genome_time_series_file)
 
-    genome_part_l = 10000
     for genome in genomes:
         genome.calculate_signature()
         genome.parts = genome.split_seq(genome_part_l)
