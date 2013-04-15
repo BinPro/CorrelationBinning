@@ -10,7 +10,7 @@ DATA_PATH="/bubo/home/h20/brynjar/glob/masterproject/DATA/2013-03-05"
 #DATA_PATH=$HOME"/repos/DATA"
 #DATA_PATH=$HOME"/glob/RESULTS"
 
-RESULTS_PATH=$HOME"/glob/RESULTS/to_big_for_git/2013-03-11/2013-03-26"
+RESULTS_PATH=$HOME"/glob/RESULTS/to_big_for_git/2013-03-11/2013-04-10"
 #RESULTS_PATH=$HOME"/glob/results/2013-03-08/2013-03-18"
 
 KMER_LENGTH=10
