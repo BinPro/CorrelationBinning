@@ -6,10 +6,10 @@
 
 #DATA_PATH="/bubo/home/h20/brynjar/glob/masterproject/DATA/2013-03-05"
 #DATA_PATH=$HOME"/repos/RESULTS/to_big_for_git/2013-03-11/2013-03-26"
-DATA_PATH=$HOME"/glob/RESULTS/to_big_for_git/2013-03-11/2013-03-26"
+DATA_PATH=$HOME"/glob/RESULTS/to_big_for_git/2013-03-11/2013-04-10"
 
 #RESULTS_PATH=$HOME"/glob/results/2013-03-08"
-RESULTS_PATH=$HOME"/glob/RESULTS/dirichlet_multinomial_kmer_length/precision_matrix/2013-03-26"
+RESULTS_PATH=$HOME"/glob/RESULTS/dirichlet_multinomial_kmer_length/precision_matrix/2013-04-10"
 
 LEVEL=$1
 KMER_MIN=$2
