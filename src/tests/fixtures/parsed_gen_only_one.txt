@@ -1,0 +1,3 @@
+family_name:	Anaplasmataceae
+genus_name:	Ehrlichia
+entry:	Ehrlichia canis	Ehrlichia_canis_Jake_uid58071
