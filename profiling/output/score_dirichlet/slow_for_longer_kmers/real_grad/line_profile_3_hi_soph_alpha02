@@ -1,0 +1,165 @@
+Timer unit: 1e-06 s
+
+File: ./score_dirichlet_one_call.py
+Function: main at line 16
+Total time: 6.03423 s
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+    16                                           @profile
+    17                                           def main(contigs_file,taxonomy_file, dir_path, kmer_length, contig_length):
+    18                                           
+    19         1            6      6.0      0.0      groups = []
+    20         1          360    360.0      0.0      DNA.generate_kmer_hash(kmer_length)
+    21                                           
+    22         1        42026  42026.0      0.7      contigs = read_contigs_file(contigs_file,start_position=True)
+    23                                               
+    24                                               # Divide genomes into groups, one for each genus
+    25         1           54     54.0      0.0      meta_genomes = genome_info_from_parsed_taxonomy_file(taxonomy_file)
+    26                                           
+    27                                               # Fetch sequence for each genome
+    28         1       117068 117068.0      1.9      genomes = read_FASTA_files_no_groups(meta_genomes, dir_path)
+    29                                           
+    30         1            4      4.0      0.0      genome_part_l = 10000
+    31         2            8      4.0      0.0      for genome in genomes:
+    32         1      2528683 2528683.0     41.9          genome.calculate_signature()
+    33         1        15458  15458.0      0.3          genome.parts = genome.split_seq(genome_part_l)
+    34       133          479      3.6      0.0          for part in genome.parts:
+    35       132      2579782  19543.8     42.8              part.calculate_signature()
+    36         1            5      5.0      0.0          alpha_fit =  model.fit_nonzero_parameters_full_output(\
+    37         1       159939 159939.0      2.7              genome.parts)
+    38         1         7423   7423.0      0.1          sys.stderr.write(str(alpha_fit)+'\n')
+    39         1            6      6.0      0.0          genome.pseudo_par = alpha_fit[0]
+    40                                           
+    41         1            3      3.0      0.0      scores = []
+    42        30           87      2.9      0.0      for contig in contigs:
+    43        29       569142  19625.6      9.4          contig.calculate_signature()
+    44        58          222      3.8      0.0          for genome in genomes:
+    45        29          100      3.4      0.0              p_val = model.log_probability(\
+    46        29        12103    417.3      0.2                  contig, genome.pseudo_par)
+    47        29          108      3.7      0.0              scores.append(\
+    48        29          535     18.4      0.0                  Score(p_val, contig, genome, contig.contig_id))
+    49                                           
+    50         1           34     34.0      0.0      sys.stdout.write("p_value\tcontig_family\tcontig_genus\tcontig_species\tcontig_genome\tcompare_family\tcompare_genus\tcompare_species\tcompare_genome\tcontig_id" + os.linesep)
+    51        30          100      3.3      0.0      for score in scores:
+    52        29          492     17.0      0.0          sys.stdout.write(str(score) + '\n')
+
+File: /home/johannes/.virtualenvs/probin2.7/local/lib/python2.7/site-packages/probin-0.1-py2.7.egg/probin/model/composition/dirichlet.py
+Function: fit_nonzero_parameters at line 8
+Total time: 0 s
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+     8                                           @profile
+     9                                           def fit_nonzero_parameters(dna_l):
+    10                                               return np.array(fit_nonzero_parameters_full_output(dna_l)[0])
+
+File: /home/johannes/.virtualenvs/probin2.7/local/lib/python2.7/site-packages/probin-0.1-py2.7.egg/probin/model/composition/dirichlet.py
+Function: fit_nonzero_parameters_full_output at line 11
+Total time: 0.159877 s
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+    11                                           @profile
+    12                                           def fit_nonzero_parameters_full_output(dna_l):
+    13         1            5      5.0      0.0      kmer_hash_count = dna_l[0].kmer_hash_count
+    14         1        23231  23231.0     14.5      alpha0, pcs = _all_pseudo_counts(dna_l,kmer_hash_count)
+    15                                               # K is the number of sequences in the cluster
+    16         1           11     11.0      0.0      K,_ = np.shape(pcs)
+    17                                               # Total number of kmers for each contig
+    18         1           39     39.0      0.0      M = np.sum(pcs,axis=1)
+    19         1         3869   3869.0      2.4      sys.stderr.write("alpha0: " + str(alpha0) + '\n')
+    20         1            6      6.0      0.0      alpha_bounds = [(0.0,None)]*kmer_hash_count
+    21         1       132712 132712.0     83.0      alpha_fit = fmin_l_bfgs_b(neg_log_probability_l,alpha0,fprime=neg_log_probability_l_gradient,args=(pcs,K,M),bounds=alpha_bounds,factr=10.0)
+    22         1            4      4.0      0.0      return alpha_fit
+
+File: /home/johannes/.virtualenvs/probin2.7/local/lib/python2.7/site-packages/probin-0.1-py2.7.egg/probin/model/composition/dirichlet.py
+Function: sophisticated_alpha0 at line 23
+Total time: 0.007243 s
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+    23                                           @profile
+    24                                           def sophisticated_alpha0(pcs,kmer_hash_count):
+    25                                               """Estimating the alpha parameters according to a equation given in Minka2012"""
+    26         1           98     98.0      1.4      norms = np.sum(pcs,axis=0)
+    27         1         4639   4639.0     64.0      sys.stderr.write("Norms: " + str(norms) + '\n')
+    28        33         2005     60.8     27.7      pcs_norm = np.array([pcs[:,i]/float(np.sum(pcs[:,i])) for i in xrange(kmer_hash_count)])
+    29         1           99     99.0      1.4      p_expected = np.mean(pcs_norm, axis=1)
+    30         1           17     17.0      0.2      sys.stderr.write("length of p_expected: " + str(len(p_expected))+'\n')
+    31         1           10     10.0      0.1      sys.stderr.write("kmer_hash_count: " + str(kmer_hash_count)+'\n')
+    32         1          234    234.0      3.2      p_var = np.var(pcs_norm, axis=1)
+    33                                               # The sum of the alphas correspond to the precision of the dirichlet, and is therefore 
+    34                                               # what makes a difference between the multinomial and the dirichlet-multinomial.
+    35         1           87     87.0      1.2      log_alpha_sum = (1/float(kmer_hash_count-1))*(np.sum(np.log(p_expected*(1-p_expected)/p_var -1))-np.log(p_expected[-1]*(1-p_expected[-1])/p_var[-1] - 1))
+    36         1           54     54.0      0.7      return np.sum(pcs,axis=0)/np.exp(log_alpha_sum)
+
+File: /home/johannes/.virtualenvs/probin2.7/local/lib/python2.7/site-packages/probin-0.1-py2.7.egg/probin/model/composition/dirichlet.py
+Function: neg_log_probability_l_gradient at line 38
+Total time: 0.058855 s
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+    38                                           @profile
+    39                                           def neg_log_probability_l_gradient(alpha,pcs,K,M):
+    40        83         2153     25.9      3.7      A = np.sum(alpha)
+    41        83        56702    683.2     96.3      return -(K*psi(A) - np.sum(psi(A+M)) - K*psi(alpha) + np.sum(psi(pcs+alpha),axis=0))
+
+File: /home/johannes/.virtualenvs/probin2.7/local/lib/python2.7/site-packages/probin-0.1-py2.7.egg/probin/model/composition/dirichlet.py
+Function: neg_log_probability_l at line 43
+Total time: 0.068196 s
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+    43                                           @profile
+    44                                           def neg_log_probability_l(alpha,pcs,K,M):
+    45       112         3146     28.1      4.6      A = np.sum(alpha)
+    46                                               return -(K*gammaln(A) - 
+    47       112         6907     61.7     10.1               np.sum(gammaln(A + M)) + 
+    48       112        58143    519.1     85.3               np.sum(np.sum(gammaln(pcs+alpha),axis=0) - K*gammaln(alpha)))
+
+File: /home/johannes/.virtualenvs/probin2.7/local/lib/python2.7/site-packages/probin-0.1-py2.7.egg/probin/model/composition/dirichlet.py
+Function: _all_pseudo_counts at line 49
+Total time: 0.022533 s
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+    49                                           @profile
+    50                                           def _all_pseudo_counts(dna_l, kmer_hash_count):
+    51         1           38     38.0      0.2      pcs = np.zeros((len(dna_l),kmer_hash_count))
+    52       133          376      2.8      1.7      for index,seq in enumerate(dna_l):
+    53       132        14707    111.4     65.3          pcs[index,:] = np.fromiter(seq.pseudo_counts, np.dtype('u4'), count=kmer_hash_count)
+    54         1         7409   7409.0     32.9      alpha_0 = sophisticated_alpha0(pcs,kmer_hash_count)
+    55                                               # np.sum(pcs,axis=0)
+    56         1            3      3.0      0.0      return alpha_0,pcs
+
+File: /home/johannes/.virtualenvs/probin2.7/local/lib/python2.7/site-packages/probin-0.1-py2.7.egg/probin/model/composition/dirichlet.py
+Function: log_probability at line 57
+Total time: 0.011174 s
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+    57                                           @profile
+    58                                           def log_probability(seq,alpha):
+    59        29          220      7.6      2.0      N = np.shape(alpha)[0]
+    60        29         3399    117.2     30.4      pc_arr = np.fromiter(seq.pseudo_counts,np.dtype('u4'),count=N)
+    61        29          241      8.3      2.2      pc_mat = pc_arr.reshape((1,N))
+    62                                               # K is the number of sequences in the cluster
+    63        29          167      5.8      1.5      K,_ = np.shape(pc_mat)
+    64                                               # Total number of kmers for each contig
+    65        29         1142     39.4     10.2      M = np.sum(pc_mat,axis=1)
+    66        29         6005    207.1     53.7      return - neg_log_probability_l(alpha,pc_mat,K,M)
+
+File: /home/johannes/.virtualenvs/probin2.7/local/lib/python2.7/site-packages/probin-0.1-py2.7.egg/probin/model/composition/dirichlet.py
+Function: log_probability_test at line 67
+Total time: 0 s
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+    67                                           @profile
+    68                                           def log_probability_test(pseudo_counts,alpha):
+    69                                               # pseudo_counts given directly mainly for testing purposes
+    70                                               pcs = np.zeros((1,len(pseudo_counts)))
+    71                                               pcs[0,:] = np.array(pseudo_counts)
+    72                                               return - neg_log_probability_l(alpha,pcs)
+
