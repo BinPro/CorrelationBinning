@@ -6,7 +6,7 @@ import numpy as np
 from copy import copy
 from argparse import ArgumentParser
 from probin.model.composition import dirichlet as model 
-from probin.model.
+from probin.model.coverage import binomial as coverage_model
 from probin.dna import DNA
 from Bio import SeqIO
 from corrbin.misc import all_but_index, Uniq_id, GenomeGroup
@@ -23,7 +23,7 @@ def main(contigs_file,contig_time_series_file, genome_time_series_file, taxonomy
     contig_time_series_df = read_time_series(contig_time_series_file)
 
     if len(contigs)!=len(contig_time_series_df.index):
-        raise TypeError "The number of contigs and time series does not match"
+        raise TypeError("The number of contigs and time series does not match")
     
     for contig in contigs:
         contig.time_series = contig_time_series_df[contig_time_series_df.contig_id == contig.contig_id]
