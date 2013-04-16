@@ -1,0 +1,21 @@
+alpha0: [ 0.03219732  0.03752331  0.01653621 ...,  0.00203685  0.00205194
+  0.00202176]
+(array([ 841208.58210192,  980289.03778705,  432069.18309108, ...,
+         53195.79779929,   53670.06840873,   52792.4485895 ]), 21038249.745765895, {'warnflag': 0, 'task': 'CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL', 'grad': array([ -2.17677552e-07,  -4.01142188e-07,  -2.48999186e-08, ...,
+        -1.21176845e-06,   2.58178102e-06,  -1.65982624e-06]), 'funcalls': 54})
+Traceback (most recent call last):
+  File "/home/johannes/.virtualenvs/probin2.7/bin/kernprof.py", line 233, in <module>
+    sys.exit(main(sys.argv))
+  File "/home/johannes/.virtualenvs/probin2.7/bin/kernprof.py", line 221, in main
+    execfile(script_file, ns, ns)
+  File "./score_dirichlet_one_call.py", line 75, in <module>
+    main(args.contigs, taxonomy_file, args.directory_path, args.kmer_length, args.contig_length)
+  File "/home/johannes/.virtualenvs/probin2.7/local/lib/python2.7/site-packages/line_profiler.py", line 92, in f
+    result = func(*args, **kwds)
+  File "./score_dirichlet_one_call.py", line 47, in main
+    contig, genome.pseudo_par, pseudo_counts_supplied=True)
+  File "/home/johannes/.virtualenvs/probin2.7/local/lib/python2.7/site-packages/line_profiler.py", line 92, in f
+    result = func(*args, **kwds)
+  File "/home/johannes/.virtualenvs/probin2.7/local/lib/python2.7/site-packages/probin-0.1-py2.7.egg/probin/model/composition/dirichlet.py", line 66, in log_probability
+    pc_mat = seq.pseudo_counts_array
+AttributeError: 'DNA' object has no attribute 'pseudo_counts_array'

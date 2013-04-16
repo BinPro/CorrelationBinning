@@ -1,0 +1,145 @@
+Timer unit: 1e-06 s
+
+File: ./score_contigs_dirichlet.py
+Function: main at line 16
+Total time: 318.184 s
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+    16                                           @profile
+    17                                           def main(contigs_file,taxonomy_file, dir_path, kmer_length, contig_length):
+    18                                           
+    19         1            5      5.0      0.0      groups = []
+    20         1          969    969.0      0.0      DNA.generate_kmer_hash(kmer_length)
+    21                                           
+    22         1        27322  27322.0      0.0      contigs = read_contigs_file(contigs_file,start_position=True)
+    23                                               
+    24                                               # Divide genomes into groups, one for each genus
+    25         1           90     90.0      0.0      meta_genomes = genome_info_from_parsed_taxonomy_file(taxonomy_file)
+    26                                           
+    27                                               # Fetch sequence for each genome
+    28         1      1021177 1021177.0      0.3      genomes = read_FASTA_files_no_groups(meta_genomes, dir_path)
+    29                                           
+    30         1            4      4.0      0.0      genome_part_l = 10000
+    31         8           22      2.8      0.0      for genome in genomes:
+    32         7     22983447 3283349.6      7.2          genome.calculate_signature()
+    33         7       148835  21262.1      0.0          genome.parts = genome.split_seq(genome_part_l)
+    34      1795         5473      3.0      0.0          for part in genome.parts:
+    35      1788     23951393  13395.6      7.5              part.calculate_signature()
+    36         7           23      3.3      0.0          genome.pseudo_par = model.fit_nonzero_parameters(\
+    37         7     45315755 6473679.3     14.2              genome.parts)
+    38                                           
+    39         1            2      2.0      0.0      scores = []
+    40        30           80      2.7      0.0      for contig in contigs:
+    41        29       390924  13480.1      0.1          contig.calculate_signature()
+    42       232          655      2.8      0.0          for genome in genomes:
+    43       203          613      3.0      0.0              if contig.id == genome.id:
+    44        29          155      5.3      0.0                  s = int(contig.start_position)
+    45        29           85      2.9      0.0                  start_part_index = s/genome_part_l
+    46        29           79      2.7      0.0                  end_part_index = (s+contig_length)/genome_part_l
+    47        29           66      2.3      0.0                  if start_part_index == end_part_index:
+    48                                                               i = start_part_index
+    49                                                               temp_pseudo_par = model.fit_nonzero_parameters(\
+    50                                                                   genome.parts[0:i]+genome.parts[i+1:])
+    51                                                           else:
+    52        29           64      2.2      0.0                      i1 = start_part_index
+    53        29           67      2.3      0.0                      i2 = end_part_index
+    54        29           71      2.4      0.0                      temp_pseudo_par = model.fit_nonzero_parameters(\
+    55        29    224235432 7732256.3     70.5                          genome.parts[0:i1]+genome.parts[i2+1:])
+    56                                           
+    57        29          100      3.4      0.0                  p_val = model.log_probability(\
+    58        29        14199    489.6      0.0                      contig, temp_pseudo_par)
+    59                                                       else:
+    60       174          430      2.5      0.0                  p_val = model.log_probability(\
+    61       174        80892    464.9      0.0                      contig, genome.pseudo_par)
+    62       203          597      2.9      0.0              scores.append(\
+    63       203         2466     12.1      0.0                  Score(p_val, contig, genome, contig.contig_id))
+    64                                           
+    65         1           30     30.0      0.0      sys.stdout.write("p_value\tcontig_family\tcontig_genus\tcontig_species\tcontig_genome\tcompare_family\tcompare_genus\tcompare_species\tcompare_genome\tcontig_id" + os.linesep)
+    66       204          535      2.6      0.0      for score in scores:
+    67       203         2255     11.1      0.0          sys.stdout.write(str(score) + '\n')
+
+File: /home/johannes/.virtualenvs/probin2.7/local/lib/python2.7/site-packages/probin-0.1-py2.7.egg/probin/model/composition/dirichlet.py
+Function: fit_nonzero_parameters at line 7
+Total time: 269.55 s
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+     7                                           @profile
+     8                                           def fit_nonzero_parameters(dna_l):
+     9        36    269550211 7487505.9    100.0      return np.array(fit_nonzero_parameters_full_output(dna_l)[0])
+
+File: /home/johannes/.virtualenvs/probin2.7/local/lib/python2.7/site-packages/probin-0.1-py2.7.egg/probin/model/composition/dirichlet.py
+Function: fit_nonzero_parameters_full_output at line 10
+Total time: 269.549 s
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+    10                                           @profile
+    11                                           def fit_nonzero_parameters_full_output(dna_l):
+    12        36           89      2.5      0.0      kmer_hash_count = dna_l[0].kmer_hash_count
+    13        36      2709998  75277.7      1.0      alpha0, pcs = _all_pseudo_counts(dna_l,kmer_hash_count)
+    14        36          197      5.5      0.0      alpha_bounds = [(0.0,None)]*kmer_hash_count
+    15        36    266838589 7412183.0     99.0      alpha_fit = fmin_l_bfgs_b(neg_log_probability_l,alpha0,args=(pcs,),bounds=alpha_bounds, approx_grad=True, epsilon=1e-12)
+    16        36           91      2.5      0.0      return alpha_fit
+
+File: /home/johannes/.virtualenvs/probin2.7/local/lib/python2.7/site-packages/probin-0.1-py2.7.egg/probin/model/composition/dirichlet.py
+Function: neg_log_probability_l at line 17
+Total time: 263.829 s
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+    17                                           @profile
+    18                                           def neg_log_probability_l(alpha,pcs):
+    19     85625      1484565     17.3      0.6      A = np.sum(alpha)
+    20                                           
+    21                                               # N is the number of sequences in the sample
+    22     85625       419441      4.9      0.2      N,_ = np.shape(pcs) # Different meaning than before
+    23                                           
+    24                                               # Total number of kmers for each contig
+    25     85625      6114857     71.4      2.3      M = np.sum(pcs,axis=1)
+    26                                           
+    27                                               return -(N*gammaln(A) - 
+    28     85625      4260779     49.8      1.6               np.sum(gammaln(A + M)) + 
+    29     85625    251549809   2937.8     95.3               np.sum(np.sum(gammaln(pcs+alpha),axis=0) - N*gammaln(alpha)))
+
+File: /home/johannes/.virtualenvs/probin2.7/local/lib/python2.7/site-packages/probin-0.1-py2.7.egg/probin/model/composition/dirichlet.py
+Function: _all_pseudo_counts at line 30
+Total time: 2.66889 s
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+    30                                           @profile
+    31                                           def _all_pseudo_counts(dna_l, kmer_hash_count):
+    32        36         2810     78.1      0.1      pcs = np.zeros((len(dna_l),kmer_hash_count))
+    33      9902        22208      2.2      0.8      for index,seq in enumerate(dna_l):
+    34      9866      2639744    267.6     98.9          pcs[index,:] = np.fromiter(seq.pseudo_counts, np.dtype('u4'), count=kmer_hash_count)
+    35        36         4047    112.4      0.2      alpha_0 = np.sum(pcs,axis=0)
+    36        36           78      2.2      0.0      return alpha_0,pcs
+
+File: /home/johannes/.virtualenvs/probin2.7/local/lib/python2.7/site-packages/probin-0.1-py2.7.egg/probin/model/composition/dirichlet.py
+Function: log_probability at line 37
+Total time: 0.091565 s
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+    37                                           @profile
+    38                                           def log_probability(seq,alpha):
+    39       203          904      4.5      1.0      N = np.shape(alpha)[0]
+    40       203        53393    263.0     58.3      pc_arr = np.fromiter(seq.pseudo_counts,np.dtype('u4'),count=N)
+    41       203         1012      5.0      1.1      pc_mat = pc_arr.reshape((1,N))
+    42       203        36256    178.6     39.6      return - neg_log_probability_l(alpha,pc_mat)
+
+File: /home/johannes/.virtualenvs/probin2.7/local/lib/python2.7/site-packages/probin-0.1-py2.7.egg/probin/model/composition/dirichlet.py
+Function: log_probability_test at line 43
+Total time: 0 s
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+    43                                           @profile
+    44                                           def log_probability_test(pseudo_counts,alpha):
+    45                                               # pseudo_counts given directly mainly for testing purposes
+    46                                               pcs = np.zeros((1,len(pseudo_counts)))
+    47                                               pcs[0,:] = np.array(pseudo_counts)
+    48                                               return - neg_log_probability_l(alpha,pcs)
+
