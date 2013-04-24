@@ -1,0 +1,213 @@
+Timer unit: 1e-06 s
+
+File: /home/binni/MasterProject/ProBin/src/probin/binning/kmeans.py
+Function: cluster at line 7
+Total time: 379.562 s
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+     7                                           @profile
+     8                                           def cluster(contigs,model,cluster_count,centroids=None,max_iter=100, repeat=10):
+     9         1            5      5.0      0.0      (max_clusters, max_clustering_prob,max_centroids) = (None, -np.inf, None)    
+    10        11           24      2.2      0.0      for run in xrange(repeat):
+    11        10    379561463 37956146.3    100.0          (clusters, clustering_prob, centroids) = _clustering(contigs, model, cluster_count ,centroids, max_iter)
+    12        10          137     13.7      0.0          (max_clusters, max_clustering_prob,max_centroids) = max([(max_clusters, max_clustering_prob, max_centroids), (clusters, clustering_prob, centroids)],key=lambda x: x[1])
+    13         1            1      1.0      0.0      return (max_clusters, max_clustering_prob, max_centroids)
+
+File: /home/binni/MasterProject/ProBin/src/probin/binning/kmeans.py
+Function: _clustering at line 14
+Total time: 379.561 s
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+    14                                           @profile
+    15                                           def _clustering(contigs, model, cluster_count ,centroids, max_iter):
+    16        10           19      1.9      0.0      if centroids is None:
+    17         1      3086818 3086818.0      0.8         centroids = _generate_kplusplus(contigs,model,cluster_count,DNA.kmer_hash_count)
+    18        10           22      2.2      0.0      clustering_prob = -np.inf
+    19        10           15      1.5      0.0      cluster_different = True
+    20                                               
+    21        33           64      1.9      0.0      while (cluster_different and max_iter != 0):
+    22                                           
+    23        23     21632311 940535.3      5.7          clusters = _expectation(contigs,model,centroids)
+    24                                           
+    25        23    350531205 15240487.2     92.4          centroids = _maximization(contigs, model, clusters, centroids.shape)
+    26                                                   
+    27        23      4309990 187390.9      1.1          curr_clustering_prob = _evaluate_clustering(centroids, clusters, model)
+    28                                                   
+    29        23           83      3.6      0.0          if (curr_clustering_prob <= clustering_prob):
+    30        10           17      1.7      0.0              cluster_different = False
+    31        10           25      2.5      0.0              if (curr_clustering_prob < clustering_prob):
+    32                                                           print>>sys.stderr, "Clustering got worse, previous clustering probability : {0}, current clustering probability: {1}".format( clustering_prob, curr_clustering_prob)
+    33        23           47      2.0      0.0          clustering_prob = curr_clustering_prob
+    34        23           39      1.7      0.0          max_iter -= 1
+    35        10           17      1.7      0.0      if not max_iter:
+    36                                                   print>>sys.stderr,"Finished maximum iteration"
+    37        10           17      1.7      0.0      return (clusters, clustering_prob, centroids)
+
+File: /home/binni/MasterProject/ProBin/src/probin/binning/kmeans.py
+Function: _expectation at line 38
+Total time: 21.534 s
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+    38                                           @profile
+    39                                           def _expectation(contigs, model, centroids):
+    40       115          296      2.6      0.0      clusters = [set() for _ in xrange(len(centroids))]
+    41      6900        12581      1.8      0.1      for contig in contigs:
+    42     34385     21081441    613.1     97.9          prob = [model.log_probability(contig,centroid) for centroid in centroids]
+    43      6877       409329     59.5      1.9          clust_ind = np.argmax(prob)
+    44      6877        30371      4.4      0.1          clusters[clust_ind].add(contig)
+    45        23           30      1.3      0.0      return clusters
+
+File: /home/binni/MasterProject/ProBin/src/probin/binning/kmeans.py
+Function: _maximization at line 46
+Total time: 350.53 s
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+    46                                           @profile
+    47                                           def _maximization(contigs, model, clusters, centroids_shape):
+    48        23          240     10.4      0.0      new_centroids = np.zeros(centroids_shape)
+    49       115          333      2.9      0.0      for clust_ind ,clust in enumerate(clusters):
+    50        92          173      1.9      0.0          if not clust:
+    51                                                       select_as_centroid = np.random.randint(0,len(contigs))
+    52                                                       new_centroid = model.fit_nonzero_parameters([contigs[select_as_centroid]])
+    53                                                   else:
+    54        92    350527933 3810086.2    100.0              new_centroid = model.fit_nonzero_parameters(list(clust))
+    55        92         1412     15.3      0.0          new_centroids[clust_ind,:] = new_centroid
+    56        23           24      1.0      0.0      return new_centroids
+
+File: /home/binni/MasterProject/ProBin/src/probin/binning/kmeans.py
+Function: _generate_centroids at line 57
+Total time: 0 s
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+    57                                           @profile
+    58                                           def _generate_centroids(c_count,c_dim):
+    59                                               centroids = np.random.rand(c_count,c_dim)
+    60                                               centroids /= np.sum(centroids,axis=1,keepdims=True)
+    61                                               return centroids
+
+File: /home/binni/MasterProject/ProBin/src/probin/binning/kmeans.py
+Function: _generate_kplusplus at line 62
+Total time: 3.08237 s
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+    62                                           @profile
+    63                                           def _generate_kplusplus(contigs,model,c_count,c_dim):
+    64         1            4      4.0      0.0      contigs_ind = range(len(contigs))
+    65         1            8      8.0      0.0      centroids = np.zeros((c_count,c_dim))
+    66         1            5      5.0      0.0      contig_ind = np.random.randint(0,len(contigs_ind))
+    67         1            3      3.0      0.0      contigs_ind.remove(contig_ind)
+    68         1       811781 811781.0     26.3      centroids[0,:] = model.fit_nonzero_parameters([contigs[contig_ind]])
+    69         4            7      1.8      0.0      for centroids_index in xrange(1,c_count):
+    70         3           52     17.3      0.0          prob = {}
+    71       894          789      0.9      0.0          for contig_ind in contigs_ind:
+    72      2671       646865    242.2     21.0              sum_prob = sum([model.log_probability(contigs[contig_ind],centroid) for centroid in centroids[:centroids_index]])
+    73       891         3096      3.5      0.1              prob[np.random.random()*sum_prob] = contig_ind
+    74         3           93     31.0      0.0          furthest = min(prob)
+    75         3            3      1.0      0.0          contig = contigs[prob[furthest]]
+    76         3           18      6.0      0.0          contigs_ind.remove(prob[furthest])
+    77         3      1619648 539882.7     52.5          centroids[centroids_index,:] = model.fit_nonzero_parameters([contig])
+    78         1            1      1.0      0.0      return centroids
+
+File: /home/binni/MasterProject/ProBin/src/probin/binning/kmeans.py
+Function: _evaluate_clustering at line 79
+Total time: 4.30051 s
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+    79                                           @profile
+    80                                           def _evaluate_clustering(centroids,clusters, model):
+    81        23           28      1.2      0.0      cluster_prob = 0
+    82       115          310      2.7      0.0      for i,cluster in enumerate(clusters):
+    83      6969      4300146    617.0    100.0          cluster_prob += sum([model.log_probability(contig,centroids[i]) for contig in cluster])
+    84        23           28      1.2      0.0      return cluster_prob
+
+File: /home/binni/MasterProject/ProBin/src/probin/model/composition/dirichlet.py
+Function: fit_nonzero_parameters at line 8
+Total time: 352.957 s
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+     8                                           @profile
+     9                                           def fit_nonzero_parameters(dna_l):
+    10        96    352956832 3676633.7    100.0      return np.array(fit_nonzero_parameters_full_output(dna_l)[0])
+
+File: /home/binni/MasterProject/ProBin/src/probin/model/composition/dirichlet.py
+Function: fit_nonzero_parameters_full_output at line 11
+Total time: 352.953 s
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+    11                                           @profile
+    12                                           def fit_nonzero_parameters_full_output(dna_l):
+    13        96          278      2.9      0.0      kmer_hash_count = dna_l[0].kmer_hash_count
+    14        96      3239108  33740.7      0.9      alpha0, pcs = _all_pseudo_counts(dna_l,kmer_hash_count)
+    15        96          674      7.0      0.0      alpha_bounds = [(0.0,None)]*kmer_hash_count
+    16        96    349712346 3642836.9     99.1      alpha_fit = fmin_l_bfgs_b(neg_log_probability_l,alpha0,args=(pcs,),bounds=alpha_bounds, approx_grad=True, epsilon=1e-12)
+    17        96          232      2.4      0.0      return alpha_fit
+
+File: /home/binni/MasterProject/ProBin/src/probin/model/composition/dirichlet.py
+Function: neg_log_probability_l at line 18
+Total time: 345.401 s
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+    18                                           @profile
+    19                                           def neg_log_probability_l(alpha,pcs):
+    20    321273      7539957     23.5      2.2      A = np.sum(alpha)
+    21                                           
+    22                                               # N is the number of sequences in the sample
+    23    321273      1710161      5.3      0.5      N,_ = np.shape(pcs) # Different meaning than before
+    24                                           
+    25                                               # Total number of kmers for each contig
+    26    321273     12861204     40.0      3.7      M = np.sum(pcs,axis=1)
+    27                                           
+    28                                               return -(N*gammaln(A) - 
+    29    321273     16786799     52.3      4.9               np.sum(gammaln(A + M)) + 
+    30    321273    306502865    954.0     88.7               np.sum(np.sum(gammaln(pcs+alpha),axis=0) - N*gammaln(alpha)))
+
+File: /home/binni/MasterProject/ProBin/src/probin/model/composition/dirichlet.py
+Function: _all_pseudo_counts at line 31
+Total time: 3.21205 s
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+    31                                           @profile
+    32                                           def _all_pseudo_counts(dna_l, kmer_hash_count):
+    33        96         1918     20.0      0.1      pcs = np.zeros((len(dna_l),kmer_hash_count))
+    34      6977        15474      2.2      0.5      for index,seq in enumerate(dna_l):
+    35      6881      3186688    463.1     99.2          pcs[index,:] = np.fromiter(seq.pseudo_counts, np.dtype('u4'), count=kmer_hash_count)
+    36        96         7718     80.4      0.2      alpha_0 = np.sum(pcs,axis=0)
+    37        96          248      2.6      0.0      return alpha_0,pcs
+
+File: /home/binni/MasterProject/ProBin/src/probin/model/composition/dirichlet.py
+Function: log_probability at line 38
+Total time: 25.2383 s
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+    38                                           @profile
+    39                                           def log_probability(seq,alpha):
+    40     36165       176607      4.9      0.7      N = np.shape(alpha)[0]
+    41     36165     16224844    448.6     64.3      pc_arr = np.fromiter(seq.pseudo_counts,np.dtype('u4'),count=N)
+    42     36165       212375      5.9      0.8      pc_mat = pc_arr.reshape((1,N))
+    43     36165      8624444    238.5     34.2      return - neg_log_probability_l(alpha,pc_mat)
+
+File: /home/binni/MasterProject/ProBin/src/probin/model/composition/dirichlet.py
+Function: log_probability_test at line 44
+Total time: 0 s
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+    44                                           @profile
+    45                                           def log_probability_test(pseudo_counts,alpha):
+    46                                               # pseudo_counts given directly mainly for testing purposes
+    47                                               pcs = np.zeros((1,len(pseudo_counts)))
+    48                                               pcs[0,:] = np.array(pseudo_counts)
+    49                                               return - neg_log_probability_l(alpha,pcs)
+
