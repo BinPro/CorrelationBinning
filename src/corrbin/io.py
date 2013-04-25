@@ -6,7 +6,7 @@ from Bio.Seq import Seq
 from corrbin.score import parse_contig_description
 from corrbin.misc import GenomeGroup
 from probin.dna import DNA
-
+import pandas as p
 
 def read_parsed_taxonomy_file(open_name_file):
     groups = []
@@ -146,4 +146,27 @@ def read_contigs_file(open_contigs_file, start_position=False):
         contigs.append(contig)
 
     return contigs
+
+def print_contigs_time_series(cs_with_ts,file_handle,sample_headers):
+    header_line ="contig_id\tOTU\t" + "\t".join(sample_headers) + os.linesep
+    file_handle.write(header_line)
+    for c_with_ts in cs_with_ts:
+        line = []
+        line.append(str(c_with_ts.contig_id))
+        line.append(str(c_with_ts.otu))
+        line += [str(ts) for ts in c_with_ts.time_series]
+        
+        out_line = "\t".join(line) + os.linesep
+
+        file_handle.write(out_line)
+
+def read_time_series(ts_file):
+    return p.io.parsers.read_table(ts_file,sep='\t')
+
+def read_time_series_file_genomes(genomes,genome_time_series_file,first_data, last_data):
+    ts_df = read_time_series(genome_time_series_file)
+
+    for genome, index in zip(genomes,ts_df.index):
+        genome.mapping_reads = ts_df.ix[index].values
+        
 

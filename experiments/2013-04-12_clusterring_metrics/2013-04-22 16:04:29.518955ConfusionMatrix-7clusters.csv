@@ -1,8 +1,0 @@
-family,genus,species,"('contig_size', 0)","('contig_size', 1)","('contig_size', 2)","('contig_size', 3)","('contig_size', 4)","('contig_size', 5)","('contig_size', 6)"
-Anaplasmataceae,Ehrlichia,Ehrlichia canis,10000.0,210000.0,,,110000.0,,
-Anaplasmataceae,Ehrlichia,Ehrlichia chaffeensis,,40000.0,,,290000.0,,
-Anaplasmataceae,Ehrlichia,Ehrlichia ruminantium,,300000.0,,,30000.0,,
-Flavobacteriaceae,Capnocytophaga,Capnocytophaga canimorsus,,,,10000.0,,,490000.0
-Flavobacteriaceae,Capnocytophaga,Capnocytophaga ochracea,,,480000.0,,,20000.0,
-Flavobacteriaceae,Cellulophaga,Cellulophaga algicola,490000.0,,,,,,10000.0
-Flavobacteriaceae,Cellulophaga,Cellulophaga lytica,500000.0,,,,,,
