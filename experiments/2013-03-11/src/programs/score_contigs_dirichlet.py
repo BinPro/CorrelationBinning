@@ -13,7 +13,7 @@ from corrbin.multinomial import Experiment
 from corrbin.score import Score
 from corrbin.io import read_contigs_file, genome_info_from_parsed_taxonomy_file, read_FASTA_files_no_groups
 
-def main(contigs_file,taxonomy_file, dir_path, kmer_length, contig_length):
+def main(contigs_file,taxonomy_file, dir_path, kmer_length, contig_length, algorithm):
 
     groups = []
     DNA.generate_kmer_hash(kmer_length)
@@ -33,7 +33,7 @@ def main(contigs_file,taxonomy_file, dir_path, kmer_length, contig_length):
         for part in genome.parts:
             part.calculate_signature()
         genome.pseudo_par = model.fit_nonzero_parameters(\
-            genome.parts)
+            genome.parts, algorithm = algorithm)
 
     scores = []
     for contig in contigs:
@@ -46,12 +46,14 @@ def main(contigs_file,taxonomy_file, dir_path, kmer_length, contig_length):
                 if start_part_index == end_part_index:
                     i = start_part_index
                     temp_pseudo_par = model.fit_nonzero_parameters(\
-                        genome.parts[0:i]+genome.parts[i+1:])
+                        genome.parts[0:i]+genome.parts[i+1:],
+                        algorithm=algorithm)
                 else:
                     i1 = start_part_index
                     i2 = end_part_index
                     temp_pseudo_par = model.fit_nonzero_parameters(\
-                        genome.parts[0:i1]+genome.parts[i2+1:])
+                        genome.parts[0:i1]+genome.parts[i2+1:],
+                        algorithm=algorithm)
 
                 p_val = model.log_probability(\
                     contig, temp_pseudo_par)
@@ -79,11 +81,13 @@ if __name__=="__main__":
                         type=str, help='specify the path to where the reference genomes are located locally')
     parser.add_argument('-c', '--contig_length', type=int,
                         help='specify the contig length to correctly avoid overfit')
+    parser.add_argument('-a', '--algorithm', choices=["tnc","bfgs"],
+                        help='specify the algorithm that will be used for finding the maximum likelihood parameters.')
     args = parser.parse_args()
     if args.output and args.output != '-':
         sys.stdout = open(args.output, 'w')
     if args.taxonomy:
         taxonomy_file = open(args.taxonomy, 'r')
         
-    main(args.contigs, taxonomy_file, args.directory_path, args.kmer_length, args.contig_length)
+    main(args.contigs, taxonomy_file, args.directory_path, args.kmer_length, args.contig_length, args.algorithm)
 
