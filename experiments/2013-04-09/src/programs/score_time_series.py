@@ -5,16 +5,15 @@ import os
 import numpy as np
 from copy import copy
 from argparse import ArgumentParser
-from probin.model.composition import dirichlet as model 
-from probin.model.coverage import binomial as coverage_model
+from probin.model.coverage import binomial as model
 from probin.dna import DNA
 from Bio import SeqIO
 from corrbin.misc import all_but_index, Uniq_id, GenomeGroup
 from corrbin.multinomial import Experiment
 from corrbin.score import Score
-from corrbin.io import read_contigs_file, genome_info_from_parsed_taxonomy_file, read_FASTA_files_no_groups, read_time_series
+from corrbin.io import read_contigs_file, genome_info_from_parsed_taxonomy_file, read_FASTA_files_no_groups, read_time_series, read_time_series_file_genomes
 
-def main(contigs_file,contig_time_series_file, genome_time_series_file, taxonomy_file, contig_length):
+def main(contigs_file,contig_time_series_file, genome_time_series_file, taxonomy_file,dir_path, contig_length, total_read_count,assembly_length,first_data,last_data):
 
     DNA.generate_kmer_hash(2)
 
@@ -26,45 +25,25 @@ def main(contigs_file,contig_time_series_file, genome_time_series_file, taxonomy
         raise TypeError("The number of contigs and time series does not match")
     
     for contig in contigs:
-        contig.time_series = contig_time_series_df[contig_time_series_df.contig_id == contig.contig_id]
+        contig.mapping_reads = contig_time_series_df[contig_time_series_df.contig_id == contig.contig_id]
 
     # Divide genomes into groups, one for each genus
     meta_genomes = genome_info_from_parsed_taxonomy_file(taxonomy_file)
 
+    # Fetch sequence for each genome
+    genomes = read_FASTA_files_no_groups(meta_genomes, dir_path)
+
     # Fetch time series for each genome
-    genomes = read_time_series_file_genomes(meta_genomes, genome_time_series_file)
+    read_time_series_file_genomes(genomes, genome_time_series_file)
 
     for genome in genomes:
-        genome.calculate_signature()
-        genome.parts = genome.split_seq(genome_part_l)
-        for part in genome.parts:
-            part.calculate_signature()
-        genome.pseudo_par = model.fit_nonzero_parameters(\
-            genome.parts)
+        genome.pseudo_par = model.fit_nonzero_parameters([genome],total_read_count)
 
     scores = []
     for contig in contigs:
-        contig.calculate_signature()
         for genome in genomes:
-            if contig.id == genome.id:
-                s = int(contig.start_position)
-                start_part_index = s/genome_part_l
-                end_part_index = (s+contig_length)/genome_part_l
-                if start_part_index == end_part_index:
-                    i = start_part_index
-                    temp_pseudo_par = model.fit_nonzero_parameters(\
-                        genome.parts[0:i]+genome.parts[i+1:])
-                else:
-                    i1 = start_part_index
-                    i2 = end_part_index
-                    temp_pseudo_par = model.fit_nonzero_parameters(\
-                        genome.parts[0:i1]+genome.parts[i2+1:])
-
-                p_val = model.log_probability(\
-                    contig, temp_pseudo_par)
-            else:
-                p_val = model.log_probability(\
-                    contig, genome.pseudo_par)
+            p_val = model.log_probability(\
+                    contig, genome.pseudo_par, total_read_count,assembly_length)
             scores.append(\
                 Score(p_val, contig, genome, contig.contig_id))
 

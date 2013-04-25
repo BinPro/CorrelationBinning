@@ -38,18 +38,23 @@ class TestScoreTimeSeries(object):
     # testing function: main
     def test_main(self):
         cur_dir = os.path.dirname(__file__)
-        parsed_file_name = os.path.join(cur_dir,"fixtures/parsed_gen_2_2_test.txt")
-        contig_file_name = os.path.join(cur_dir,"fixtures/contigs_2_2_100_10000_start_pos_test.fna")
-        contig_time_series_file_name = os.path.join(cur_dir,"fixtures/contigs_2_2_100_10000_start_pos_time_series_test.tsv")
-        genome_time_series_file_name = os.path.join(cur_dir,"fixtures/time_series_test.tsv")
-        taxonomy_input_file = open(parsed_file_name,'r')
-        contig_input_file = open(contig_file_name,'r')
-        contig_time_series_file = open(contig_time_series_file_name,'r')
-        genome_time_series_file = open(genome_time_series_file_name,'r')
-        contig_length = 1000
+        file_names = ["fixtures/contigs_2_2_100_10000_start_pos_test.fna",
+                      "fixtures/contigs_2_2_100_10000_start_pos_time_series_test.tsv",
+                      "fixtures/time_series_test.tsv",
+                      "fixtures/parsed_gen_2_2_test.txt",
+                      "fixtures/reference_genomes"]
+        files = tuple([open(os.path.join(cur_dir,file_name),'r')
+                       for file_name in file_names[:-1]] + 
+                      [os.path.join(cur_dir,file_names[-1])])
+        contig_length = 10000
+        total_read_count = 75000000
+        assembly_length = 10**6
         with tempfile.NamedTemporaryFile() as tmp_file:
             with RedirectStdStreams(stdout=tmp_file):
-                score_time_series.main(contig_input_file,contig_time_series_file, genoem_time_series_file, taxonomy_input_file, contig_length)
+                score_time_series.main(*files + 
+                                        (contig_length,
+                                         total_read_count, 
+                                         assembly_length))
             tmp_file.seek(0)
             num_lines = sum(1 for line in tmp_file)
             # #contigs * #genomes + #header
