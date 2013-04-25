@@ -6,7 +6,7 @@ from Bio.Seq import Seq
 from corrbin.score import parse_contig_description
 from corrbin.misc import GenomeGroup
 from probin.dna import DNA
-
+import pandas as p
 
 def read_parsed_taxonomy_file(open_name_file):
     groups = []
@@ -148,7 +148,7 @@ def read_contigs_file(open_contigs_file, start_position=False):
     return contigs
 
 def print_contigs_time_series(cs_with_ts,file_handle,sample_headers):
-    header_line ="Contig_id\tOTU\t" + "\t".join(sample_headers) + os.linesep
+    header_line ="contig_id\tOTU\t" + "\t".join(sample_headers) + os.linesep
     file_handle.write(header_line)
     for c_with_ts in cs_with_ts:
         line = []
@@ -163,17 +163,10 @@ def print_contigs_time_series(cs_with_ts,file_handle,sample_headers):
 def read_time_series(ts_file):
     return p.io.parsers.read_table(ts_file,sep='\t')
 
-def read_time_series_genomes(meta_genomes,genome_time_series_file):
+def read_time_series_file_genomes(genomes,genome_time_series_file,first_data, last_data):
     ts_df = read_time_series(genome_time_series_file)
 
-    genomes = []
-    for genome_data, index in zip(meta_genomes,ts_df.index):
-        genome = dna.DNA(id=genome_data['file_name'], seq=None)
-        genome.genus = genome_data['genus']
-        genome.species = genome_data['species']
-        genome.family = genome_data['family']
-        genome.time_series = ts_df.ix[index]
-        genomes.append(genome)
-    return genomes
-
+    for genome, index in zip(genomes,ts_df.index):
+        genome.mapping_reads = ts_df.ix[index].values
+        
 
