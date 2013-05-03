@@ -5,8 +5,11 @@
 ## to compare the distribution of reads for contigs from 
 ## the same genome.
 
-CONTIGS_FILE=$(HOME)"/repos/probin/data/test_contigs_ino.fna"
-MASMVALI_FILE=$(HOME)"/repos/probin/data/contig-purity-test-even.tsv"
+# CONTIGS_FILE=$(HOME)"/repos/probin/data/test_contigs_ino.fna"
+CONTIGS_FILE="../../tests/fixtures/test_contigs_ino.fna"
+
+#MASMVALI_FILE=$(HOME)"/repos/probin/data/contig-purity-test-even.tsv"
+MASMVALI_FILE="../../tests/fixtures/contig-purity-test-even.tsv"
 
 
 full_read_mappings.csv:
