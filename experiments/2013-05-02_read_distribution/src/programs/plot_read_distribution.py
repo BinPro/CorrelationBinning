@@ -13,27 +13,24 @@ from corrbin.multinomial import Experiment
 from corrbin.score import Score
 from corrbin.io import read_contigs_file, genome_info_from_parsed_taxonomy_file, read_FASTA_files_no_groups, read_time_series, read_time_series_file_genomes
 
-def main():
-    pass
+def main(read_mapping_file_name,read_length):
+    df_rm = p.io.parsers.read_table(read_mapping_file_name,sep='\t',index_col=0)
+    cl = df_rm[df_rm.full_read_mappings != 'N/A'].contig_length
+    frm= df_rm[df_rm.full_read_mappings != 'N/A'].full_read_mappings.astype(float)
+    df_rm['coverage'] = frm*read_length/cl
+
+
 if __name__=="__main__":
     parser = ArgumentParser()
-    parser.add_argument('contigs', 
-                        help='specify contig file with start positions, default is stdin')
+    parser.add_argument('read_mapping_file', 
+                        help='specify read mapping file with start positions, default is stdin')
     parser.add_argument('-o', '--output', 
                         help='specify the output file.  The default is stdout')
-    parser.add_argument('-t', '--taxonomy',
-                        help='specify the taxonomy file.')
-    parser.add_argument('-k', '--kmer_length', default=4, type=int,
-                        help='specify the kmer length, default is 4')
-    parser.add_argument('-d', '--directory_path', default='/home/johannes/repos/DATA/reference_genomes_ncbi', 
-                        type=str, help='specify the path to where the reference genomes are located locally')
-    parser.add_argument('-c', '--contig_length', type=int,
-                        help='specify the contig length to correctly avoid overfit')
+    parser.add_argument('-l', '--read_length', default=100, type=int,
+                        help='specify the read length, default is 100')
     args = parser.parse_args()
     if args.output and args.output != '-':
         sys.stdout = open(args.output, 'w')
-    if args.taxonomy:
-        taxonomy_file = open(args.taxonomy, 'r')
         
-    main(args.contigs, taxonomy_file, args.directory_path, args.kmer_length, args.contig_length)
+    main(args.read_mapping_file, args.read_length)
 
