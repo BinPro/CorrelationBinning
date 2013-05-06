@@ -15,17 +15,34 @@ def main(read_mapping_file_name,read_length,output_file):
     frm= df_rm[df_rm.full_read_mappings != 'N/A'].full_read_mappings.astype(float)
     df_rm['coverage'] = frm*read_length/cl
     strains = df_rm.full_read_mappings_strain.unique()
+    strains.sort()
+    strains = filter(lambda x: x != 'N/A',strains)
+    df_gl = p.DataFrame({'Strain': p.Series(strains),
+                          'total_contig_length': p.Series([np.sum(df_rm[df_rm.full_read_mappings_strain == strain].contig_length) for strain in strains]),
+                          'reads_per_genome': p.Series([len(df_rm[df_rm.full_read_mappings_strain==strain].index) for strain in strains])})
+    total_read_count = np.sum(df_gl.reads_per_genome)
+    total_genome_length = np.sum(df_gl.total_contig_length)
+    df_gl['theoretical_read_proportion'] = total_read_count*df_gl['total_contig_length'].astype(float)/total_genome_length
+
     first_strain_df = df_rm
     x = np.log(first_strain_df.contig_length.values)
     y = first_strain_df[np.isfinite(first_strain_df.coverage) & (first_strain_df.coverage < 15)].coverage.values
     
     sys.stderr.write(str(np.mean(y))+'\n')
 #    z = np.random.exponential(scale=np.mean(y),size=len(y))
-    z = np.random.poisson(lam=np.mean(y)*0.1,size=len(y))/0.1
-    sys.stderr.write(str(len(y))+"SPACE"+str(np.max(y))+'\n')
-    sys.stderr.write(str(len(z))+"SPACE"+str(np.max(z))+'\n')
-    plt.hist(y,bins=200,color='b',label="Coverage")
-    plt.hist(z,bins=200,color='r',label="Poisson",alpha=0.5,range=(0,15))
+#    z = np.random.poisson(lam=np.mean(y)*0.1,size=len(y))/0.1
+
+
+    z_l = []
+    for strain in strains:
+        for index in df_rm[df_rm.full_read_mappings_strain == strain].index:
+            poisson_lambda = df_gl[df_gl.Strain == strain].theoretical_read_proportion.astype(float)/df_rm.ix[index]['contig_length']
+            z_l += list(np.random.poisson(lam=(poisson_lambda),size=1))
+    z = np.array(z_l)
+    sys.stderr.write(str(len(y))+"\t"+str(np.max(y))+'\n')
+    sys.stderr.write(str(len(z))+"\t"+str(np.max(z))+'\n')
+    plt.hist(y,bins=40,color='b',label="Coverage",range=(0,40))
+    plt.hist(z,bins=40,color='r',label="Poisson",alpha=0.5,range=(0,40))
     plt.savefig(output_file)    
     
 
