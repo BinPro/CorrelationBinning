@@ -35,9 +35,11 @@ def main(read_mapping_file_name,read_length,output_file):
 
     z_l = []
     for strain in strains:
+        df_gl_strain = df_gl[df_gl.Strain == strain]
         for index in df_rm[df_rm.full_read_mappings_strain == strain].index:
-            poisson_lambda = df_gl[df_gl.Strain == strain].theoretical_read_proportion.astype(float)/df_rm.ix[index]['contig_length']
-            z_l += list(np.random.poisson(lam=(poisson_lambda),size=1))
+            contig_length = df_rm.ix[index]['contig_length']
+            poisson_lambda = 50*(contig_length-read_length+1)*df_gl_strain.theoretical_read_proportion.astype(float)/(df_gl_strain.total_contig_length - read_length + 1)
+            z_l += list(read_length*np.random.poisson(lam=(poisson_lambda),size=1)/contig_length)
     z = np.array(z_l)
     sys.stderr.write(str(len(y))+"\t"+str(np.max(y))+'\n')
     sys.stderr.write(str(len(z))+"\t"+str(np.max(z))+'\n')
