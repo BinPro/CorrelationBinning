@@ -13,7 +13,7 @@ from corrbin.contig_generation import SampleSetting
 from corrbin.score import Score
 from corrbin.io import read_contigs_file, genome_info_from_parsed_taxonomy_file, read_FASTA_files_no_groups
 
-def main(contigs_file,taxonomy_file, dir_path, kmer_length):
+def main(contigs_file,taxonomy_file, dir_path, kmer_length,dir_structure):
 
     groups = []
     DNA.generate_kmer_hash(kmer_length)
@@ -24,7 +24,7 @@ def main(contigs_file,taxonomy_file, dir_path, kmer_length):
     meta_genomes = genome_info_from_parsed_taxonomy_file(taxonomy_file)
 
     # Fetch sequence for each genome
-    genomes = read_FASTA_files_no_groups(meta_genomes, dir_path)
+    genomes = read_FASTA_files_no_groups(meta_genomes, dir_path, dir_structure=dir_structure)
 
     for genome in genomes:
         genome.calculate_signature()
@@ -60,13 +60,15 @@ if __name__=="__main__":
                         help='specify the taxonomy file.')
     parser.add_argument('-k', '--kmer_length', default=4, type=int,
                         help='specify the kmer length, default is 4')
-    parser.add_argument('-d', '--directory_path', default='/home/johannes/repos/DATA/reference_genomes_ncbi', 
+    parser.add_argument('-d', '--directory_path',  
                         type=str, help='specify the path to where the reference genomes are located locally')
+    parser.add_argument('--dir_structure', choices=['single_fasta_file','tree'], default='tree_structure',
+                        help='specify the directory structure for the reference genomes')
     args = parser.parse_args()
     if args.output and args.output != '-':
         sys.stdout = open(args.output, 'w')
     if args.taxonomy:
         taxonomy_file = open(args.taxonomy, 'r')
         
-    main(args.contigs, taxonomy_file, args.directory_path, args.kmer_length)
+    main(args.contigs, taxonomy_file, args.directory_path, args.kmer_length, args.dir_structure)
 

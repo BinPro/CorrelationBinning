@@ -44,9 +44,10 @@ class TestScoreContigsMultinomial(object):
         contig_input_file = open(contig_file_name,'r')
         kmer_length = 3
         dir_path = os.path.join(cur_dir,"fixtures/reference_genomes")
+        dir_structure = 'tree_structure'
         with tempfile.NamedTemporaryFile() as tmp_file:
             with RedirectStdStreams(stdout=tmp_file):
-                score_contigs_multinomial.main(contig_input_file,taxonomy_input_file, dir_path,kmer_length)
+                score_contigs_multinomial.main(contig_input_file,taxonomy_input_file, dir_path,kmer_length,dir_structure)
             tmp_file.seek(0)
             num_lines = sum(1 for line in tmp_file)
             # #contigs * #genomes + #header
