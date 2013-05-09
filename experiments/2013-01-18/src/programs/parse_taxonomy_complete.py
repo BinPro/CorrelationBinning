@@ -20,6 +20,11 @@ if __name__=="__main__":
         help='number of minimum uniq species within a genus.')
     parser.add_argument('-g', '--genera', type=int, default=4,
         help='number of minimum genera within family.')
+    parser.add_argument('--file_name_column', default='genome',
+        help='specify the name of the column containing the file_name, default genome')
+    parser.add_argument('--species_column', default='species',
+        help='specify the name of the column containing the species name, default species')
+    
     args = parser.parse_args()
     fh = sys.stdout
     
@@ -65,4 +70,4 @@ if __name__=="__main__":
         for genus in genera2:
             print >> fh, 'genus_name:\t' + genus
             for specie,tmp_hash in families[family][genus].iteritems():
-                print >> fh, 'entry:\t' + specie + '\t' + families[family][genus][specie]['genome']
+                print >> fh, 'entry:\t' + specie + '\t' + families[family][genus][specie][args.file_name_column]

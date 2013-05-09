@@ -1,8 +1,0 @@
-family,genus,species,"('contig_size', 0)","('contig_size', 1)","('contig_size', 2)","('contig_size', 3)","('contig_size', 4)","('contig_size', 5)","('contig_size', 6)","('recall', '')"
-Anaplasmataceae,Ehrlichia,Ehrlichia canis,0.030303030303030304,,,0.5757575757575758,,0.39393939393939392,,0.5757575757575758
-Anaplasmataceae,Ehrlichia,Ehrlichia chaffeensis,,,,0.87878787878787878,,0.12121212121212122,,0.87878787878787878
-Anaplasmataceae,Ehrlichia,Ehrlichia ruminantium,,,,0.12121212121212122,,0.87878787878787878,,0.87878787878787878
-Flavobacteriaceae,Capnocytophaga,Capnocytophaga canimorsus,,,0.02,,0.97999999999999998,,,0.97999999999999998
-Flavobacteriaceae,Capnocytophaga,Capnocytophaga ochracea,,0.38,,,,,0.62,0.62
-Flavobacteriaceae,Cellulophaga,Cellulophaga algicola,0.93999999999999995,,,,0.02,,0.040000000000000001,0.93999999999999995
-Flavobacteriaceae,Cellulophaga,Cellulophaga lytica,1.0,,,,,,,1.0

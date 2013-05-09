@@ -1,8 +1,0 @@
-,cluster,"('Anaplasmataceae', 'Ehrlichia', 'Ehrlichia canis')","('Anaplasmataceae', 'Ehrlichia', 'Ehrlichia chaffeensis')","('Anaplasmataceae', 'Ehrlichia', 'Ehrlichia ruminantium')","('Flavobacteriaceae', 'Capnocytophaga', 'Capnocytophaga canimorsus')","('Flavobacteriaceae', 'Capnocytophaga', 'Capnocytophaga ochracea')","('Flavobacteriaceae', 'Cellulophaga', 'Cellulophaga algicola')","('Flavobacteriaceae', 'Cellulophaga', 'Cellulophaga lytica')","('precision', '', '')"
-contig_size,0,0.01020408163265306,,,,,0.47959183673469385,0.51020408163265307,0.51020408163265307
-contig_size,1,,,,,1.0,,,1.0
-contig_size,2,,,,1.0,,,,1.0
-contig_size,3,0.36538461538461536,0.55769230769230771,0.076923076923076927,,,,,0.55769230769230771
-contig_size,4,,,,0.97999999999999998,,0.02,,0.97999999999999998
-contig_size,5,0.28260869565217389,0.086956521739130432,0.63043478260869568,,,,,0.63043478260869568
-contig_size,6,,,,,0.93939393939393945,0.060606060606060608,,0.93939393939393945
