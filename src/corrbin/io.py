@@ -51,10 +51,10 @@ def genome_info_from_parsed_taxonomy_file(open_name_file):
     return genomes
     
 def read_FASTA_files(groups, dir_path,dir_structure='tree'):
-        cur_dir = os.getcwd()
+    cur_dir = os.getcwd()
     if os.path.isfile(dir_path):
         os.chdir(os.path.dirname(dir_path))
-        file_name = os.path.basename(dir_path)
+        seq_file = os.path.basename(dir_path)
     else:
         os.chdir(dir_path)
     if dir_structure == 'single_fasta_file':
@@ -68,7 +68,7 @@ def read_FASTA_files(groups, dir_path,dir_structure='tree'):
             if dir_structure == 'tree':
                 fasta_files = os.listdir(seq_name)
                 for fasta_file in fasta_files:
-                    genome_file = open(dir_name + '/' + fasta_file)
+                    genome_file = open(seq_name + '/' + fasta_file)
                     identifier = genome_file.readline()
                     # Only use non-plasmid genomes
                     # Some bacterial genomes contain more than 1 chromosome,  
@@ -78,11 +78,11 @@ def read_FASTA_files(groups, dir_path,dir_structure='tree'):
                                  identifier.find('chromosome 1') != -1 or\
                                  identifier.find('chromosome I,') != -1):
                         genome_file.close() #Close and reopen the same file
-                        genome_file = open(dir_name + '/' + fasta_file)
+                        genome_file = open(seq_name + '/' + fasta_file)
                         genome_seq = list(SeqIO.parse(genome_file, "fasta"))
                         if len(genome_seq) > 1:
                             sys.stderr.write("Warning! The file " + fasta_file + " in directory " + dir_name + " contained more than one sequence, ignoring all but the first!" + os.linesep)
-                        genome = DNA(id = dir_name, seq= str(genome_seq[0].seq))
+                        genome = DNA(id = seq_name, seq= str(genome_seq[0].seq))
                         genome.genus = genome_data['genus']
                         genome.species = genome_data['species']
                         genome.family = genome_data['family']
