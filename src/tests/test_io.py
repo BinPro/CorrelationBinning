@@ -58,6 +58,9 @@ class TestIO(object):
         assert_equal(groups[-1].genomes[-1].family, "Flavobacteriaceae")
 
 
+    def test_read_single_FASTA_file(self):
+        pass
+
     def test_read_FASTA_files_no_groups(self):
         cur_dir = os.path.dirname(__file__)
         parsed_file_name = os.path.join(cur_dir,"fixtures/parsed_gen_2_2_test.txt")
