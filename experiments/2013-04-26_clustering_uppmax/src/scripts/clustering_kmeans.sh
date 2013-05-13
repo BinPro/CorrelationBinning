@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 #SBATCH -A b2010008
-#SBATCH -p devel
-#SBATCH -n 1
-#SBATCH -t 1:00:00
+#SBATCH -p node
+#SBATCH -n 8
+#SBATCH -t 1-00:00:00
 #SBATCH -J Clustering_kmeans
 
 # This experiment aim is to compare how different kmer-lengths affect
@@ -14,11 +14,11 @@ mkdir -p $DATA_PATH
 RESULTS_PATH="/proj/b2010008/ProBin/RESULTS/clustering/2013-04-26_clustering_uppmax"
 mkdir -p $RESULTS_PATH
 
-KMER_LENGTH="3"
-CLUSTER_COUNT="13"
+KMER_LENGTH="3 4 5"
+CLUSTER_COUNT="13 55 184"
 CLUSTER_ALG="em"
 
-DATA_FILES="contigs_2_2_100_100_start_position.fna contigs_2_2_100_1000_start_position.fna"
+DATA_FILES="contigs_2_2_100_10000_start_position.fna"
 DATE_OUT=$(date +%F_%H:%M)
 OUTPUT_ERROR=$RESULTS_PATH/$CLUSTER_ALG"_"$KMER_LENGTH"_"$CLUSTER_COUNT".error_log" 
 
