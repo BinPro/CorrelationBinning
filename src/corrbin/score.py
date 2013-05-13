@@ -23,20 +23,26 @@ class ScoreCollection(object):
         
 
 class Score(object):
-    def __init__(self, p_value, contig_genome, compare_genome, contig_id):
+    def __init__(self, p_value, contig_genome, compare_genome, contig_id, taxonomy_info=True):
         self.p_value = p_value
         self.genome_contig = contig_genome.id
-        self.species_contig = contig_genome.species
-        self.genus_contig = contig_genome.genus
-        self.family_contig = contig_genome.family
+
         self.genome_compare = compare_genome.id
         self.species_compare = compare_genome.species
         self.genus_compare = compare_genome.genus
         self.family_compare = compare_genome.family
         self.contig_id = contig_id
-
+        self.taxonomy_info = taxonomy_info
+        if taxonomy_info:
+            self.species_contig = contig_genome.species
+            self.genus_contig = contig_genome.genus
+            self.family_contig = contig_genome.family
+        
     def __str__(self):
-        return "%f\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%i" % (self.p_value,self.family_contig, self.genus_contig, self.species_contig, self.genome_contig, self.family_compare, self.genus_compare, self.species_compare, self.genome_compare, self.contig_id)
+        if self.taxonomy_info:
+            return "%f\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%i" % (self.p_value,self.family_contig, self.genus_contig, self.species_contig, self.genome_contig, self.family_compare, self.genus_compare, self.species_compare, self.genome_compare, self.contig_id)
+        else:
+            return "%f\t%s\t%s\t%s\t%s\t%s\t%s" % (self.p_value, self.genome_contig, self.family_compare, self.genus_compare, self.species_compare, self.genome_compare, self.contig_id)
 
 
 class ExperimentData(object):

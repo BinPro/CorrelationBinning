@@ -58,6 +58,23 @@ class TestIO(object):
         assert_equal(groups[-1].genomes[-1].family, "Flavobacteriaceae")
 
 
+    def test_read_single_FASTA_file(self):
+        cur_dir = os.path.dirname(__file__)
+        parsed_file_name = os.path.join(cur_dir,"fixtures/parsed_gen_0_0_mock_test_complete.txt")
+        open_file = open(parsed_file_name, 'r')
+        groups = read_parsed_taxonomy_file(open_file)
+        dir_path = os.path.join(cur_dir,"fixtures/mock_references_test.fa")
+        output = read_FASTA_files(groups, dir_path, dir_structure='single_fasta_file')
+        assert_is_none(output)
+        last_genome = groups[-1].genomes[-1]
+        assert_equal(len(last_genome.full_seq),2222430) #wrong length
+        assert_equal(last_genome.id, "Pyrobaculum_aerophilum_str._IM2")
+        # Same family and genera within group
+        assert_equal(groups[-1].genomes[-1].family, groups[-1].genomes[0].family)
+        assert_equal(groups[-1].genomes[-1].genus, groups[-1].genomes[0].genus)
+        # A correct family
+        assert_equal(groups[-1].genomes[-1].family, "Thermoproteaceae") # wrong family
+
     def test_read_FASTA_files_no_groups(self):
         cur_dir = os.path.dirname(__file__)
         parsed_file_name = os.path.join(cur_dir,"fixtures/parsed_gen_2_2_test.txt")
