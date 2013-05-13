@@ -75,6 +75,20 @@ class TestIO(object):
         # A correct family
         assert_equal(groups[-1].genomes[-1].family, "Thermoproteaceae") # wrong family
 
+    def test_read_signle_FASTA_file_no_groups(self):
+        cur_dir = os.path.dirname(__file__)
+        parsed_file_name = os.path.join(cur_dir,"fixtures/parsed_gen_0_0_mock_test_complete.txt")
+        open_file = open(parsed_file_name, 'r')
+        meta_genomes = genome_info_from_parsed_taxonomy_file(open_file)
+        dir_path = os.path.join(cur_dir,"fixtures/mock_references_test.fa")
+        real_genomes = read_FASTA_files_no_groups(meta_genomes, dir_path, dir_structure='single_fasta_file')
+        assert_equal(len(real_genomes),15)
+        last_genome = real_genomes[-1]
+        assert_equal(len(last_genome.full_seq),2222430)
+        assert_equal(last_genome.id, "Pyrobaculum_aerophilum_str._IM2")
+        # A correct family
+        assert_equal(real_genomes[-1].family, "Thermoproteaceae")
+
     def test_read_FASTA_files_no_groups(self):
         cur_dir = os.path.dirname(__file__)
         parsed_file_name = os.path.join(cur_dir,"fixtures/parsed_gen_2_2_test.txt")
