@@ -1,0 +1,94 @@
+Timer unit: 1e-06 s
+
+File: probin/binning/em.py
+Function: cluster at line 6
+Total time: 370.142 s
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+     6                                           @profile
+     7                                           def cluster(contigs,model,cluster_count,centroids=None,max_iter=100, repeat=10,epsilon=0.01):
+     8         1            5      5.0      0.0      (max_clusters, max_clustering_prob,max_centroids) = (None, -np.inf, None)
+     9                                               
+    10         3            5      1.7      0.0      for run in xrange(repeat):
+    11         2    370141533 185070766.5    100.0          (clusters, clustering_prob, new_centroids) = _clustering(contigs, model, cluster_count ,centroids, max_iter,epsilon)
+    12         2           39     19.5      0.0          (max_clusters, max_clustering_prob,max_centroids) = max([(max_clusters, max_clustering_prob, max_centroids), (clusters, clustering_prob, new_centroids)],key=lambda x: x[1])
+    13         1            1      1.0      0.0      return (max_clusters, max_clustering_prob, max_centroids)
+
+File: probin/binning/em.py
+Function: _clustering at line 14
+Total time: 370.126 s
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+    14                                           @profile    
+    15                                           def _clustering(contigs, model, cluster_count ,centroids, max_iter,epsilon):
+    16         2            3      1.5      0.0      if not centroids:
+    17         2          260    130.0      0.0          from probin.binning import kmeans
+    18         2    211081760 105540880.0     57.0          (clusters,_,centroids) = kmeans.cluster(contigs,model,cluster_count,None,max_iter=3,repeat=2)
+    19         2          152     76.0      0.0          expected_cluster_freq = np.ones((1,cluster_count))/cluster_count
+    20                                               else:
+    21                                                   clusters = _expectation(contigs,centroids)
+    22         2            8      4.0      0.0      clustering_prob = -np.inf
+    23         4            7      1.8      0.0      while (max_iter != 0):
+    24                                           
+    25         4     37498829 9374707.2     10.1          expected_clustering     = _expectation(contigs,model,centroids, expected_cluster_freq)
+    26         4     87462840 21865710.0     23.6          centroids               = _maximization(contigs, model, centroids, expected_clustering,)
+    27         4          642    160.5      0.0          expected_cluster_freq   = expected_clustering.sum(axis=0,keepdims=True)
+    28         4     34057470 8514367.5      9.2          curr_clustering_prob    = _evaluate_clustering(centroids, contigs, model,expected_cluster_freq)
+    29                                                   
+    30         4           26      6.5      0.0          if (1 - curr_clustering_prob / clustering_prob <= epsilon):
+    31         2            2      1.0      0.0              if (curr_clustering_prob < clustering_prob):
+    32         2           91     45.5      0.0                  print>>sys.stderr, "EM got worse, previous clustering probability : {0}, current clustering probability: {1}".format( clustering_prob, curr_clustering_prob)
+    33         2            3      1.5      0.0                  break
+    34                                                       clustering_prob = curr_clustering_prob
+    35                                                       break
+    36         2            2      1.0      0.0          clustering_prob = curr_clustering_prob
+    37         2            3      1.5      0.0          max_iter -= 1
+    38         2            2      1.0      0.0      if not max_iter:
+    39                                                   print>>sys.stderr,"EM Finished maximum iteration"
+    40        28          284     10.1      0.0      clusters = [set() for _ in range(cluster_count)]
+    41     10982        23382      2.1      0.0      [clusters[i].add(contig) for (i,contig) in zip(expected_clustering.argmax(axis=1),contigs)]
+    42         2            6      3.0      0.0      return (clusters, clustering_prob, centroids)
+
+File: probin/binning/em.py
+Function: _expectation at line 43
+Total time: 36.9943 s
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+    43                                           @profile
+    44                                           def _expectation(contigs, model, centroids,expected_cluster_freq):
+    45         4          235     58.8      0.0      expected_clustering = np.zeros((len(contigs),len(centroids)))
+    46                                           
+    47     21964        32891      1.5      0.1      for i,contig in enumerate(contigs):
+    48    307440     36942946    120.2     99.9          expected_clustering[i] = [model.log_probability(contig,centroid) for centroid in centroids]
+    49         4         1989    497.2      0.0      max_lq = np.max(expected_clustering,axis=1,keepdims=True)
+    50         4        11518   2879.5      0.0      expected_clustering = np.exp(expected_clustering - max_lq) * expected_cluster_freq
+    51         4         4688   1172.0      0.0      return expected_clustering / np.sum(expected_clustering,axis=1,keepdims=True)
+
+File: probin/binning/em.py
+Function: _maximization at line 52
+Total time: 87.4625 s
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+    52                                           @profile
+    53                                           def _maximization(contigs, model,centroids, expected_clustering):
+    54        56          330      5.9      0.0      for i,exp_cluster in enumerate(expected_clustering.T):
+    55        52     87462199 1681965.4    100.0          centroids[i] = model.fit_nonzero_parameters(contigs,expected_clustering=exp_cluster)
+    56         4            3      0.8      0.0      return centroids
+
+File: probin/binning/em.py
+Function: _evaluate_clustering at line 57
+Total time: 33.6854 s
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+    57                                           @profile    
+    58                                           def _evaluate_clustering(centroids,contigs, model, expected_clustering_freq):
+    59         4            4      1.0      0.0      cluster_prob = 0
+    60        56          289      5.2      0.0      for (centroid,exp_clust) in izip(centroids,expected_clustering_freq.T):
+    61    285532     33685072    118.0    100.0          cluster_prob += np.sum(np.array([model.log_probability(contig,centroid) for contig in contigs]) + np.log(exp_clust))
+    62         4            4      1.0      0.0      return cluster_prob
+
