@@ -26,7 +26,8 @@ if __name__=="__main__":
         default='genome', help='specify backup file name column if standard == "N/A"')      
     parser.add_argument('--species_column', default='species',
         help='specify the name of the column containing the species name, default species')
-    
+    parser.add_argument('--backup_species_column',
+                        default='species', help='specify backup species name column if standard == "N/A"')    
     args = parser.parse_args()
     fh = sys.stdout
     
@@ -49,7 +50,10 @@ if __name__=="__main__":
 
         family = tmp_hash['family']
         genus = tmp_hash['genus']
-        species = tmp_hash['species']
+        species = tmp_hash[args.species_column]
+        if species == "N/A":
+            species == tmp_hash[args.backup_species_column]
+
         if family != "NA" and genus != "NA" and species !="NA":
             if not family in families:
                 families[family] = {}
