@@ -22,6 +22,8 @@ if __name__=="__main__":
         help='number of minimum genera within family.')
     parser.add_argument('--file_name_column', default='genome',
         help='specify the name of the column containing the file_name, default genome')
+    parser.add_argument('--backup_file_name_column',
+        default='genome', help='specify backup file name column if standard == "N/A"')      
     parser.add_argument('--species_column', default='species',
         help='specify the name of the column containing the species name, default species')
     
@@ -70,4 +72,8 @@ if __name__=="__main__":
         for genus in genera2:
             print >> fh, 'genus_name:\t' + genus
             for specie,tmp_hash in families[family][genus].iteritems():
-                print >> fh, 'entry:\t' + specie + '\t' + families[family][genus][specie][args.file_name_column]
+                file_name = families[family][genus][specie][args.file_name_column]
+                if file_name == "N/A":
+                    file_name = families[family][genus][specie][args.backup_file_name_column]
+
+                print >> fh, 'entry:\t' + specie + '\t' + file_name                    
