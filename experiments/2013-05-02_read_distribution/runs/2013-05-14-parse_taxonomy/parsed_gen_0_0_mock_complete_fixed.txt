@@ -1,0 +1,145 @@
+family_name:	
+genus_name:	Unclassified Burkholderiales
+entry:	Leptothrix cholodnii	Leptothrix_cholodnii_SP-6
+family_name:	Gemmatimonadaceae
+genus_name:	Gemmatimonas
+entry:	Gemmatimonas aurantiaca T-27	Gemmatimonas_aurantiaca_T-27_DNA
+family_name:	Thermoanaerobacterales Family III. Incertae Sedis
+genus_name:	Caldicellulosiruptor
+entry:	Caldicellulosiruptor saccharolyticus DSM 8903	Caldisaccharolyticus_DSM_8903
+entry:	Caldicellulosiruptor bescii DSM 6725	gi|222528057|ref|NC_012034.1|
+family_name:	Sphingomonadaceae
+genus_name:	Zymomonas
+entry:	Zymomonas mobilis subsp. mobilis ZM4	Zymomonas_mobilis_subsp._mobilis_ZM4
+family_name:	Rhodobacteraceae
+genus_name:	Ruegeria
+entry:	Ruegeria pomeroyi DSS-3	Ruegeria_pomeroyi_DSS-3
+genus_name:	Sulfitobacter
+entry:	Sulfitobacter sp. NAS-14.1	Sulfitobacter_NAS-14.1_scf_1099451320477_
+entry:	Sulfitobacter sp. EE-36	Sulfitobacter_sp._EE-36_scf_1099451318008_
+family_name:	Thermotogaceae
+genus_name:	Thermotoga
+entry:	Thermotoga petrophila RKU-1	Thermotoga_petrophila_RKU-1
+entry:	Thermotoga neapolitana DSM 4359	Thermotoga_neapolitana_DSM_4359
+entry:	Thermotoga sp. RQ2	Thermotoga_sp._RQ2
+family_name:	Shewanellaceae
+genus_name:	Shewanella
+entry:	Shewanella baltica OS185	Shewanella_baltica_OS185
+entry:	Shewanella baltica OS223	Shewanella_baltica_OS223,
+family_name:	Methanocaldococcaceae
+genus_name:	Methanocaldococcus
+entry:	Methanocaldococcus jannaschii DSM 2661	Methanocaldococcus_jannaschii_DSM_2661
+family_name:	Archaeoglobaceae
+genus_name:	Archaeoglobus
+entry:	Archaeoglobus fulgidus DSM 4304	Archaeoglobus_fulgidus_DSM_4304
+family_name:	Dictyoglomaceae
+genus_name:	Dictyoglomus
+entry:	Dictyoglomus turgidum DSM 6724	Dictyoglomus_turgidum_DSM_6724
+family_name:	Burkholderiaceae
+genus_name:	Burkholderia
+entry:	Burkholderia xenovorans LB400	Burkholderia1_xenovorans_LB400_chromosome_1,_complete_sequence
+family_name:	Desulfurococcaceae
+genus_name:	Ignicoccus
+entry:	Ignicoccus hospitalis KIN4/I	Ignicoccus_hospitalis_KIN4/I
+family_name:	Rhodospirillaceae
+genus_name:	Rhodospirillum
+entry:	Rhodospirillum rubrum ATCC 11170	gi|83591340|ref|NC_007643.1|
+family_name:	Aquificaceae
+genus_name:	Hydrogenobaculum
+entry:	Hydrogenobaculum sp. Y04AAS1	Hydrogenobaculum_sp._Y04AAS1
+family_name:	Methanococcaceae
+genus_name:	Methanococcus
+entry:	Methanococcus maripaludis S2	Methanococcus_maripaludis_strain_S2,_complete_sequence
+entry:	Methanococcus maripaludis C5	Methanococcus_maripaludis_C5
+family_name:	Fusobacteriaceae
+genus_name:	Fusobacterium
+entry:	Fusobacterium nucleatum subsp. nucleatum ATCC 25586	Fusobacterium_nucleatum_subsp._nucleatum_ATCC_25586
+family_name:	Spirochaetaceae
+genus_name:	Treponema
+entry:	Treponema denticola ATCC 35405	Treponema_denticola_ATCC_35405
+entry:	Treponema vincentii ATCC 35580	Treponema_vincentii_ATCC_35580_NZACYH00000000.1
+family_name:	Clostridiaceae
+genus_name:	Clostridium
+entry:	Clostridium thermocellum ATCC 27405	Clostridium_thermocellum_ATCC_27405
+family_name:	Acidobacteriaceae
+genus_name:	Acidobacterium
+entry:	Acidobacterium capsulatum ATCC 51196	Acidobacterium_capsulatum_ATCC_51196
+family_name:	Thermoproteaceae
+genus_name:	Pyrobaculum
+entry:	Pyrobaculum calidifontis JCM 11548	Pyrobaculum_calidifontis_JCM_11548
+entry:	Pyrobaculum aerophilum str. IM2	Pyrobaculum_aerophilum_str._IM2
+family_name:	Desulfovibrionaceae
+genus_name:	Desulfovibrio
+entry:	Desulfovibrio desulfuricans subsp. desulfuricans str. ATCC 27774	gi|220903286|ref|NC_011883.1|
+entry:	Desulfovibrio piger ATCC 29098	Desulfovibrio_piger_ATCC_29098
+family_name:	Thermococcaceae
+genus_name:	Pyrococcus
+entry:	Pyrococcus horikoshii OT3	Pyrococcus_horikoshii_OT3_DNA
+family_name:	Herpetosiphonaceae
+genus_name:	Herpetosiphon
+entry:	Herpetosiphon aurantiacus DSM 785	Herpetosiphon_aurantiacus_ATCC_23779
+family_name:	Thermaceae
+genus_name:	Thermus
+entry:	Thermus thermophilus HB8	gi|55979969|ref|NC_006461.1|
+family_name:	Enterococcaceae
+genus_name:	Enterococcus
+entry:	Enterococcus faecalis V583	Enterococcus_faecalis_V583
+family_name:	Chloroflexaceae
+genus_name:	Chloroflexus
+entry:	Chloroflexus aurantiacus J-10-fl	Chloroflexus_aurantiacus_J-10-fl
+family_name:	Porphyromonadaceae
+genus_name:	Porphyromonas
+entry:	Porphyromonas gingivalis ATCC 33277	Porphyromonas_gingivalis_ATCC_33277_DNA
+family_name:	Thermoanaerobacteraceae
+genus_name:	Thermoanaerobacter
+entry:	Thermoanaerobacter pseudethanolicus ATCC 33223	Thermoanaerobacter_pseudethanolicus_ATCC_33223
+family_name:	Unclassified Nanoarchaeota
+genus_name:	Nanoarchaeum
+entry:	Nanoarchaeum equitans Kin4-M	Nanoarchaeum_equitans_Kin4-M
+family_name:	Nostocaceae
+genus_name:	Nostoc
+entry:	Nostoc sp. PCC 7120	Nostoc_sp._PCC_7120_DNA
+family_name:	Chlorobiaceae
+genus_name:	Chlorobium
+entry:	Chlorobium phaeovibrioides DSM 265	Chlorobiumphaeovibrioides_DSM_265
+entry:	Chlorobium limicola DSM 245	Chlorobiumlimicola_DSM_245
+entry:	Chlorobium phaeobacteroides DSM 266	Chlorobiumphaeobacteroides_DSM_266
+genus_name:	Pelodictyon
+entry:	Pelodictyon phaeoclathratiforme BU-1	Pelodictyon_phaeoclathratiforme_BU-1
+genus_name:	Chlorobaculum
+entry:	Chlorobium tepidum TLS	Chlorobiumtepidum_TLS
+family_name:	Sulfolobaceae
+genus_name:	Sulfolobus
+entry:	Sulfolobus tokodaii str. 7	Sulfolobus_tokodaii
+family_name:	Bacteroidaceae
+genus_name:	Bacteroides
+entry:	Bacteroides vulgatus ATCC 8482	Bacteroides_vulgatus_ATCC_8482
+entry:	Bacteroides thetaiotaomicron VPI-5482	Bacteroides_thetaiotaomicron_VPI-5482
+family_name:	Verrucomicrobiaceae
+genus_name:	Akkermansia
+entry:	Akkermansia muciniphila ATCC BAA-835	Akkermansia_muciniphila_ATCC_BAA-835
+family_name:	Enterobacteriaceae
+genus_name:	Dickeya
+entry:	Dickeya dadantii 3937	gi|307128764|ref|NC_014500.1|
+family_name:	Alcaligenaceae
+genus_name:	Bordetella
+entry:	Bordetella bronchiseptica RB50	Bordetella_bronchiseptica_strain_RB50
+family_name:	Nitrosomonadaceae
+genus_name:	Nitrosomonas
+entry:	Nitrosomonas europaea ATCC 19718	Nitrosomonas_europaea_ATCC_19718
+family_name:	Planctomycetaceae
+genus_name:	Rhodopirellula
+entry:	Rhodopirellula baltica SH 1	Rhodopirellula_baltica_SH_1_complete_genome
+family_name:	Hydrogenothermaceae
+genus_name:	Sulfurihydrogenibium
+entry:	Sulfurihydrogenibium yellowstonense SS-5	Sulfurihydrogenibium_yellowstonense_SS-5
+entry:	Sulfurihydrogenibium sp. YO3AOP1	SulfuriYO3AOP1
+genus_name:	Persephonella
+entry:	Persephonella marina EX-H1	Persephonella_marina_EX-H1
+family_name:	Micromonosporaceae
+genus_name:	Salinispora
+entry:	Salinispora arenicola CNS-205	Salinispora_arenicola_CNS-205
+entry:	Salinispora tropica CNB-440	Salinispora_tropica_CNB-440
+family_name:	Deinococcaceae
+genus_name:	Deinococcus
+entry:	Deinococcus radiodurans R1	Deinococcus_radiodurans_R1_chromosome_1,_complete_sequence
