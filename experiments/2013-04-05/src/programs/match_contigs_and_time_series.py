@@ -12,34 +12,41 @@ import sys
 import probin.dna as dna
 
 
-def main(time_series_file, contig_file, output_file, contig_length, number_of_reads, first_data, last_data, start_position):
+def main(time_series_file, contig_file, output_file, first_data, last_data):
     dna.DNA.generate_kmer_hash(2)
     time_series_df = p.io.parsers.read_table(time_series_file,sep='\t')
-    contigs = read_contigs_file(contig_file, start_position=start_position)
+    contig_df = p.io.parsers.read_table(contig_file, sep='\t', index_col = 0)
 
     # Match contigs with a real time_series
     ##  Count number of contigs per genome
-    genomes = [c.id for c in contigs]
-    genomes.sort()
+    genomes = contig_df['full_read_mappings_strain'].unique()
+    if "N/A" in genomes:
+        sys.stderr.write("Please remove any 'N/A':s from the contig file" + '\n')
+        sys.exit(-1)
 
-    ##  Match time series index with the number of contigs for that genome.
-    ts_index_and_count = zip(time_series_df.index,[genomes.count(g) for g in genomes])
-    multiplied_time_series = []
-    for time_series_i,count in ts_index_and_count:
-        multiplied_time_series += [time_series_i]*count
-    # Simulate new time series for each contig, with the real as base.
-    ## The average number of reads per contig:
-    genome_length= 3000000
-    reads_per_contig = (float(contig_length)/genome_length) *number_of_reads
-    for contig,ts_i in zip(contigs,multiplied_time_series):
-        genome_ts = time_series_df.ix[ts_i]
-        contig.otu = genome_ts["# OTU"]
-        model_par = [value*reads_per_contig for value in genome_ts[first_data:last_data]]
-        contig.time_series = time_series_model(model_par)
+    ## check that the number of genomes match the number of time series.
+    if len(genomes) != len(time_series_df.index.values):
+        sys.stderr.write("Number of genomes != number of time_series" + '\n')
+        sys.exit(-1)
     
-    sample_headers =time_series_df.ix[:,first_data:last_data].columns
-    print_contigs_time_series(contigs,output_file,sample_headers)
+    ## Divide the number of reads for each genome with the total.
+    total_number_of_reads_in_sample = np.sum(contig_df['full_read_mappings'])
+    grouped_contig_df = contig_df.groupby('full_read_mappings_strain')
 
+    for column in time_series_df.ix[:,first_data:last_data].columns:
+        cr_dict = {}
+        ## decide how many reads each genome gets
+        current_sample = time_series_df[column].values * total_number_of_reads_in_sample
+        ## loop over this vector zipped with the contig group df
+        for n,group in zip(current_sample, grouped_contig_df):
+            ## Spread the reads out over the contigs.
+            group_sample = np.random.multinomial(int(n),group[1]['within_genome_read_ratio'].astype(float))
+            ## save to some df.
+            for contig_id,n_reads in zip(list(group[1].index),group_sample):
+                cr_dict[contig_id] = n_reads
+        contig_df[column] = p.Series(cr_dict.values(),index=cr_dict.keys())
+    contig_df.to_csv(output_file, sep='\t')
+            
 
 if __name__=="__main__":
     parser = ArgumentParser()
@@ -49,22 +56,16 @@ if __name__=="__main__":
                         help='specify input contigs file')
     parser.add_argument('-o', '--output', 
                         help='specify the base name of the output file.  The default is stdout')
-    parser.add_argument('--contig_length', type=int,
-                        help='specify the length of contigs')
-    parser.add_argument('--number_of_reads',type=int,
-                        help='speciy total number of reads for a single sample')
     parser.add_argument('--first_data',
                         help='specify first data point for the samples')
     parser.add_argument('--last_data',
                         help='specify last data point for the samples')
-    parser.add_argument('--start_position', action='store_true',
-                        help='Add this tag if contigs contain start position in id')
     args = parser.parse_args()
 
     if args.output:
         output_file = open(args.output,'w+')
     else:
         output_file = sys.stdout
-    main(args.file,args.contigs_file, output_file, args.contig_length, args.number_of_reads, args.first_data, args.last_data, args.start_position)
+    main(args.file,args.contigs_file, output_file,args.first_data, args.last_data)
 
     output_file.close()
