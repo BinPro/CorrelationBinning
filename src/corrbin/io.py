@@ -102,7 +102,8 @@ def read_FASTA_files(groups, dir_path,dir_structure='tree'):
 def read_FASTA_files_no_groups(meta_genomes, dir_path,dir_structure='tree'):
     cur_dir = os.getcwd()
     if os.path.isfile(dir_path):
-        os.chdir(os.path.dirname(dir_path))
+        if os.path.dirname(dir_path) != '':
+            os.chdir(os.path.dirname(dir_path))
         seq_file = os.path.basename(dir_path)
     else:
         os.chdir(dir_path) 
@@ -204,10 +205,15 @@ def print_contigs_time_series(cs_with_ts,file_handle,sample_headers):
 def read_time_series(ts_file):
     return p.io.parsers.read_table(ts_file,sep='\t')
 
-def read_time_series_file_genomes(genomes,genome_time_series_file,first_data, last_data):
+def read_time_series_file_genomes(genomes,genome_time_series_file,contig_strain_otu_dic,first_data, last_data):
     ts_df = read_time_series(genome_time_series_file)
+    
+    otu_genome_dic = {}
 
-    for genome, index in zip(genomes,ts_df.index):
-        genome.mapping_reads = ts_df.ix[index].values
-        
-
+    
+    for genome in genomes:
+        strain = genome.id
+        import sys
+        sys.stderr.write(str(genome.id)+'\n')
+        otu = contig_strain_otu_dic[strain]
+        genome.mapping_reads = ts_df[ts_df['# OTU'] == otu].values
