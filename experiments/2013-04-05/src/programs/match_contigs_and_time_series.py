@@ -12,7 +12,7 @@ import sys
 import probin.dna as dna
 
 
-def main(time_series_file, contig_file, output_file, first_data, last_data):
+def main(time_series_file, contig_file, output_file, first_data, last_data,random_abundance=False):
     dna.DNA.generate_kmer_hash(2)
     time_series_df = p.io.parsers.read_table(time_series_file,sep='\t')
     contig_df = p.io.parsers.read_table(contig_file, sep='\t', index_col = 0)
@@ -36,7 +36,10 @@ def main(time_series_file, contig_file, output_file, first_data, last_data):
     for column in time_series_df.ix[:,first_data:last_data].columns:
         cr_dict = {}
         ## decide how many reads each genome gets
-        current_sample = time_series_df[column].values * total_number_of_reads_in_sample
+        if random_abundance:
+            current_sample = np.random.multinomial(total_number_of_reads_in_sample,time_series_df[column].values)
+        else:
+            current_sample = time_series_df[column].values * total_number_of_reads_in_sample
         ## loop over this vector zipped with the contig group df
         for n,group in zip(current_sample, grouped_contig_df):
             ## Spread the reads out over the contigs.
@@ -60,12 +63,14 @@ if __name__=="__main__":
                         help='specify first data point for the samples')
     parser.add_argument('--last_data',
                         help='specify last data point for the samples')
+    parser.add_argument('--random_abundance',action='store_true',
+                        help='Add this tag if the species abundance should be random also')
     args = parser.parse_args()
 
     if args.output:
         output_file = open(args.output,'w+')
     else:
         output_file = sys.stdout
-    main(args.file,args.contigs_file, output_file,args.first_data, args.last_data)
+    main(args.file,args.contigs_file, output_file,args.first_data, args.last_data,random_abundance=args.random_abundance)
 
     output_file.close()
