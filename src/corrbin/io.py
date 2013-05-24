@@ -212,8 +212,6 @@ def read_time_series_file_genomes(genomes,genome_time_series_file,contig_strain_
 
     
     for genome in genomes:
-        strain = genome.id
-        import sys
-        sys.stderr.write(str(genome.id)+'\n')
+        strain = genome.species
         otu = contig_strain_otu_dic[strain]
         genome.mapping_reads = ts_df[ts_df['# OTU'] == otu].values
