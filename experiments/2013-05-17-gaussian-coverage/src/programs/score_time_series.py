@@ -52,7 +52,7 @@ def main(contigs_file,contig_time_series_file, genome_time_series_file, taxonomy
 
     for genome in genomes:
         sys.stderr.write("GENOME!\n")
-        genome.pseudo_par = model.fit_nonzero_parameters([genome],total_read_count)
+        genome.pseudo_par = model.fit_nonzero_parameters([genome],total_number_of_reads_in_sample)
 
     scores = []
     for contig in contigs:
