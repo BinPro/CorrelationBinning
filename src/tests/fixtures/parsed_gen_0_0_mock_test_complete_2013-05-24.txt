@@ -1,0 +1,37 @@
+family_name:	Verrucomicrobiaceae
+genus_name:	Akkermansia
+entry:	Akkermansia muciniphila ATCC BAA-835	Akkermansia_muciniphila_ATCC_BAA-835
+family_name:	Bacteroidaceae
+genus_name:	Bacteroides
+entry:	Bacteroides thetaiotaomicron VPI-5482	Bacteroides_thetaiotaomicron_VPI-5482
+family_name:	Alcaligenaceae
+genus_name:	Bordetella
+entry:	Bordetella bronchiseptica RB50	Bordetella_bronchiseptica_strain_RB50
+family_name:	Fusobacteriaceae
+genus_name:	Fusobacterium
+entry:	Fusobacterium nucleatum subsp. nucleatum ATCC 25586	Fusobacterium_nucleatum_subsp._nucleatum_ATCC_25586
+family_name:	Gemmatimonadaceae
+genus_name:	Gemmatimonas
+entry:	Gemmatimonas aurantiaca T-27	Gemmatimonas_aurantiaca_T-27_DNA
+family_name:	Desulfurococcaceae
+genus_name:	Ignicoccus
+entry:	Ignicoccus hospitalis KIN4/I	Ignicoccus_hospitalis_KIN4/I
+family_name:	Hydrogenothermaceae
+genus_name:	Persephonella
+entry:	Persephonella marina EX-H1	Persephonella_marina_EX-H1
+genus_name:	Sulfurihydrogenibium
+entry:	Sulfurihydrogenibium sp. YO3AOP1	SulfuriYO3AOP1
+family_name:	Thermoproteaceae
+genus_name:	Pyrobaculum
+entry:	Pyrobaculum aerophilum str. IM2	Pyrobaculum_aerophilum_str._IM2
+family_name:	Micromonosporaceae
+genus_name:	Salinispora
+entry:	Salinispora arenicola CNS-205	Salinispora_arenicola_CNS-205
+entry:	Salinispora tropica CNB-440	Salinispora_tropica_CNB-440
+family_name:	Spirochaetaceae
+genus_name:	Treponema
+entry:	Treponema vincentii ATCC 35580	Treponema_vincentii_ATCC_35580_NZACYH00000000.1
+family_name:	Sphingomonadaceae
+genus_name:	Zymomonas
+entry:	Zymomonas mobilis subsp. mobilis ZM4	Zymomonas_mobilis_subsp._mobilis_ZM4
+
