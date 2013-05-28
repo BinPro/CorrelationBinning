@@ -7,6 +7,8 @@ from corrbin.score import parse_contig_description
 from corrbin.misc import GenomeGroup
 from probin.dna import DNA
 import pandas as p
+import numpy as np
+import sys
 
 def read_parsed_taxonomy_file(open_name_file):
     groups = []
@@ -205,7 +207,7 @@ def print_contigs_time_series(cs_with_ts,file_handle,sample_headers):
 def read_time_series(ts_file):
     return p.io.parsers.read_table(ts_file,sep='\t')
 
-def read_time_series_file_genomes(genomes,genome_time_series_file,contig_strain_otu_dic,first_data, last_data):
+def read_time_series_file_genomes(genomes,genome_time_series_file,contig_strain_otu_dic,first_data, last_data,tot_num_bases_per_sample):
     ts_df = read_time_series(genome_time_series_file)
     
     otu_genome_dic = {}
@@ -214,4 +216,11 @@ def read_time_series_file_genomes(genomes,genome_time_series_file,contig_strain_
     for genome in genomes:
         strain = genome.species
         otu = contig_strain_otu_dic[strain]
-        genome.mapping_reads = ts_df[ts_df['# OTU'] == otu].values
+        genome_length= len(genome.full_seq)
+        mr = np.array(ts_df[ts_df['# OTU'] == otu].ix[:,first_data:last_data].values)
+        if mr.shape[0]==0:
+            sys.stderr.write(otu+'\n')
+        if mr.shape[0]>=2:
+            sys.stderr.write(otu+' More than 2 \n')
+        genome.mapping_reads = mr*tot_num_bases_per_sample/genome_length
+        
