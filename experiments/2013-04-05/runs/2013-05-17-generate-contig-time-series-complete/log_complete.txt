@@ -1,0 +1,6 @@
+ln -s "../../src/programs/"match_contigs_and_time_series.py match_contigs_and_time_series.py
+ln -s "../../src/programs/"calculate_genome_coverage.py calculate_genome_coverage.py
+time ./calculate_genome_coverage.py /home/johannes"/repos/RESULTS/to_big_for_git/2013-05-02/low_coverage_sample/even/""read_mappings.csv" --read_mapping_column "full_read_mappings" --contig_length_column "contig_length" --otu_column "full_read_mappings_strain" --read_length 100 --sorted --remove_na -o /home/johannes"/repos/RESULTS/to_big_for_git/2013-05-02/low_coverage_sample/even/"read_mappings_with_coverage_sorted_no_NA.tsv 
+ln -s /home/johannes"/repos/RESULTS/to_big_for_git/2013-05-02/low_coverage_sample/even/"read_mappings_with_coverage_sorted_no_NA.tsv read_mappings_with_coverage_sorted_no_NA.tsv
+time ./match_contigs_and_time_series.py /home/johannes"/repos/RESULTS/to_big_for_git/time_series/time_series_2013-05-16_59.tsv" --contigs_file read_mappings_with_coverage_sorted_no_NA.tsv --first_data "2012-03-25" --last_data "2013-01-18" -o /home/johannes"/repos/RESULTS/to_big_for_git/2013-05-02/low_coverage_sample/even/"contigs_with_samples.tsv 
+ln -s /home/johannes"/repos/RESULTS/to_big_for_git/2013-05-02/low_coverage_sample/even/"contigs_with_samples.tsv contigs_with_samples.tsv
