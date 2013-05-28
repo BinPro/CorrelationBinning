@@ -6,7 +6,7 @@ import numpy as np
 import pandas as p
 from copy import copy
 from argparse import ArgumentParser
-from probin.model.coverage import binomial as model
+from probin.model.coverage import isotropic_gaussian as model
 from probin.dna import DNA
 from Bio import SeqIO
 from corrbin.misc import all_but_index, Uniq_id, GenomeGroup
@@ -39,7 +39,10 @@ def main(contigs_file,contig_time_series_file, genome_time_series_file, taxonomy
 
 
     for contig in contigs:
-        contig.mapping_reads = contig_time_series_df.ix[contig.contig_id]
+        contig.mapping_reads = contig_time_series_df.ix[contig.contig_id,first_data:last_data]
+        contig.species = contig_time_series_df.ix[contig.contig_id]['Contig_Species']
+        contig.genus = contig_time_series_df.ix[contig.contig_id]['Contig_Genus']
+        contig.family = contig_time_series_df.ix[contig.contig_id]['Contig_Family']
 
     # Divide genomes into groups, one for each genus
     meta_genomes = genome_info_from_parsed_taxonomy_file(taxonomy_file)
@@ -48,17 +51,28 @@ def main(contigs_file,contig_time_series_file, genome_time_series_file, taxonomy
     genomes = read_FASTA_files_no_groups(meta_genomes, dir_path, dir_structure='single_fasta_file')
 
     # Fetch time series for each genome
-    read_time_series_file_genomes(genomes, genome_time_series_file, contig_strain_otu_dic,first_data,last_data)
+    read_time_series_file_genomes(genomes, genome_time_series_file, contig_strain_otu_dic,first_data,last_data,total_number_of_reads_in_sample*100)
 
     for genome in genomes:
-        sys.stderr.write("GENOME!\n")
-        genome.pseudo_par = model.fit_nonzero_parameters([genome],total_number_of_reads_in_sample)
+        mr = genome.mapping_reads
+        if mr.shape[0] == 0:
+            sys.stderr.write("skipping: " + str(genome.id)+'\n')
+            continue
+        else:
+            sys.stderr.write("Including genome: " + str(genome.id) + '\n')
+            sys.stderr.write("Including otu: " + str(contig_strain_otu_dic[genome.species]) + '\n')
+            sys.stderr.write("Time series: " + str(mr) + '\n')
+        genome.pseudo_par = model.fit_nonzero_parameters(mr)
 
     scores = []
     for contig in contigs:
+        contig_length = len(contig.full_seq)
+        contig_ts = np.array(contig.mapping_reads.values.astype(float)*100/contig_length)
+        sys.stderr.write("Contig id: " + str(contig.id) + '\n')
+        sys.stderr.write("Contig ts: " + str(contig_ts) + '\n')
         for genome in genomes:
             p_val = model.log_pdf(\
-                contig.mapping_reads['2012-12-25':'2013-01-18'], *genome.pseudo_par)
+                contig_ts, *genome.pseudo_par)
             scores.append(\
                 Score(p_val, contig, genome, contig.contig_id))
 
