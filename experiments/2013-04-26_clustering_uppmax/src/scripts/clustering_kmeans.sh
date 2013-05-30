@@ -18,7 +18,7 @@ KMER_LENGTH="3 4 5"
 CLUSTER_COUNT="13 55 184"
 CLUSTER_ALG="em"
 
-DATA_FILES="contigs_2_2_100_10000_start_position.fna"
+DATA_FILES="contigs_2_2_100_100_start_position.fna contigs_2_2_100_1000_start_position.fna contigs_2_2_100_10000_start_position.fna"
 DATE_OUT=$(date +%F_%H:%M)
 OUTPUT_ERROR=$RESULTS_PATH/$CLUSTER_ALG"_"$KMER_LENGTH"_"$CLUSTER_COUNT".error_log" 
 
