@@ -59,7 +59,7 @@ def get_statistics(cluster_file, phylo_file,level):
     clusters = get_clusters_from_file(cluster_file)
     phylo = get_phylo_from_file(phylo_file)
     if len(clusters) != len(phylo):
-        print >> sys.stderr, "not equally many contigs ins clustering and phylo"
+        print >> sys.stderr, "not equally many contigs in clustering({0}) and phylo({1}).".format(len(clusters),len(phylo))
         sys.exit(-1)
     #we can do this join on the dataframes since the indexes are the same contigs!
     phylo_clusters = phylo.join(clusters)
