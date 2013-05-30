@@ -96,16 +96,3 @@ def precision(contigs,clustering):
     for precision in precisions:
         precision["precision"] = precision.max(axis=1)
     return precisions
-
-if __name__=="__main__":
-    parser = ArgumentParser(description="Clustering of metagenomic contigs")
-    parser.add_argument('cluster_file', 
-        help='Result file from ProBin program (or each line on the form Cluster X, contig1X, contig2X,..)')
-    parser.add_argument('phylo_file',
-        help='Phylogenetic file for the cluster_file (each line on the form: contig_id, family, genus, species')
-    parser.add_argument('-l', '--level', 
-        default='family', type=str, choices=['family','genus','species'],
-        help='Calculate statistics for which level.')
-    args = parser.parse_args()
-    phylo_clusters = get_statistics(args.cluster_file,args.phylo_file,args.level)
-    phylo_clusters.to_csv("/home/binni/MasterProject/Drasl/{0}".format(os.))
