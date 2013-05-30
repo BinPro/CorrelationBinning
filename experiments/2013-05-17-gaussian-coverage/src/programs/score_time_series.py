@@ -5,7 +5,6 @@ import os
 import numpy as np
 import pandas as p
 from copy import copy
-from collections import defaultdict
 from argparse import ArgumentParser
 from probin.model.coverage import isotropic_gaussian as model
 from probin.model.coverage import log_coverage
@@ -22,9 +21,9 @@ def main(contigs_file,contig_time_series_file, genome_time_series_file, taxonomy
 
     contig_time_series_df = p.io.parsers.read_table(contig_time_series_file,sep='\t',index_col=0)
 
-    include_contigs = defaultdict()
+    include_contigs = {}
     for ix in contig_time_series_df.index:
-        include_contigs[ix] = True
+       include_contigs[ix] = True
 
     contigs = read_contigs_file(contigs_file,start_position=False,taxonomy_info=False,filter_dict=include_contigs)
             

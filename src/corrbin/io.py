@@ -175,7 +175,7 @@ def read_contigs_file(open_contigs_file, start_position=False,taxonomy_info=True
     contigs = []
     seqs = list(SeqIO.parse(open_contigs_file, "fasta"))
     for seq in seqs:
-        if filter_dict and not filter_dict[seq.id]:
+        if filter_dict and not (seq.id in filter_dict):
             continue
         if taxonomy_info:
             contig_id_hash = parse_contig_description(seq.description, start_position=start_position)
