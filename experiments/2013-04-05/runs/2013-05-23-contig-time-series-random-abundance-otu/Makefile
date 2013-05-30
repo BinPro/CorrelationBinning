@@ -15,7 +15,7 @@ match_contigs_and_time_series.py:
 	ln -s "../../src/programs/"$@ $@
 
 read_mappings_with_coverage_sorted_no_NA.tsv: calculate_genome_coverage.py
-	time ./$< $(RESULTS_PATH)"read_mappings.csv" --read_mapping_column "full_read_mappings" --contig_length_column "contig_length" --otu_column "full_read_mappings_strain" --read_length 100 --sorted --remove_na -o $(RESULTS_PATH)$@ 
+	time ./$< $(RESULTS_PATH)"read_mappings.csv" --read_mapping_column "total_read_count" --contig_length_column "contig_length" --otu_column "full_read_mappings_strain" --read_length 100 --sorted --remove_na -o $(RESULTS_PATH)$@ 
 	ln -s $(RESULTS_PATH)$@ $@
 
 contigs_with_samples_random_abundance_otu.tsv: match_contigs_and_time_series.py read_mappings_with_coverage_sorted_no_NA.tsv 
