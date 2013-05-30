@@ -1,27 +1,41 @@
 #!/usr/bin/env bash
 #SBATCH -A b2010008
 #SBATCH -p devel
+#SBATCH -n 1
 #SBATCH -t 1:00:00
 #SBATCH -J Clustering_kmeans
 
 # This experiment aim is to compare how different kmer-lengths affect
 # the genomic profile specificity for different taxonomic levels.
 
-DATA_PATH="/proj/b2010008/ProBin/DATA/2013-04-26"
-#DATA_PATH=$HOME"/repos/DATA"
+DATA_PATH="/proj/b2010008/ProBin/DATA/2013-04-26_clustering_uppmax"
+mkdir -p $DATA_PATH
 
-RESULTS_PATH="/proj/b2010008/ProBin/RESULTS/clustering/2013-04-26"
+RESULTS_PATH="/proj/b2010008/ProBin/RESULTS/clustering/2013-04-26_clustering_uppmax"
 mkdir -p $RESULTS_PATH
 
-KMER_LENGTH=4
-CLUSTER_COUNT=7
-CLUSTER_ALG="kmeans"
+KMER_LENGTH="3"
+CLUSTER_COUNT="13"
+CLUSTER_ALG="em"
 
-OUTPUT_CSV=$RESULTS_PATH/$CLUSTER_ALG"_"$KMER_LENGTH"_"$CLUSTER_COUNT".csv" 
+DATA_FILES="contigs_2_2_100_100_start_position.fna contigs_2_2_100_1000_start_position.fna"
+DATE_OUT=$(date +%F_%H:%M)
 OUTPUT_ERROR=$RESULTS_PATH/$CLUSTER_ALG"_"$KMER_LENGTH"_"$CLUSTER_COUNT".error_log" 
 
-COMMAND="ProBin.py bin $DATA_PATH/generated_contigs_10000_test.fna -k $KMER_LENGTH -c $CLUSTER_COUNT -a $CLUSTER_ALG -o $OUTPUT_CSV"
-
-echo $COMMAND
-time $COMMAND
-
+for INFILE in $DATA_FILES
+do
+  for ALG in $CLUSTER_ALG
+  do
+    for KMER in $KMER_LENGTH
+    do
+      for COUNT in $CLUSTER_COUNT
+      do
+	OUTPUT_CSV=$RESULTS_PATH/$DATE_OUT"_clustering_"$ALG"_kmer_"$KMER"_clusters_"$COUNT".csv"
+	COMMAND="ProBin.py bin $DATA_PATH/$INFILE -k $KMER -c $COUNT -a $ALG -o $OUTPUT_CSV"
+	echo $COMMAND
+	time $COMMAND &
+	wait
+      done
+    done
+  done
+done
