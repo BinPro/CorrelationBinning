@@ -14,7 +14,7 @@ from argparse import ArgumentParser
 
 def get_phylo_from_file(phylo_file):
     """
-    phylo_file: File in path is a comma seperated file with columns: contig_id, family, genus, species
+    phylo_file: File in path is a comma seperated file with columns: id, family, genus, specie
                 family      genus       species    
     contig1     family1     genus1      species1
     contig2     family1     genus2      species2
