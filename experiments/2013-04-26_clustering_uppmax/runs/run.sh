@@ -8,4 +8,4 @@
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=brynjar.bjarnason@scilifelab.se
 
-make cluster 
+make mock-even-old 
