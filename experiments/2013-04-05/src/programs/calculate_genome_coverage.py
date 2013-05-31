@@ -9,8 +9,12 @@ from corrbin.classification import classify_bool
 import matplotlib.pyplot as plt
 import sys
 
-def main(input_file, read_mapping_column, contig_length_column, otu_column, output_file, read_length, sorted_output=False, remove_na=False):
+def main(input_file, read_mapping_column, contig_length_column, otu_column, output_file, read_length, sorted_output=False, remove_na=False,filter_file=None):
     full_df = p.io.parsers.read_table(input_file,sep='\t',index_col=0)
+    if filter_file:
+        filter_series = full_df['contigs_genome_length_ratio']<0.10
+        full_df = full_df[filter_series]
+
     grouped = full_df.groupby(otu_column)
     cr_hash = {}
     read_ratio_hash = {}
@@ -29,7 +33,7 @@ def main(input_file, read_mapping_column, contig_length_column, otu_column, outp
     full_df['full_read_mappings'] = full_df[read_mapping_column]
     if sorted_output:
         full_df= full_df.sort_index(by=['tot_number_of_reads',otu_column])
-        
+
     if remove_na:
         full_df = full_df[full_df[otu_column] != "N/A"]
         full_df = full_df.dropna()
@@ -54,7 +58,12 @@ if __name__=="__main__":
                         help='Add tag if output should be sorted by otu and otu average coverage')
     parser.add_argument('--remove_na', action='store_true',
                         help='Add tag if any "N/A":s should be removed from output')
+    parser.add_argument('--filter_file',
+                        help='File with the strain names that will be included')
 
     args = parser.parse_args()
-
-    main(args.file, args.read_mapping_column, args.contig_length_column,args.otu_column, args.output, args.read_length, sorted_output= args.sorted, remove_na = args.remove_na)
+    if args.filter_file:
+        filter_file= open(args.filter_file)
+    else:
+        filter_file = None
+    main(args.file, args.read_mapping_column, args.contig_length_column,args.otu_column, args.output, args.read_length, sorted_output= args.sorted, remove_na = args.remove_na,filter_file=filter_file)
