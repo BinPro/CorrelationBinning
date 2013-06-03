@@ -63,8 +63,9 @@ def get_statistics(cluster_file, phylo_file,level):
         sys.exit(-1)
     #we can do this join on the dataframes since the indexes are the same contigs!
     phylo_clusters = phylo.join(clusters)
+    cm = confusion_matrix(df)
     
-    return phylo_clusters
+    return phylo_clusters, cm
 
 
 #    _get_phylo(contigs)    
@@ -77,10 +78,8 @@ def get_statistics(cluster_file, phylo_file,level):
 #        r.recall.to_csv(output)
 #        p.precision.to_csv(output)
 
-def confusion_matrix(contigs,clustering,level="family"):
-    levels = ["family","genus","species"]
-    df = _create_dataframe(contigs,clustering)
-    cm = [pivot_table(df,rows=levels[:i+1],cols=["cluster"],aggfunc=np.sum) for i in xrange(len(levels))]
+def confusion_matrix(df,level="family"):
+    cm = pivot_table(df,rows=level,cols=["cluster"],aggfunc=np.sum)
     return cm
 
 def recall(contigs,clustering):
