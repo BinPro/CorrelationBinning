@@ -86,7 +86,7 @@ def get_statistics(cluster_file, phylo_file,fasta_file):
     
     phylo_clusters = phylo.join(clusters, how="inner")
     phylo_clusters_length = phylo_clusters.join(contig_length,how="inner")
-    cm = confusion_matrix(df)
+    cm = confusion_matrix(phylo_clusters_length)
     return phylo_clusters_length, cm
 
 

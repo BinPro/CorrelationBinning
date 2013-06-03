@@ -26,5 +26,5 @@ if __name__=="__main__":
         help='Calculate statistics for which level.')
     
     args = parser.parse_args()
-    phylo_clusters = cs.get_statistics(args.cluster_file,args.phylo_file,args.fasta_file)
-    phylo_clusters.to_csv(args.outfile)
+    phylo_clusters_length,cm = cs.get_statistics(args.cluster_file,args.phylo_file,args.fasta_file)
+    phylo_clusters_length.to_csv(args.outfile)
