@@ -5,21 +5,18 @@ Calculate recall and precision for clustering algorithms. Clustering
 @author: Brynjar Smari Bjarnason
 """
 import sys
-import os
 import numpy as np
 from pandas import DataFrame, Series, pivot_table, read_csv
-
-
-from argparse import ArgumentParser
+from Bio import SeqIO
 
 def get_phylo_from_file(phylo_file):
     """
-    phylo_file: File in path is a comma seperated file with columns: contig_id, family, genus, species
-                family      genus       species    
-    contig1     family1     genus1      species1
-    contig2     family1     genus2      species2
-    contig1X    family2     genus3      species3
-    contig2X    family2     genus3      species4
+    phylo_file: File in path is a comma seperated file with columns: id, family, genus, specie, seq_length
+    id_idx,family,genus,species,seq_length
+    contig1,family1,genus1,species1,10000
+    contig2,family1,genus2,species2,11100
+    contig1X,family2,genus3,species3,1010101
+    contig2X,family2,genus3,species4,2121212
     ...
     """
     df = read_csv(phylo_file,index_col=0)
@@ -33,11 +30,11 @@ def get_clusters_from_file(cluster_file):
     Cluster 1, contig1X, contig2X, ...
     ...
     result: Padas data frame with column cluster and the contig ids as indexes.
-                cluster    
-    contig1     cluster0
-    contig2     cluster0
-    contig1X    cluster1
-    contig2X    cluster1
+    id_idx,cluster    
+    contig1,cluster0
+    contig2,cluster0
+    contig1X,cluster1
+    contig2X,cluster1
     ...
     """
     index=[]
@@ -55,17 +52,42 @@ def get_clusters_from_file(cluster_file):
                 
     return clustering
 
-def get_statistics(cluster_file, phylo_file,level):
+def get_contig_length_from_file(fasta_file):
+    """
+    Take in a fasta file, returns a dataframe with id as indexes and sequence length as values
+    IN:
+    >id1
+    AGGGTTA..
+    ...
+    >id2
+    CCTAATGGG...
+    ...
+    OUT:
+    id_idx,length
+    id1,10000
+    id2,20000
+    ...
+    """
+    indexes = []
+    lengths = []
+    for seq in SeqIO.parse(fasta_file,"fasta"):
+        indexes.append(seq.id)
+        lengths.append(len(seq))
+        
+    return DataFrame(Series(lengths,index=indexes),columns=["length"])
+    
+def get_statistics(cluster_file, phylo_file,fasta_file):
     clusters = get_clusters_from_file(cluster_file)
     phylo = get_phylo_from_file(phylo_file)
+    contig_length = get_contig_length_from_file(fasta_file)
     if len(clusters) != len(phylo):
-        print >> sys.stderr, "not equally many contigs ins clustering and phylo"
-        sys.exit(-1)
+        print >> sys.stderr, "not equally many contigs in clustering({0}) and phylo({1}). Will use phylo as base for the rest.".format(len(clusters),len(phylo))
     #we can do this join on the dataframes since the indexes are the same contigs!
-    phylo_clusters = phylo.join(clusters)
-    cm = confusion_matrix(df)
     
-    return phylo_clusters, cm
+    phylo_clusters = phylo.join(clusters, how="inner")
+    phylo_clusters_length = phylo_clusters.join(contig_length,how="inner")
+    cm = confusion_matrix(df)
+    return phylo_clusters_length, cm
 
 
 #    _get_phylo(contigs)    
@@ -95,16 +117,3 @@ def precision(contigs,clustering):
     for precision in precisions:
         precision["precision"] = precision.max(axis=1)
     return precisions
-
-if __name__=="__main__":
-    parser = ArgumentParser(description="Clustering of metagenomic contigs")
-    parser.add_argument('cluster_file', 
-        help='Result file from ProBin program (or each line on the form Cluster X, contig1X, contig2X,..)')
-    parser.add_argument('phylo_file',
-        help='Phylogenetic file for the cluster_file (each line on the form: contig_id, family, genus, species')
-    parser.add_argument('-l', '--level', 
-        default='family', type=str, choices=['family','genus','species'],
-        help='Calculate statistics for which level.')
-    args = parser.parse_args()
-    phylo_clusters = get_statistics(args.cluster_file,args.phylo_file,args.level)
-    phylo_clusters.to_csv("/home/binni/MasterProject/Drasl/{0}".format(os.))
