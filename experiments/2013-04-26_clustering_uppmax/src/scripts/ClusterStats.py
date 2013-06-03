@@ -16,7 +16,9 @@ if __name__=="__main__":
     parser.add_argument('cluster_file', 
         help='Result file from ProBin program (or each line on the form Cluster X, contig1X, contig2X,..)')
     parser.add_argument('phylo_file',
-        help='Phylogenetic file for the cluster_file (each line on the form: contig_id, family, genus, species')
+        help='Phylogenetic file for the cluster_file (each line on the form: contig_id, family, genus, species,seq_length')
+    parser.add_argument('fasta_file',
+        help='Fasta file to retrieve contigs lengths')
     parser.add_argument('-l', '--level', 
         default='family', type=str, choices=['family','genus','species'],
         help='Calculate statistics for which level.')
@@ -24,5 +26,5 @@ if __name__=="__main__":
         help='Calculate statistics for which level.')
     
     args = parser.parse_args()
-    phylo_clusters = cs.get_statistics(args.cluster_file,args.phylo_file,args.level)
+    phylo_clusters = cs.get_statistics(args.cluster_file,args.phylo_file,args.fasta_file)
     phylo_clusters.to_csv(args.outfile)
