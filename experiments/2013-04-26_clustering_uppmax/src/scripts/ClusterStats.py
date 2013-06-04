@@ -7,8 +7,9 @@ Created on Thu May 30 10:15:41 2013
 
 Calculate statistics for known phylogenetics of contigs that have been clustered
 """
-from argparse import FileType, ArgumentParser
+from argparse import  ArgumentParser
 from corrbin import cluster_statistics as cs
+from pandas import ExcelWriter
 import sys
 
 if __name__=="__main__":
@@ -22,9 +23,15 @@ if __name__=="__main__":
     parser.add_argument('-l', '--level', 
         default='family', type=str, choices=['family','genus','species'],
         help='Calculate statistics for which level.')
-    parser.add_argument('-o', '--outfile', type=FileType('w'), default=sys.stdout, 
+    parser.add_argument('-o', '--outfile', type=str, default=sys.stdout, 
         help='Calculate statistics for which level.')
     
     args = parser.parse_args()
     phylo_clusters_length,cm = cs.get_statistics(args.cluster_file,args.phylo_file,args.fasta_file)
-    phylo_clusters_length.to_csv(args.outfile)
+    #phylo_clusters_length.to_csv(args.outfile)
+    writer = ExcelWriter(args.outfile)
+    phylo_clusters_length.to_excel(writer,sheet_name="csv",header=True,index=True)
+    for key,value in cm.iteritems():    
+        value.to_excel(writer,sheet_name="CM {0}".format(key),header=True,index=True)
+    writer.save()
+    
