@@ -1,9 +1,12 @@
 #!/usr/bin/env bash
 #SBATCH -A b2010008
 #SBATCH -p node
+#SBATCH -C mem72GB
 #SBATCH -n 8
 #SBATCH -t 2-00:00:00
 #SBATCH -J Clustering_em
+#SBATCH --mail-type=ALL
+#SBATCH --mail-user=brynjar.bjarnason@scilifelab.se
 
 # This experiment aim is to compare how different kmer-lengths affect
 # the genomic profile specificity for different taxonomic levels.
