@@ -11,7 +11,7 @@ from Bio import SeqIO
 
 def get_phylo_from_file(phylo_file):
     """
-    phylo_file: File in path is a comma seperated file with columns: id, family, genus, specie, seq_length
+    phylo_file: File in path is a comma seperated file with columns: id, family, genus, species, seq_length
     id_idx,family,genus,species,seq_length
     contig1,family1,genus1,species1,10000
     contig2,family1,genus2,species2,11100
@@ -78,15 +78,19 @@ def get_contig_length_from_file(fasta_file):
     
 def get_statistics(cluster_file, phylo_file,fasta_file):
     clusters = get_clusters_from_file(cluster_file)
+    clusters.sort_index(inplace=True)
     phylo = get_phylo_from_file(phylo_file)
+    phylo.sort_index(inplace=True)
     contig_length = get_contig_length_from_file(fasta_file)
+    contig_length.sort_index(inplace=True)
     if len(clusters) != len(phylo):
         print >> sys.stderr, "not equally many contigs in clustering({0}) and phylo({1}). Will use phylo as base for the rest.".format(len(clusters),len(phylo))
     #we can do this join on the dataframes since the indexes are the same contigs!
     
-    phylo_clusters = phylo.join(clusters, how="inner")
-    phylo_clusters_length = phylo_clusters.join(contig_length,how="inner")
-    cm = confusion_matrix(phylo_clusters_length)
+    phylo_clusters = phylo.join(clusters)
+    phylo_clusters_length = phylo_clusters.join(contig_length)
+    cm ={"family":confusion_matrix(phylo_clusters_length,level="family"),"genus":confusion_matrix(phylo_clusters_length,level="genus"),"species":confusion_matrix(phylo_clusters_length,level="species")}
+    #recall_precision = {"family":add_recall_precision(cm["family"]),"genus":add_recall_precision(cm["genus"]),"species":add_recall_precision(cm["species"])}
     return phylo_clusters_length, cm
 
 
@@ -101,19 +105,17 @@ def get_statistics(cluster_file, phylo_file,fasta_file):
 #        p.precision.to_csv(output)
 
 def confusion_matrix(df,level="family"):
-    cm = pivot_table(df,rows=level,cols=["cluster"],aggfunc=np.sum)
+    cm = pivot_table(df,rows=level,cols=["cluster"],aggfunc=np.sum,margins=True)
+    
     return cm
 
-def recall(contigs,clustering):
-    confusion_matrixes = confusion_matrix(contigs,clustering)
-    recalls = [matrix.div(matrix.sum(axis=1),axis=0) for matrix in confusion_matrixes]
-    for matrix in recalls:
-        matrix["recall"] = matrix.max(axis=1)
-    return recalls
+def add_recall_precision(cm):
+    
+    
+    precision = cm.max(axis=0)
+    precision_sum = cm.sum(axis=0)
+    cm.insert(0,"recall_max",cm.max(axis=1))
+    cm.insert(0,"recall_sum",cm.sum(axis=1))    
+    
+    return None
 
-def precision(contigs,clustering):
-    confusion_matrixes = confusion_matrix(contigs,clustering)
-    precisions = [matrix.div(matrix.sum()).T for matrix in confusion_matrixes]
-    for precision in precisions:
-        precision["precision"] = precision.max(axis=1)
-    return precisions
