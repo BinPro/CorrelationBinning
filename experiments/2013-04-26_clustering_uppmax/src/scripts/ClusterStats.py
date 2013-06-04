@@ -28,10 +28,13 @@ if __name__=="__main__":
     
     args = parser.parse_args()
     phylo_clusters_length,cm = cs.get_statistics(args.cluster_file,args.phylo_file,args.fasta_file)
-    #phylo_clusters_length.to_csv(args.outfile)
-    writer = ExcelWriter(args.outfile)
-    phylo_clusters_length.to_excel(writer,sheet_name="csv",header=True,index=True)
-    for key,value in cm.iteritems():    
-        value.to_excel(writer,sheet_name="CM {0}".format(key),header=True,index=True)
-    writer.save()
+
+    if args.outfile is not sys.stdout:
+        writer = ExcelWriter(args.outfile)
+        phylo_clusters_length.to_excel(writer,sheet_name="csv",header=True,index=True)
+        for key,value in cm.iteritems():    
+            value.to_excel(writer,sheet_name="CM {0}".format(key),header=True,index=True)
+        writer.save()
+    else:
+        phylo_clusters_length.to_csv(args.outfile)        
     
