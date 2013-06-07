@@ -1,0 +1,154 @@
+Timer unit: 1e-06 s
+
+File: probin/binning/em.py
+Function: cluster at line 9
+Total time: 96.4857 s
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+     9                                           @profile
+    10                                           def cluster(contigs, model ,cluster_count,centroids=None,max_iter=100, repeat=10,epsilon=1E-7):
+    11         1            4      4.0      0.0      (max_clusters, max_clustering_prob,max_centroids) = (None, -np.inf, None)
+    12        11           74      6.7      0.0      params = [(contigs, model.log_probability, model.log_probabilities, model.fit_nonzero_parameters, cluster_count ,np.copy(centroids), max_iter,epsilon) for _ in xrange(repeat)]
+    13                                               #pool = Pool(processes=cpu_count())
+    14                                               #results = pool.map(_clustering_wrapper, params)
+    15                                               #pool.close()
+    16        11     96485646 8771422.4    100.0      results = [_clustering_wrapper(param) for param in params]
+    17                                                   
+    18         1           19     19.0      0.0      return max(results,key=lambda x: x[1])
+
+File: probin/binning/em.py
+Function: _clustering at line 23
+Total time: 96.4621 s
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+    23                                           @profile
+    24                                           def _clustering(contigs, log_probability_func, log_probabilities_func, fit_nonzero_parameters_func, cluster_count ,p , max_iter, epsilon):
+    25        10          433     43.3      0.0      if not np.any(p):    
+    26        10     36330047 3633004.7     37.7          clustering,_, p = kmeans._clustering(contigs, log_probability_func, fit_nonzero_parameters_func, cluster_count ,p, max_iter=3,epsilon=epsilon)
+    27        80          671      8.4      0.0          n = np.array([len(cluster) for cluster in clustering])
+    28        10      7050192 705019.2      7.3          exp_log_qs, max_log_qs = _get_exp_log_qs(contigs,log_probabilities_func,p)
+    29        10         1433    143.3      0.0          z = _expectation(contigs,n,exp_log_qs)
+    30        10      6496252 649625.2      6.7          prev_prob,_,_ = _evaluate_clustering(contigs, log_probabilities_func, p, z)
+    31                                           
+    32                                               else:
+    33                                                   print >> sys.stderr, "Not implemented for EM to start with fixed p (centroids)"
+    34                                                   sys.exit(-1)
+    35                                                   
+    36        10           51      5.1      0.0      prob_diff = np.inf
+    37        10           28      2.8      0.0      prev_prob = -np.inf
+    38        10           20      2.0      0.0      iteration = 0
+    39                                               
+    40        79          644      8.2      0.0      while(max_iter - iteration > 0 and prob_diff > epsilon):
+    41        69         8822    127.9      0.0          z = _expectation(contigs,n,exp_log_qs)
+    42        69      8489160 123031.3      8.8          p = _maximization(contigs,fit_nonzero_parameters_func,z)        
+    43        69     38052352 551483.4     39.4          curr_prob, exp_log_qs, max_log_qs = _evaluate_clustering(contigs,log_probabilities_func,p,z)        
+    44        69         2735     39.6      0.0          n = np.sum(z,axis=0,keepdims=True)
+    45                                                   
+    46                                                   
+    47        69          376      5.4      0.0          prob_diff = curr_prob - prev_prob
+    48        69          207      3.0      0.0          (curr_prob,prev_prob) = (prev_prob,curr_prob)
+    49        69          224      3.2      0.0          iteration += 1
+    50                                               
+    51                                               #Change back so curr_prob represents the highest probability
+    52        10           28      2.8      0.0      (curr_prob,prev_prob) = (prev_prob,curr_prob)
+    53        10          534     53.4      0.0      print >> sys.stderr, "EM iterations: {0}".format(iteration)
+    54        10           80      8.0      0.0      if prob_diff < 0:
+    55         8          363     45.4      0.0          print >> sys.stderr, "EM got worse, diff: {0}".format(prob_diff)
+    56        80          448      5.6      0.0      clustering = [set() for _ in xrange(len(p))]
+    57        10          317     31.7      0.0      which_cluster = np.argmax(z,axis=1)
+    58      3000        10225      3.4      0.0      for (contig,which) in izip(contigs,which_cluster):
+    59      2990        16460      5.5      0.0          clustering[which].add(contig)
+    60        10           28      2.8      0.0      return (clustering, curr_prob, p)
+
+File: probin/binning/em.py
+Function: _expectation at line 62
+Total time: 0.008706 s
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+    62                                           @profile
+    63                                           def _expectation(contigs, n, exp_log_qs):
+    64                                               """
+    65                                               Usage: _expectation(contigs, p, n, exp_log_qs, max_log_qs)
+    66                                               Return: The responsibility matrix for currenct p and n
+    67                                               
+    68                                               We are calculating the expression <z_{i,k}> = Q(theta_i|p_k)n_k / sum_{l=1}^K(Q(theta_i|p_l)*n_l)
+    69                                                   where theta is the feature vector of contig_i, p_k is the feature vector of centroid_k and n_k is the expected number
+    70                                                   of contigs in cluster k.
+    71                                                   
+    72                                                   the calculation of <z_{i,k}> can be expressed as:
+    73                                                   
+    74                                                   exp(log(Q(theta_i|p_k) - log(Q(theta_i|p_kmax))))*n_k / sum_{l=1}^K(exp(log(Q(theta_i|p_l))-log(Q(theta_i|p_max)))*n_l)
+    75                                                   
+    76                                                   We see that we get the exp_log_qs=exp(log(Q(theta_i|p_k))-log(Q(theta_i|p_max)) for all i and l and k 
+    77                                                   and the max_log_qs = log(Q(theta_i|p_max) for all i for free from 
+    78                                                   _evaluation_clustering from the previous iteration.
+    79                                               """
+    80                                               
+    81        79         2321     29.4     26.7      exp_log_qs *= n
+    82        79         6385     80.8     73.3      return exp_log_qs / np.sum(exp_log_qs,axis=1,keepdims=True)
+
+File: probin/binning/em.py
+Function: _maximization at line 84
+Total time: 8.48743 s
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+    84                                           @profile
+    85                                           def _maximization(contigs, fit_nonzero_parameters_func, z):
+    86                                               """
+    87                                               Usage: _maximization(contigs, fit_nonzero_parameters_func, p, z)
+    88                                               Return: The new centroids that maximize the probability for the current z values.
+    89                                               
+    90                                               We are calculating the expression p_{k,j} = sum_i(<z_{i,k}>*theta_{i,j}) / sum_j( sum_i(<z_{i,k}>*theta_{i,j}))
+    91                                               
+    92                                               """
+    93        69      8487428 123006.2    100.0      return fit_nonzero_parameters_func(contigs,expected_clustering=z.T)
+
+File: probin/binning/em.py
+Function: _evaluate_clustering at line 96
+Total time: 44.5466 s
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+    96                                           @profile
+    97                                           def _evaluate_clustering(contigs, log_probabilities_func, p, z):
+    98                                               """
+    99                                               Usage:  _evaluate_clustering(contigs,log_probabilities_func, p, z)
+   100                                               Return: (clustering_prob, exp_log_qs, max_log_qs)
+   101                                               
+   102                                               calculate log L(theta|z,p) or log L(contigs| expected_clustering_freq,centroids)
+   103                                               = sum_{i=1}^{N} (log (sum_{k=1}^{K} (<z_{i,k}>*Q(theta_{i}|p_{k}) ) ) )
+   104                                               which translates into:
+   105                                               sum_{i=1}^{N}( log( Q(theta_{i}|p_{kmax}) ) + log( sum_{k=1}^{K}( <z_{i,k}>*exp(log( Q(theta_{i}|p_{k}) ) - log(Q(theta_{i}|p_{kmax}) ) ) ) ) )    
+   106                                               
+   107                                               N is the number of contigs, K is the number of clusters.
+   108                                               
+   109                                               clustering_prob is the evaluation of the current clustering
+   110                                               log_qs is an NxK matrix of all log (Q(theta_i|p_k)) values.
+   111                                               max_log_qs is an Nx1 matrix where each row contains the max value over corresponding row in log_qs
+   112                                           
+   113                                               exp_log_qs and max_log_qs are used in the next iteration in _evaluation.     
+   114                                               """
+   115        79     44539554 563791.8    100.0      exp_log_qs, max_log_qs = _get_exp_log_qs(contigs,log_probabilities_func,p)
+   116                                           
+   117        79         6838     86.6      0.0      clustering_prob = np.sum(max_log_qs + np.log(np.sum(z*exp_log_qs)))
+   118        79          187      2.4      0.0      return clustering_prob, exp_log_qs, max_log_qs
+
+File: probin/binning/em.py
+Function: _get_exp_log_qs at line 120
+Total time: 51.066 s
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+   120                                           @profile    
+   121                                           def _get_exp_log_qs(contigs,log_probabilities_func,p):
+   122        89         1061     11.9      0.0      log_qs = np.zeros((len(contigs),len(p)))
+   123     26700        65072      2.4      0.1      for i,contig in enumerate(contigs):
+   124    212888     50984650    239.5     99.8          log_qs[i] = log_probabilities_func(contig,p)
+   125        89         4870     54.7      0.0      max_log_qs = np.max(log_qs,axis=1,keepdims=True)
+   126        89        10123    113.7      0.0      exp_log_qs = np.exp(log_qs - max_log_qs)
+   127        89          216      2.4      0.0      return exp_log_qs, max_log_qs
+
