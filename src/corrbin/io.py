@@ -220,11 +220,7 @@ def read_time_series_file_genomes(genomes,genome_time_series_file,contig_strain_
         strain = genome.species
         otu = contig_strain_otu_dic[strain]
         genome_length= len(genome.full_seq)
-        rf = np.array(ts_df[ts_df['# OTU'] == otu].ix[:,first_data:last_data].values)
-        if rf.shape[0]==0:
-            sys.stderr.write(otu+'\n')
-        if rf.shape[0]>=2:
-            sys.stderr.write(otu+' More than 2 \n')
+        rf = ts_df[ts_df['# OTU'] == otu].ix[:,first_data:last_data].values
         
-        genome.mapping_reads = log_coverage.relative_frequency_to_log_coverage(rf,genome_length,tot_num_bases_per_sample/genome_length)
+        genome.mapping_reads = log_coverage.relative_frequency_to_log_coverage(rf,genome_length,tot_num_bases_per_sample)
         
