@@ -26,12 +26,13 @@ def main(input_file, read_mapping_column, contig_length_column, otu_column, outp
 
     full_df['tot_number_of_reads'] = read_series
     full_df['within_genome_read_ratio'] = read_ratio_series
+    full_df['full_read_mappings'] = full_df[read_mapping_column]
     if sorted_output:
         full_df= full_df.sort_index(by=['tot_number_of_reads',otu_column])
         
     if remove_na:
         full_df = full_df[full_df[otu_column] != "N/A"]
-
+        full_df = full_df.dropna()
     full_df.to_csv(output_file,sep='\t')
 
 
