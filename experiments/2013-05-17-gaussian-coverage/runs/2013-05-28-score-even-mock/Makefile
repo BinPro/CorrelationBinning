@@ -9,10 +9,10 @@ even-contigs.fa:
 contigs_with_taxonomic_info.tsv:
 	ln -s $(DATA_PATH2)$@ $@
 
-time_series_2013-05-16_59.tsv:
+time_series_2013-05-16_40.tsv:
 	ln -s $(DATA_PATH3)"time_series/"$@ $@
 
-parsed_gen_0_0_mock_complete_fixed3.txt:
+parsed_gen_0_0_mock_complete_fixed3_40.txt:
 	ln -s $(DATA_PATH)$@ $@
 
 references.fa:
@@ -21,6 +21,6 @@ references.fa:
 score_time_series.py:
 	ln -s "../../src/programs/"$@ $@
 
-score_time_series_even_only_iso.tsv: score_time_series.py even-contigs.fa contigs_with_taxonomic_info.tsv time_series_2013-05-16_59.tsv parsed_gen_0_0_mock_complete_fixed3.txt references.fa
-	time ./$< even-contigs.fa contigs_with_taxonomic_info.tsv time_series_2013-05-16_59.tsv -o $(RESULTS_PATH)$@ -t parsed_gen_0_0_mock_complete_fixed3.txt -k 2 -d references.fa --first_data "2012-03-25" --last_data "2013-01-18"
-	ln -S $(RESULTS_PATH)$@ $@
+score_time_series_even_only_iso.tsv: score_time_series.py even-contigs.fa contigs_with_taxonomic_info.tsv time_series_2013-05-16_40.tsv parsed_gen_0_0_mock_complete_fixed3_40.txt references.fa
+	time ./$< even-contigs.fa contigs_with_taxonomic_info.tsv time_series_2013-05-16_40.tsv -o $(RESULTS_PATH)$@ -t parsed_gen_0_0_mock_complete_fixed3_40.txt -k 2 -d references.fa --first_data "2012-03-25" --last_data "2013-01-18"
+	ln -s $(RESULTS_PATH)$@ $@
