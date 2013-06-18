@@ -6,7 +6,7 @@
 
 RESULTS_PATH=$(HOME)"/repos/RESULTS/to_big_for_git/2013-05-02/low_coverage_sample/even/"
 
-TIME_SERIES_FILE=$(HOME)"/repos/RESULTS/to_big_for_git/time_series/time_series_2013-05-16_59.tsv"
+TIME_SERIES_FILE=$(HOME)"/repos/RESULTS/to_big_for_git/time_series/time_series_2013-05-16_40.tsv"
 
 calculate_genome_coverage.py:
 	ln -s "../../src/programs/"$@ $@
@@ -15,7 +15,7 @@ match_contigs_and_time_series.py:
 	ln -s "../../src/programs/"$@ $@
 
 read_mappings_with_coverage_sorted_no_NA.tsv: calculate_genome_coverage.py
-	time ./$< $(RESULTS_PATH)"read_mappings.csv" --read_mapping_column "total_read_count" --contig_length_column "contig_length" --otu_column "full_read_mappings_strain" --read_length 100 --sorted --remove_na -o $(RESULTS_PATH)$@ 
+	time ./$< $(RESULTS_PATH)"read_mappings.csv" --read_mapping_column "total_read_count" --contig_length_column "contig_length" --otu_column "full_read_mappings_strain" --read_length 100 --sorted --remove_na -o $(RESULTS_PATH)$@ --filter_file $(RESULTS_PATH)"strains_above_90_percent.txt"
 	ln -s $(RESULTS_PATH)$@ $@
 
 contigs_with_samples_random_abundance_otu.tsv: match_contigs_and_time_series.py read_mappings_with_coverage_sorted_no_NA.tsv 
