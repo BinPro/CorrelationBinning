@@ -7,6 +7,7 @@ import pandas as p
 from copy import copy
 from argparse import ArgumentParser
 from probin.model.coverage import isotropic_gaussian as model
+from probin.model.coverage import log_coverage
 from probin.dna import DNA
 from Bio import SeqIO
 from corrbin.misc import all_but_index, Uniq_id, GenomeGroup
@@ -18,10 +19,14 @@ def main(contigs_file,contig_time_series_file, genome_time_series_file, taxonomy
 
     DNA.generate_kmer_hash(kmer_length)
 
-    contigs = read_contigs_file(contigs_file,start_position=False,taxonomy_info=False)
-
     contig_time_series_df = p.io.parsers.read_table(contig_time_series_file,sep='\t',index_col=0)
 
+    include_contigs = {}
+    for ix in contig_time_series_df.index:
+       include_contigs[ix] = True
+
+    contigs = read_contigs_file(contigs_file,start_position=False,taxonomy_info=False,filter_dict=include_contigs)
+            
     contig_strain_otu_dic = {}
 
     strains = contig_time_series_df['full_read_mappings_strain'].values
@@ -40,6 +45,7 @@ def main(contigs_file,contig_time_series_file, genome_time_series_file, taxonomy
 
     for contig in contigs:
         contig.mapping_reads = contig_time_series_df.ix[contig.contig_id,first_data:last_data]
+        contig.log_coverage = log_coverage.read_mappings_to_log_coverage(contig.mapping_reads,len(contig.full_seq),100)
         contig.species = contig_time_series_df.ix[contig.contig_id]['Contig_Species']
         contig.genus = contig_time_series_df.ix[contig.contig_id]['Contig_Genus']
         contig.family = contig_time_series_df.ix[contig.contig_id]['Contig_Family']
@@ -60,19 +66,14 @@ def main(contigs_file,contig_time_series_file, genome_time_series_file, taxonomy
             continue
         else:
             sys.stderr.write("Including genome: " + str(genome.id) + '\n')
-            sys.stderr.write("Including otu: " + str(contig_strain_otu_dic[genome.species]) + '\n')
             sys.stderr.write("Time series: " + str(mr) + '\n')
         genome.pseudo_par = model.fit_nonzero_parameters(mr)
 
     scores = []
     for contig in contigs:
-        contig_length = len(contig.full_seq)
-        contig_ts = np.array(contig.mapping_reads.values.astype(float)*100/contig_length)
-        sys.stderr.write("Contig id: " + str(contig.id) + '\n')
-        sys.stderr.write("Contig ts: " + str(contig_ts) + '\n')
         for genome in genomes:
             p_val = model.log_pdf(\
-                contig_ts, *genome.pseudo_par)
+                contig.log_coverage, *genome.pseudo_par)
             scores.append(\
                 Score(p_val, contig, genome, contig.contig_id))
 

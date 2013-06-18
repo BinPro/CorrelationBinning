@@ -44,10 +44,15 @@ def classify_contig_bool(df,level):
     real_class = False
     max_rows = df[df.p_value_standardized == max_q]
     if len(max_rows)>1:
-        for row in max_rows:
+        import sys
+        sys.stderr.write('max rows: ' + str(max_rows) +'\n')
+        for row_ind in max_rows.index:
+            sys.stderr.write('row_ind: ' + str(row_ind) +'\n')
+            row = df.ix[row_ind]
+            sys.stderr.write('row: ' + str(row) + '\n')
             real_class = \
-                (eval("row.contig_" + level) == \
-                     eval("row.compare_" + level)) or \
+                (eval("row['contig_" + level+"']") == \
+                     eval("row['compare_" + level+"']")) or \
                      real_class
     else:
         real_class = (eval("max_rows.contig_" + level) == \
