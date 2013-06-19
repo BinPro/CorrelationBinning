@@ -22,13 +22,13 @@ precision_matrix_species.tsv: add_rows_to_matrix.sh
 	./add_rows_to_matrix.sh $(MULTINOMIAL_PATH) species precision_matrix 3 10
 
 multinomial_score_all_kmer_100_family.png: precision_matrix_family.tsv plot_matrix.py
-	./plot_matrix.py $< -o multinomial_score_all_kmer_100_family --title 'None'
+	./plot_matrix.py $< -o multinomial_score_all_kmer_100_family --title 'Multinomial Family Precision'
 
 multinomial_score_all_kmer_100_genus.png: precision_matrix_genus.tsv plot_matrix.py
-	./plot_matrix.py $< -o multinomial_score_all_kmer_100_genus --title 'None'
+	./plot_matrix.py $< -o multinomial_score_all_kmer_100_genus --title 'Multinomial Genus Precision'
 
 multinomial_score_all_kmer_100_species.png: precision_matrix_species.tsv plot_matrix.py
-	./plot_matrix.py $< -o multinomial_score_all_kmer_100_species --title 'None'
+	./plot_matrix.py $< -o multinomial_score_all_kmer_100_species --title 'Multinomial Species Precision'
 
 
 all:multinomial_score_all_kmer_100_species.png multinomial_score_all_kmer_100_genus.png multinomial_score_all_kmer_100_family.png
