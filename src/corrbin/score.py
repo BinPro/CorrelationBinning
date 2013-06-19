@@ -40,7 +40,7 @@ class Score(object):
         
     def __str__(self):
         if self.taxonomy_info:
-            return "%f\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%i" % (self.p_value,self.family_contig, self.genus_contig, self.species_contig, self.genome_contig, self.family_compare, self.genus_compare, self.species_compare, self.genome_compare, self.contig_id)
+            return "%f\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s" % (self.p_value,self.family_contig, self.genus_contig, self.species_contig, self.genome_contig, self.family_compare, self.genus_compare, self.species_compare, self.genome_compare, self.contig_id)
         else:
             return "%f\t%s\t%s\t%s\t%s\t%s\t%s" % (self.p_value, self.genome_contig, self.family_compare, self.genus_compare, self.species_compare, self.genome_compare, self.contig_id)
 

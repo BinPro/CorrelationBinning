@@ -12,14 +12,23 @@ from corrbin.multinomial import Experiment
 from corrbin.contig_generation import SampleSetting 
 from corrbin.score import Score
 from corrbin.io import read_contigs_file, genome_info_from_parsed_taxonomy_file, read_FASTA_files_no_groups
+import pandas as p
 
-def main(contigs_file,taxonomy_file, dir_path, kmer_length,dir_structure, taxonomy_info_in_contigs):
+def main(contigs_file,taxonomy_file, dir_path, kmer_length,dir_structure, taxonomy_info_in_contigs, filter_file=None):
 
     groups = []
     DNA.generate_kmer_hash(kmer_length)
+    if filter_file:
+        filter_df = p.io.parsers.read_table(filter_file,sep='\t',index_col=0)
+        include_contigs = filter_df.index
+        filter_contig_dic = {}
+        for contig in include_contigs:
+            filter_contig_dic[contig] = True
+            
+        contigs = read_contigs_file(contigs_file,taxonomy_info=taxonomy_info_in_contigs,filter_dict=filter_contig_dic)
+    else:
+        contigs = read_contigs_file(contigs_file,taxonomy_info=taxonomy_info_in_contigs)
 
-    contigs = read_contigs_file(contigs_file,taxonomy_info=taxonomy_info_in_contigs)
-    
     # Divide genomes into groups, one for each genus
     meta_genomes = genome_info_from_parsed_taxonomy_file(taxonomy_file)
 
@@ -32,9 +41,14 @@ def main(contigs_file,taxonomy_file, dir_path, kmer_length,dir_structure, taxono
 
     scores = []
     for contig in contigs:
+        if (not taxonomy_info_in_contigs) and (filter_file):
+            contig.species = filter_df.ix[contig.contig_id]['Contig_Species']
+            contig.genus = filter_df.ix[contig.contig_id]['Contig_Genus']
+            contig.family = filter_df.ix[contig.contig_id]['Contig_Family']
+            
         contig.calculate_signature()
         for genome in genomes:
-            if contig.id == genome.id:
+            if contig.id == genome.id or contig.species == genome.species:
                 temp_genome = deepcopy(genome)
                 temp_genome.signature.subtract(contig.signature)
                 temp_pseudo_par = mn.fit_nonzero_parameters([temp_genome])
@@ -44,12 +58,10 @@ def main(contigs_file,taxonomy_file, dir_path, kmer_length,dir_structure, taxono
                 p_val = mn.log_probability(\
                     contig, genome.pseudo_par)
             scores.append(\
-                Score(p_val, contig, genome, contig.contig_id,taxonomy_info=taxonomy_info_in_contigs))
+                Score(p_val, contig, genome, contig.contig_id))
 
     if taxonomy_info_in_contigs:
         sys.stdout.write("p_value\tcontig_family\tcontig_genus\tcontig_species\tcontig_genome\tcompare_family\tcompare_genus\tcompare_species\tcompare_genome\tcontig_id" + os.linesep)
-    else:
-        sys.stdout.write("p_value\t\tcontig_genome\tcompare_family\tcompare_genus\tcompare_species\tcompare_genome\tcontig_id" + os.linesep)
     for score in scores:
         sys.stdout.write(str(score) + '\n')
    
@@ -69,11 +81,13 @@ if __name__=="__main__":
                         help='specify the directory structure for the reference genomes')
     parser.add_argument('--no_taxonomy_info_in_contigs', action="store_true",
                         help='Add this tag if no taxonomy info is available in contigs file.')
+    parser.add_argument('--filter_file',
+                        help='Add filter file if not all contigs should be included')
     args = parser.parse_args()
     if args.output and args.output != '-':
         sys.stdout = open(args.output, 'w')
     if args.taxonomy:
         taxonomy_file = open(args.taxonomy, 'r')
         
-    main(args.contigs, taxonomy_file, args.directory_path, args.kmer_length, args.dir_structure,not(args.no_taxonomy_info_in_contigs))
+    main(args.contigs, taxonomy_file, args.directory_path, args.kmer_length, args.dir_structure,not(args.no_taxonomy_info_in_contigs),filter_file=args.filter_file)
 
