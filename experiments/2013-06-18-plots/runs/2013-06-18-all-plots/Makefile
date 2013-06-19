@@ -30,7 +30,9 @@ multinomial_score_all_kmer_100_genus.png: precision_matrix_genus.tsv plot_matrix
 multinomial_score_all_kmer_100_species.png: precision_matrix_species.tsv plot_matrix.py
 	./plot_matrix.py $< -o multinomial_score_all_kmer_100_species --title 'Multinomial Species Precision'
 
+multinomial_together.png: precision_matrix_species.tsv precision_matrix_genus.tsv precision_matrix_family.tsv plot_matrix.py
+	./plot_matrix.py precision_matrix_species.tsv precision_matrix_genus.tsv precision_matrix_family.tsv -o multinomial_together.png --title 'Multinomial Together Precision'
 
-all:multinomial_score_all_kmer_100_species.png multinomial_score_all_kmer_100_genus.png multinomial_score_all_kmer_100_family.png
+all:multinomial_score_all_kmer_100_species.png multinomial_score_all_kmer_100_genus.png multinomial_score_all_kmer_100_family.png multinomial_together.png
 	echo "Done, man!"
 	touch all
