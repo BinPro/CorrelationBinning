@@ -6,6 +6,7 @@ Calculate recall and precision for clustering algorithms. Clustering
 """
 import sys
 import numpy as np
+import pandas as pd
 from pandas import DataFrame, Series, pivot_table, read_csv
 from Bio import SeqIO
 
@@ -76,46 +77,27 @@ def get_contig_length_from_file(fasta_file):
         
     return DataFrame(Series(lengths,index=indexes),columns=["length"])
     
-def get_statistics(cluster_file, phylo_file,fasta_file):
+def get_statistics(cluster_file, phylo_file):
     clusters = get_clusters_from_file(cluster_file)
     clusters.sort_index(inplace=True)
     phylo = get_phylo_from_file(phylo_file)
     phylo.sort_index(inplace=True)
-    contig_length = get_contig_length_from_file(fasta_file)
-    contig_length.sort_index(inplace=True)
     if len(clusters) != len(phylo):
         print >> sys.stderr, "not equally many contigs in clustering({0}) and phylo({1}). Will use phylo as base for the rest.".format(len(clusters),len(phylo))
     #we can do this join on the dataframes since the indexes are the same contigs!
     
     phylo_clusters = phylo.join(clusters)
-    phylo_clusters_length = phylo_clusters.join(contig_length)
-    cm ={"family":confusion_matrix(phylo_clusters_length,level="family"),"genus":confusion_matrix(phylo_clusters_length,level="genus"),"species":confusion_matrix(phylo_clusters_length,level="species")}
-    #recall_precision = {"family":add_recall_precision(cm["family"]),"genus":add_recall_precision(cm["genus"]),"species":add_recall_precision(cm["species"])}
-    return phylo_clusters_length, cm
-
-
-#    _get_phylo(contigs)    
-#    cm = confusion_matrix(contigs,clusters)
-#    rc = recall(contigs,clusters)
-#    pr = precision(contigs,clusters)
-#    for c,r,p in izip(cm,rc,pr):
-#        print>>output,"#{0}".format("="*20)
-#        c.to_csv(output)
-#        r.recall.to_csv(output)
-#        p.precision.to_csv(output)
+    cm ={"family":confusion_matrix(phylo_clusters,level="family"),"genus":confusion_matrix(phylo_clusters,level="genus"),"species":confusion_matrix(phylo_clusters,level="species")}
+    return phylo_clusters, cm
 
 def confusion_matrix(df,level="family"):
     cm = pivot_table(df,rows=level,cols=["cluster"],aggfunc=np.sum,margins=True)
-    
-    return cm
+    precision, recall = add_recall_precision(cm)
+    return cm ,precision, recall
 
 def add_recall_precision(cm):
-    
-    
-    precision = cm.max(axis=0)
-    precision_sum = cm.sum(axis=0)
-    cm.insert(0,"recall_max",cm.max(axis=1))
-    cm.insert(0,"recall_sum",cm.sum(axis=1))    
-    
-    return None
+    total = cm.ix[:-1,:-1].sum().sum()
+    precision = cm.ix[:-1,:-1].max(axis=1).sum() / total
+    recall = cm.ix[:-1,:-1].max(axis=0).sum() / total
+    return precision, recall
 

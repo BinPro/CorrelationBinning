@@ -17,7 +17,7 @@ mkdir -p $DATA_PATH
 RESULTS_PATH="/proj/b2010008/ProBin/RESULTS/clustering/2013-04-26_clustering_uppmax/compare_kmer_lengths"
 mkdir -p $RESULTS_PATH
 
-KMER_LENGTH=" 4 5"
+KMER_LENGTH="6"
 CLUSTER_COUNT="13 55 184"
 CLUSTER_ALG="em"
 
@@ -33,8 +33,7 @@ do
     do
       for INFILE in $DATA_FILES
       do
-	OUTPUT_CSV=$RESULTS_PATH/$DATE_OUT"_clustering_"$ALG"_kmer_"$KMER"_clusters_"$COUNT".csv"
-	ProBin.py bin $DATA_PATH/$INFILE -k $KMER -c $COUNT -a $ALG -o $OUTPUT_CSV
+	ProBin.py bin $DATA_PATH/$INFILE -k $KMER -c $COUNT -a $ALG -o $RESULTS_PATH
 	wait
       done
     done
