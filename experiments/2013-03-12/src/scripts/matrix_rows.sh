@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #SBATCH -A b2010008
-#SBATCH -p core
+#SBATCH -p devel
 #SBATCH -t 1:00:00
 
 DATA_PATH="/proj/b2010008/ProBin/RESULTS/to_big_for_git/2013-03-08/2013-04-18"
