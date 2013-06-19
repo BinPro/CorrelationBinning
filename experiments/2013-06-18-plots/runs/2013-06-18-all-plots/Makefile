@@ -18,8 +18,8 @@ precision_matrix_family.tsv: add_rows_to_matrix.sh
 precision_matrix_genus.tsv: add_rows_to_matrix.sh
 	./add_rows_to_matrix.sh $(MULTINOMIAL_PATH) genus precision_matrix 3 10
 
-precision_matrix_genome.tsv: add_rows_to_matrix.sh
-	./add_rows_to_matrix.sh $(MULTINOMIAL_PATH) genome precision_matrix 3 10
+precision_matrix_species.tsv: add_rows_to_matrix.sh
+	./add_rows_to_matrix.sh $(MULTINOMIAL_PATH) species precision_matrix 3 10
 
 multinomial_score_all_kmer_100_family.png: precision_matrix_family.tsv plot_matrix.py
 	./plot_matrix.py $< -o multinomial_score_all_kmer_100_family --title 'None'
@@ -27,10 +27,10 @@ multinomial_score_all_kmer_100_family.png: precision_matrix_family.tsv plot_matr
 multinomial_score_all_kmer_100_genus.png: precision_matrix_genus.tsv plot_matrix.py
 	./plot_matrix.py $< -o multinomial_score_all_kmer_100_genus --title 'None'
 
-multinomial_score_all_kmer_100_genome.png: precision_matrix_genome.tsv plot_matrix.py
-	./plot_matrix.py $< -o multinomial_score_all_kmer_100_genome --title 'None'
+multinomial_score_all_kmer_100_species.png: precision_matrix_species.tsv plot_matrix.py
+	./plot_matrix.py $< -o multinomial_score_all_kmer_100_species --title 'None'
 
 
-all:multinomial_score_all_kmer_100_genome.png multinomial_score_all_kmer_100_genus.png multinomial_score_all_kmer_100_family.png
+all:multinomial_score_all_kmer_100_species.png multinomial_score_all_kmer_100_genus.png multinomial_score_all_kmer_100_family.png
 	echo "Done, man!"
 	touch all
