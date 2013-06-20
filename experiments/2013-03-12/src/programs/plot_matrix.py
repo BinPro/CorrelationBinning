@@ -33,10 +33,10 @@ def main(input_files, output_file, title,together):
                 
                 label = "Contig Length: " + contig_l
                 plt.plot(x,y,label=label)
-    plt.ylim(0.0,1.0)
-    plt.title(title)
-    box = ax.get_position()
-    ax.set_position([box.x0,box.y0,box.width,box.height*0.8])
+        plt.ylim(0.0,1.0)
+        plt.title(title)
+        box = ax.get_position()
+        ax.set_position([box.x0,box.y0,box.width,box.height*0.8])
     plt.legend(loc='upper center', bbox_to_anchor=(0.5, 1.35),
           ncol=2, fancybox=True, shadow=True)
     plt.xlabel("Kmer Length")
