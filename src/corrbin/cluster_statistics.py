@@ -86,18 +86,18 @@ def get_statistics(cluster_file, phylo_file):
         print >> sys.stderr, "not equally many contigs in clustering({0}) and phylo({1}). Will use phylo as base for the rest.".format(len(clusters),len(phylo))
     #we can do this join on the dataframes since the indexes are the same contigs!
     
-    phylo_clusters = phylo.join(clusters)
+    phylo_clusters = phylo.join(clusters,how="inner")
     cm ={"family":confusion_matrix(phylo_clusters,level="family"),"genus":confusion_matrix(phylo_clusters,level="genus"),"species":confusion_matrix(phylo_clusters,level="species")}
     return phylo_clusters, cm
 
 def confusion_matrix(df,level="family"):
     cm = pivot_table(df,rows=level,cols=["cluster"],aggfunc=np.sum,margins=True)
-    precision, recall = add_recall_precision(cm)
-    return cm ,precision, recall
+    recall, precision = add_recall_precision(cm)
+    return cm ,recall, precision
 
 def add_recall_precision(cm):
     total = cm.ix[:-1,:-1].sum().sum()
     precision = cm.ix[:-1,:-1].max(axis=1).sum() / total
     recall = cm.ix[:-1,:-1].max(axis=0).sum() / total
-    return precision, recall
+    return recall, precision
 
